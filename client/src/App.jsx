@@ -1,23 +1,31 @@
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter, Outlet, RouterProvider, ScrollRestoration } from 'react-router-dom';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ToastProvider } from './context/Toast';
+import { queryClient } from './lib/queryClient';
 import PublicLayout from './components/public/PublicLayout';
 import Home from './pages/public/Home';
 import Collection from './pages/public/Collection';
 import ProductDetail from './pages/public/ProductDetail';
 import NotFound from './pages/public/NotFound';
-import AdminLayout from './components/admin/AdminLayout';
-import Dashboard from './pages/admin/Dashboard';
-import Products from './pages/admin/Products';
-import ProductForm from './pages/admin/ProductForm';
-import Lookbook from './pages/admin/Lookbook';
+import { AdminShellLoading } from './components/admin/AdminLoading';
 import { ADMIN_BASE } from './lib/constants';
+
+// Admin code is split into its own chunks so customers never download it.
+const AdminLayout = lazy(() => import('./components/admin/AdminLayout'));
+const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
+const Products = lazy(() => import('./pages/admin/Products'));
+const ProductForm = lazy(() => import('./pages/admin/ProductForm'));
+const Lookbook = lazy(() => import('./pages/admin/Lookbook'));
 
 function Root() {
   return (
-    <ToastProvider>
-      <ScrollRestoration getKey={(location) => location.pathname + location.search} />
-      <Outlet />
-    </ToastProvider>
+    <QueryClientProvider client={queryClient}>
+      <ToastProvider>
+        <ScrollRestoration getKey={(location) => location.pathname + location.search} />
+        <Outlet />
+      </ToastProvider>
+    </QueryClientProvider>
   );
 }
 
@@ -35,7 +43,11 @@ export const routes = [
       },
       {
         path: ADMIN_BASE,
-        element: <AdminLayout />,
+        element: (
+          <Suspense fallback={<AdminShellLoading />}>
+            <AdminLayout />
+          </Suspense>
+        ),
         children: [
           { index: true, element: <Dashboard /> },
           { path: 'products', element: <Products /> },

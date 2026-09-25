@@ -16,12 +16,15 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
+// Waits until requests are done, lazy admin chunks have loaded (no "Opening atelier…" spinner)
+// and the DOM has stopped changing.
 async function settle() {
   let last = '';
-  for (let stable = 0, i = 0; stable < 3 && i < 200; i++) {
+  for (let stable = 0, i = 0; stable < 3 && i < 400; i++) {
     await act(() => new Promise((r) => setTimeout(r, 15)));
     const html = document.body.innerHTML;
-    stable = api.state.pending === 0 && html === last ? stable + 1 : 0;
+    const idle = api.state.pending === 0 && !html.includes('Opening atelier…');
+    stable = idle && html === last ? stable + 1 : 0;
     last = html;
   }
 }

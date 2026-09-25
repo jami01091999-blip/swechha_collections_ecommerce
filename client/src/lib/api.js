@@ -1,6 +1,7 @@
-// React → serverless API (fetch). Small in-memory cache so going "back" renders instantly
-// and scroll position is restored.
-import { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
+// React → Express API (fetch) with TanStack Query caching, so going "back" renders instantly
+// and scroll position is restored. Hooks keep the old { data, error, loading, reload } shape.
+import { useQuery } from '@tanstack/react-query';
+import { queryClient } from './queryClient';
 
 const KEY_STORAGE = 'swechha_admin_key';
 
@@ -44,7 +45,14 @@ export async function api(path, { method = 'GET', body, admin = false } = {}) {
   if (admin) headers['x-admin-key'] = adminKey.get();
   let res;
   try {
-    res = await fetch(`/api${path}`, { method, headers, body: body !== undefined ? JSON.stringify(body) : undefined });
+    // Relative URL: Vite proxies /api in dev, Vercel rewrites it to Render in production.
+    // credentials: 'include' so the login cookie from Phase 1 is sent.
+    res = await fetch(`/api${path}`, {
+      method,
+      headers,
+      credentials: 'include',
+      body: body !== undefined ? JSON.stringify(body) : undefined,
+    });
   } catch {
     throw new ApiError('No connection. Check your internet and try again.', 0);
   }
@@ -61,108 +69,80 @@ export async function api(path, { method = 'GET', body, admin = false } = {}) {
   return data;
 }
 
-/* ── tiny cache store ─────────────────────────────────────── */
-const store = new Map(); // key → { data, error, loading, at }
-const subs = new Set();
-const notify = () => subs.forEach((s) => s());
-const setEntry = (key, patch) => {
-  store.set(key, { ...(store.get(key) || {}), ...patch });
-  notify();
+/* ── query keys ───────────────────────────────────────────── */
+export const keys = {
+  products: ['products'],
+  product: (slug) => ['product', slug],
+  settings: ['settings'],
+  adminProducts: ['admin', 'products'],
+  adminProduct: (id) => ['admin', 'product', id],
 };
-const inflight = new Map();
 
-function load(key, fetcher, force = false) {
-  const entry = store.get(key);
-  const fresh = entry?.data !== undefined && Date.now() - entry.at < 60_000;
-  if (!force && (fresh || inflight.has(key))) return inflight.get(key);
-  setEntry(key, { loading: true, error: null });
-  const p = fetcher()
-    .then((data) => setEntry(key, { data, loading: false, error: null, at: Date.now() }))
-    .catch((error) => setEntry(key, { loading: false, error }))
-    .finally(() => inflight.delete(key));
-  inflight.set(key, p);
-  return p;
-}
-
-export function invalidate(prefix) {
-  for (const k of store.keys()) if (k.startsWith(prefix)) store.delete(k);
-  notify();
-}
-
-export function setCached(key, data) {
-  setEntry(key, { data, at: Date.now(), loading: false, error: null });
-}
-
-function useResource(key, fetcher, enabled = true) {
-  const entry = useSyncExternalStore(
-    (s) => (subs.add(s), () => subs.delete(s)),
-    () => store.get(key)
-  );
-  useEffect(() => {
-    if (enabled && key) load(key, fetcher);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, enabled]);
-  const reload = useCallback(() => load(key, fetcher, true), [key]); // eslint-disable-line react-hooks/exhaustive-deps
+function useResource(queryKey, queryFn, enabled = true) {
+  const q = useQuery({ queryKey, queryFn, enabled });
   return {
-    data: entry?.data,
-    error: entry?.error || null,
-    loading: enabled && (entry?.data === undefined ? !entry?.error : !!entry?.loading),
-    reload,
+    data: q.data,
+    error: q.error || null,
+    loading: enabled && (q.data === undefined ? !q.error : q.isFetching),
+    reload: q.refetch,
   };
 }
 
 /* ── public hooks ─────────────────────────────────────────── */
-export const useProducts = () => useResource('products', () => api('/products'));
-export const useSettings = () => useResource('settings', () => api('/settings'));
+export const useProducts = () => useResource(keys.products, () => api('/products'));
+export const useSettings = () => useResource(keys.settings, () => api('/settings'));
 
 export function useProduct(slug) {
   const list = useProducts();
   const fromList = list.data?.find((p) => p.slug === slug);
-  const single = useResource(`product:${slug}`, () => api(`/products/${encodeURIComponent(slug)}`), !fromList && !!slug);
+  const single = useResource(keys.product(slug), () => api(`/products/${encodeURIComponent(slug)}`), !fromList && !!slug);
   return fromList ? { data: fromList, loading: false, error: null } : single;
 }
 
 /* ── admin hooks ──────────────────────────────────────────── */
-export const useAdminProducts = () => useResource('admin:products', () => api('/products?all=1', { admin: true }));
+export const useAdminProducts = () => useResource(keys.adminProducts, () => api('/products?all=1', { admin: true }));
 
 export function useAdminProduct(id) {
   const list = useAdminProducts();
   const fromList = list.data?.find((p) => p._id === id);
-  const single = useResource(`admin:product:${id}`, () => api(`/products/${id}`, { admin: true }), !fromList && !!id && !list.loading);
+  const single = useResource(keys.adminProduct(id), () => api(`/products/${id}`, { admin: true }), !fromList && !!id && !list.loading);
   return fromList ? { data: fromList, loading: false, error: null } : { ...single, loading: single.loading || list.loading };
 }
 
+/* ── mutations ────────────────────────────────────────────── */
+// Public caches are dropped after an admin write so the shop shows fresh data next time.
 function afterWrite() {
-  invalidate('products');
-  invalidate('product:');
+  queryClient.removeQueries({ queryKey: keys.products });
+  queryClient.removeQueries({ queryKey: ['product'] });
 }
+
+const patchAdminList = (fn) => {
+  if (queryClient.getQueryData(keys.adminProducts)) queryClient.setQueryData(keys.adminProducts, fn);
+};
 
 export async function createProduct(body) {
   const p = await api('/products', { method: 'POST', body, admin: true });
-  const list = store.get('admin:products')?.data;
-  if (list) setCached('admin:products', [p, ...list]);
+  patchAdminList((list) => [p, ...list]);
   afterWrite();
   return p;
 }
 
 export async function updateProduct(id, body) {
   const p = await api(`/products/${id}`, { method: 'PATCH', body, admin: true });
-  const list = store.get('admin:products')?.data;
-  if (list) setCached('admin:products', list.map((x) => (x._id === id ? p : x)));
+  patchAdminList((list) => list.map((x) => (x._id === id ? p : x)));
   afterWrite();
   return p;
 }
 
 export async function deleteProduct(id) {
   await api(`/products/${id}`, { method: 'DELETE', admin: true });
-  const list = store.get('admin:products')?.data;
-  if (list) setCached('admin:products', list.filter((x) => x._id !== id));
+  patchAdminList((list) => list.filter((x) => x._id !== id));
   afterWrite();
 }
 
 export async function saveSettings(body) {
   const s = await api('/settings', { method: 'PUT', body, admin: true });
-  setCached('settings', s);
+  queryClient.setQueryData(keys.settings, s);
   return s;
 }
 
