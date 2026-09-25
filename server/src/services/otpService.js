@@ -11,7 +11,7 @@ export const OTP = {
   cooldownMs: 60 * 1000,
   maxAttempts: 5,
   perEmailPerHour: 5,
-  perIpPerHour: 20,
+  perIpPerHour: 60, // many mobile users share one public IP (carrier NAT)
 };
 const HOUR = 60 * 60 * 1000;
 

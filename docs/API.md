@@ -14,7 +14,7 @@ In development Vite proxies `/api` to `http://localhost:4000`. The browser there
 | Roles        | `customer` (default), `staff` (catalogue), `admin` (catalogue + lookbook settings + team). Guests → `401 { code: "AUTH_REQUIRED" }`; wrong role → `403 { code: "FORBIDDEN", error: "You don't have access to this." }`.                                                                    |
 | CSRF         | POST/PUT/PATCH/DELETE need the header `X-Requested-With: swechha`, and a browser `Origin` (when sent) must be in `CLIENT_ORIGIN` (in development the page's own host is also accepted). Otherwise `403 { code: "CSRF" }`. Future webhooks are exempt via an explicit list (`CSRF_EXEMPT`). |
 | Caching      | Public GETs: `public, s-maxage=30, stale-while-revalidate=300` (settings: `s-maxage=60`). Everything signed-in, admin and every write: `no-store`.                                                                                                                                         |
-| Rate limits  | 600 requests / 15 min per IP on `/api`; 120 / 15 min on staff/admin endpoints; 30 / 15 min on `/api/auth/*` (except `/me`), plus the OTP limits below. Over the limit → `429`.                                                                                                             |
+| Rate limits  | 600 requests / 15 min per IP on `/api`; 120 / 15 min on staff/admin endpoints; 100 / 15 min on `/api/auth/*` (except `/me`), plus the OTP limits below. Over the limit → `429`.                                                                                                            |
 | Wrong method | `405 { error: "Method X not allowed." }` with an `Allow` header.                                                                                                                                                                                                                           |
 | Unknown path | `404 { error: "Unknown API route." }`                                                                                                                                                                                                                                                      |
 | CORS         | Browser origins listed in `CLIENT_ORIGIN`, with credentials.                                                                                                                                                                                                                               |
@@ -36,7 +36,7 @@ The user is loaded on every request, so role changes and blocks apply immediatel
 
 6 digits (`crypto.randomInt`), valid 10 minutes, emailed from `MAIL_FROM`. Stored as HMAC-SHA256 (`OTP_SECRET`).
 5 wrong tries kill a code. A new request invalidates earlier codes. 60 s cool-down per email; at most 5 codes per
-email and 20 per IP per hour (counted from `otp_codes`, kept 65 minutes) → `429 { code: "OTP_RATE_LIMIT", retryAfter }`.
+email and 60 per IP per hour (counted from `otp_codes`, kept 65 minutes) → `429 { code: "OTP_RATE_LIMIT", retryAfter }`.
 First successful verify creates the account. Emails in `ADMIN_EMAILS` become `admin` on every sign-in.
 In `APP_MODE=test` the code is also written to the server log (`OTP for <email>: <code>`), and email is skipped if SMTP
 is not configured.

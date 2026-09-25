@@ -74,9 +74,9 @@ describe('OTP request', () => {
     await askCode('ana@example.com').expect(200);
   });
 
-  it('max 20 codes per IP per hour', async () => {
+  it('max 60 codes per IP per hour (shared mobile IPs)', async () => {
     const ip = { ...XRW, 'X-Forwarded-For': '203.0.113.9' };
-    for (let i = 0; i < 20; i++) await askCode(`user${i}@example.com`, ip).expect(200);
+    for (let i = 0; i < 60; i++) await askCode(`user${i}@example.com`, ip).expect(200);
     const res = await askCode('user99@example.com', ip);
     expect(res.status).toBe(429);
     expect(res.body.error).toMatch(/from this network/);
@@ -320,5 +320,17 @@ describe('CSRF', () => {
 
   it('GET requests need no header', async () => {
     expect((await request(app).get('/api/auth/me')).status).toBe(200);
+  });
+});
+
+describe('limits (Phase 2 values)', () => {
+  it('OTP: 60 per IP per hour, 5 per email per hour, 60 s cool-down', async () => {
+    const { OTP } = await import('../src/services/otpService.js');
+    expect(OTP).toMatchObject({ perIpPerHour: 60, perEmailPerHour: 5, cooldownMs: 60_000 });
+  });
+
+  it('/api/auth/* allows 100 requests per 15 minutes per IP', async () => {
+    const { LIMITS } = await import('../src/middlewares/rateLimit.js');
+    expect(LIMITS.auth).toBe(100);
   });
 });
