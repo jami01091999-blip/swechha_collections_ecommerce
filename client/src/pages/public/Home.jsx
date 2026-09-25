@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Header from '../../components/public/Header';
 import BottomNav from '../../components/public/BottomNav';
 import Drawer from '../../components/public/Drawer';
 import HeroCarousel from '../../components/public/HeroCarousel';
 import CategoryTiles from '../../components/public/CategoryTiles';
 import Footer from '../../components/public/Footer';
-import { CardSkeleton, GridCard, RailCard } from '../../components/public/ProductCards';
+import { CardSkeleton, RailCard } from '../../components/public/ProductCards';
 import Icon from '../../components/shared/Icon';
 import ScrollToHash from '../../components/shared/ScrollToHash';
 import { useProducts, useSettings } from '../../lib/api';
@@ -26,12 +26,10 @@ export function LoadError({ error, onRetry }) {
 
 export default function Home() {
   const [drawer, setDrawer] = useState(false);
-  const navigate = useNavigate();
   const { data: products, loading, error, reload } = useProducts();
   const { data: settings } = useSettings();
   const list = products || [];
   const newArrivals = (list.some((p) => p.isNewArrival) ? list.filter((p) => p.isNewArrival) : list).slice(0, 8);
-  const featured = (list.some((p) => p.isFeatured) ? list.filter((p) => p.isFeatured) : list).slice(0, 8);
 
   return (
     <div className="w-full flex flex-col pb-24 md:pb-0">

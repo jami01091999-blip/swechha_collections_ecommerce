@@ -5,7 +5,6 @@ const SITE = 'site';
 
 export async function getSettings() {
   const doc = await Setting.findById(SITE).lean();
-  // eslint-disable-next-line no-unused-vars
   const { _id, ...rest } = doc || {};
   return { ...DEFAULT_SETTINGS, ...rest };
 }

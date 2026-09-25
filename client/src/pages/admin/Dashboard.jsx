@@ -7,7 +7,7 @@ import StockSheet from '../../components/admin/StockSheet';
 import Icon from '../../components/shared/Icon';
 import ScrollToHash from '../../components/shared/ScrollToHash';
 import { useAdminProducts, useSettings } from '../../lib/api';
-import { ADMIN_BASE, categoryMeta } from '../../lib/constants';
+import { ADMIN_BASE } from '../../lib/constants';
 import { formatINR } from '../../lib/format';
 import { attentionChip, isOutOfStock, stockSummary, threshold } from '../../lib/stock';
 

@@ -4,7 +4,7 @@ import { SubHeader } from '../../components/public/Header';
 import { MiniCard } from '../../components/public/ProductCards';
 import Img from '../../components/shared/Img';
 import Icon from '../../components/shared/Icon';
-import { FreeSizeChip, SizeSection } from '../../components/shared/SizeAvailability';
+import { SizeSection } from '../../components/shared/SizeAvailability';
 import { useProduct, useProducts, useSettings } from '../../lib/api';
 import { Link } from 'react-router-dom';
 import { categoryMeta } from '../../lib/constants';

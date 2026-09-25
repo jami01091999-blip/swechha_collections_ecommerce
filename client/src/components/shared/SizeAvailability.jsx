@@ -1,4 +1,3 @@
-import Icon from './Icon';
 import { sizeState, stockSummary, threshold } from '../../lib/stock';
 
 const PILL = 'min-w-10 px-2 h-10 rounded-xl font-label-md flex items-center justify-center transition-all';

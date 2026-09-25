@@ -7,7 +7,7 @@ import { Button, Chip, ConfirmSheet, Field, Input, PageContainer, Select, Spinne
 import Icon from '../../components/shared/Icon';
 import { SizeSection } from '../../components/shared/SizeAvailability';
 import { createProduct, deleteProduct, updateProduct, useAdminProduct, useAdminProducts } from '../../lib/api';
-import { ADMIN_BASE, BLOUSE_PIECE_OPTIONS, CATEGORIES, STANDARD_SIZES } from '../../lib/constants';
+import { ADMIN_BASE, CATEGORIES, STANDARD_SIZES } from '../../lib/constants';
 import { discountPercent } from '../../lib/format';
 import { stockSummary } from '../../lib/stock';
 import { useToast } from '../../context/Toast';
@@ -114,7 +114,6 @@ export default function ProductForm() {
       return next;
     });
   };
-  const setSaree = (patch) => set({ sareeDetails: { ...form.sareeDetails, ...patch } });
 
   const off = discountPercent(Number(form.mrp), Number(form.price));
   const others = useMemo(() => (all || []).filter((p) => p._id !== id), [all, id]);

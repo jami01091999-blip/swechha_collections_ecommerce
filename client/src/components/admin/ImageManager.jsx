@@ -37,7 +37,7 @@ function useUploads() {
 /** Product photos: upload (Cloudinary), reorder, set cover, remove. First photo = cover. */
 export default function ImageManager({ images, onChange, max = 8, invalid }) {
   const input = useRef(null);
-  const { pending, error, setError, run } = useUploads();
+  const { pending, error, run } = useUploads();
   const latest = useRef(images);
   latest.current = images;
 
@@ -122,7 +122,7 @@ export default function ImageManager({ images, onChange, max = 8, invalid }) {
 /** Single image (used for Lookbook banners). */
 export function SingleImage({ value, onChange }) {
   const input = useRef(null);
-  const { pending, error, setError, run } = useUploads();
+  const { pending, error, run } = useUploads();
   return (
     <div>
       <div className="relative aspect-[4/5] w-32 rounded-lg overflow-hidden border border-outline-variant/40 bg-surface-container">
