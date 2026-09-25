@@ -43,6 +43,8 @@ async function renderRoute(path, { admin = false, failProducts = false, wait = t
 
 function snap(node = document.body) {
   const clone = node.cloneNode(true);
+  // Sheets and the drawer reset body overflow to '' on close, leaving style="" behind between tests.
+  if (clone.getAttribute('style') === '') clone.removeAttribute('style');
   clone.querySelectorAll('[class]').forEach((el) => {
     const sorted = [...new Set(el.getAttribute('class').split(/\s+/).filter(Boolean))].sort().join(' ');
     el.setAttribute('class', sorted);

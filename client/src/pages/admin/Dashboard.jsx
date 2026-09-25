@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AdminHeader, AdminNav } from '../../components/admin/AdminChrome';
-import { StatusChip, Thumb, ToneChip } from '../../components/admin/bits';
+import { Thumb } from '../../components/admin/bits';
+import { Button, Card, PageContainer, Skeleton, StatusChip } from '../../components/ui';
 import StockSheet from '../../components/admin/StockSheet';
 import Icon from '../../components/shared/Icon';
 import ScrollToHash from '../../components/shared/ScrollToHash';
 import { useAdminProducts, useSettings } from '../../lib/api';
-import { ADESK, ADMIN_BASE, categoryMeta } from '../../lib/constants';
+import { ADMIN_BASE, categoryMeta } from '../../lib/constants';
 import { formatINR } from '../../lib/format';
 import { attentionChip, isOutOfStock, stockSummary, threshold } from '../../lib/stock';
 
@@ -49,10 +50,10 @@ function Stat({ label, icon, value, note, iconWrap, valueClass, noteClass, hover
 function RowSkeleton() {
   return (
     <div className="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-3 flex items-center gap-3">
-      <div className="w-14 h-16 rounded-lg bg-surface-container animate-pulse" />
+      <Skeleton className="w-14 h-16 rounded-lg" />
       <div className="flex-1 space-y-2">
-        <div className="h-3.5 w-2/3 rounded bg-surface-container animate-pulse" />
-        <div className="h-3 w-1/2 rounded bg-surface-container animate-pulse" />
+        <Skeleton className="h-3.5 w-2/3 rounded" />
+        <Skeleton className="h-3 w-1/2 rounded" />
       </div>
     </div>
   );
@@ -78,7 +79,7 @@ export default function Dashboard() {
     <>
       <ScrollToHash ready={!loading} />
       <AdminHeader alerts={stats.attention.length} />
-      <main className={`px-gutter-mobile space-y-5 md:space-y-7 pt-3 md:pt-6 ${ADESK}`}>
+      <PageContainer as="main" className="px-gutter-mobile space-y-5 md:space-y-7 pt-3 md:pt-6">
         {/* Live bar */}
         <div className="flex items-center justify-between bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-3 shadow-luxury-subtle">
           <div className="flex items-center gap-2.5 min-w-0">
@@ -94,12 +95,12 @@ export default function Dashboard() {
         </div>
 
         {error && !products && (
-          <div className="admin-card text-center">
+          <Card className="text-center">
             <p className="font-body-sm text-body-sm text-on-surface">{error.message}</p>
-            <button onClick={reload} className="mt-2 font-label-lg text-label-lg text-primary underline" type="button">
+            <Button variant="ghost" size="sm" onClick={reload} className="mt-2">
               Try again
-            </button>
-          </div>
+            </Button>
+          </Card>
         )}
 
         {/* Inventory Snapshot */}
@@ -125,15 +126,15 @@ export default function Dashboard() {
 
         {/* Primary CTA (laptop uses the Add Product button in the header) */}
         <div className="md:hidden">
-          <button
+          <Button
+            size="lg"
             onClick={() => navigate(`${ADMIN_BASE}/products/new`)}
-            className="w-full bg-primary-container hover:bg-[#541423] text-surface-container-lowest py-3.5 px-space-lg rounded-xl font-title-md text-title-md font-semibold flex items-center justify-center gap-2 shadow-luxury active:scale-95 transition-all duration-150 border border-primary-fixed/20"
-            type="button"
+            className="w-full px-space-lg flex items-center justify-center gap-2 duration-150 border border-primary-fixed/20"
           >
             <Icon name="add" className="text-[20px]" />
             <span>Add New Product</span>
             <Icon name="auto_awesome" className="text-[18px] text-tertiary-fixed opacity-80" />
-          </button>
+          </Button>
         </div>
 
         <div className="space-y-5 md:space-y-0 md:grid md:grid-cols-1 md:gap-6 md:items-start">
@@ -192,7 +193,7 @@ export default function Dashboard() {
             <p className="font-body-sm text-body-sm text-on-surface-variant mt-0.5 leading-relaxed">{tip.text}</p>
           </div>
         </div>
-      </main>
+      </PageContainer>
       <AdminNav />
       {stockFor && <StockSheet product={stockFor} onClose={() => setStockFor(null)} />}
     </>

@@ -1,3 +1,5 @@
+import { Spinner } from '../ui';
+
 // Loading states shown while admin code is downloaded (admin routes are lazy-loaded so
 // customers never download them). Same markup as AdminLayout + the AdminGate spinner.
 
@@ -5,7 +7,7 @@ export function AdminPageLoading() {
   return (
     <div className="flex-1 flex items-center justify-center px-gutter-mobile py-16">
       <div className="flex flex-col items-center gap-2 text-on-surface-variant">
-        <span className="w-8 h-8 rounded-full border-2 border-primary-container border-t-transparent animate-spin" />
+        <Spinner />
         <span className="font-label-md text-label-md">Opening atelier…</span>
       </div>
     </div>

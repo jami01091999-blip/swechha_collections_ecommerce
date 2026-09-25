@@ -1,7 +1,7 @@
 import Icon from '../shared/Icon';
 import { formatPhone, waLink } from '../../lib/format';
 import { useToast } from '../../context/Toast';
-import { DESK } from '../../lib/constants';
+import { PageContainer } from '../ui';
 
 export default function Footer({ settings = {} }) {
   const toast = useToast();
@@ -17,7 +17,7 @@ export default function Footer({ settings = {} }) {
   const round = 'w-8 h-8 rounded-full bg-surface-container flex items-center justify-center hover:bg-surface-container-high transition-colors';
   return (
     <footer className="mt-space-xl bg-surface-container-low border-t border-outline-variant/30 px-margin-mobile pt-space-lg md:pt-space-xl pb-space-lg flex flex-col">
-      <div className={`md:grid md:grid-cols-3 md:gap-10 md:items-start ${DESK}`}>
+      <PageContainer className="md:grid md:grid-cols-3 md:gap-10 md:items-start">
         <div>
           <div className="text-center md:text-left">
             <h4 className="font-headline-sm text-headline-sm text-primary font-medium tracking-wide">Swechha Collections</h4>
@@ -48,8 +48,8 @@ export default function Footer({ settings = {} }) {
           )}
         </div>
       </div>
-      </div>
-      <div className={`mt-space-md md:mt-space-lg pt-space-md border-t border-outline-variant/20 flex flex-col items-center gap-space-xs text-center ${DESK}`}>
+      </PageContainer>
+      <PageContainer className="mt-space-md md:mt-space-lg pt-space-md border-t border-outline-variant/20 flex flex-col items-center gap-space-xs text-center">
         <div className="flex items-center gap-4 text-primary">
           {settings.instagram && (
             <a aria-label="Instagram" className={round} href={settings.instagram} target="_blank" rel="noreferrer">
@@ -69,7 +69,7 @@ export default function Footer({ settings = {} }) {
           Private Catalogue Presentation • Inquire with our stylists for bespoke consultations.
         </p>
         <span className="font-label-md text-[10px] text-outline mt-1">© {new Date().getFullYear()} Swechha Collections Atelier. All rights reserved.</span>
-      </div>
+      </PageContainer>
     </footer>
   );
 }

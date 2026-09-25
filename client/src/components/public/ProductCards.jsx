@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import Img from '../shared/Img';
-import { coverImage, discountPercent, formatINR } from '../../lib/format';
+import { coverImage, formatINR } from '../../lib/format';
+import { PriceBlock, Skeleton } from '../ui';
 import { isOutOfStock } from '../../lib/stock';
 
 function OutOfStockOverlay() {
@@ -15,7 +16,6 @@ function OutOfStockOverlay() {
 
 /** New Arrivals rail card (200px wide, 3:4 image) — Stitch "Card 1" markup. */
 export function RailCard({ p }) {
-  const off = discountPercent(p.mrp, p.price);
   const out = isOutOfStock(p);
   return (
     <Link
@@ -37,13 +37,7 @@ export function RailCard({ p }) {
           <span className="font-label-md text-label-md text-secondary block font-medium line-clamp-1">{p.fabric}</span>
           <h3 className="font-title-md text-title-md text-on-surface mt-0.5 line-clamp-1 group-hover:text-primary transition-colors">{p.name}</h3>
         </div>
-        <div className="mt-2 pt-2 border-t border-outline-variant/20 flex items-center justify-between">
-          <div>
-            <span className="font-title-md text-title-md text-primary font-semibold">{formatINR(p.price)}</span>
-            {off > 0 && <span className="font-body-sm text-body-sm text-outline line-through ml-1">{formatINR(p.mrp)}</span>}
-          </div>
-          {off > 0 && <span className="bg-primary/10 text-primary font-label-md text-label-md font-semibold px-1.5 py-0.5 rounded">{off}% OFF</span>}
-        </div>
+        <PriceBlock variant="rail" price={p.price} mrp={p.mrp} />
       </div>
     </Link>
   );
@@ -51,7 +45,6 @@ export function RailCard({ p }) {
 
 /** Featured Masterpieces grid card — Stitch "Card A" markup. */
 export function GridCard({ p }) {
-  const off = discountPercent(p.mrp, p.price);
   const out = isOutOfStock(p);
   return (
     <Link
@@ -67,13 +60,7 @@ export function GridCard({ p }) {
           <span className="font-label-md text-[10px] text-secondary block font-medium line-clamp-1">{p.fabric}</span>
           <h3 className="font-title-md text-[14px] leading-tight text-on-surface mt-0.5 line-clamp-1 group-hover:text-primary transition-colors">{p.name}</h3>
         </div>
-        <div className="mt-2 pt-2 border-t border-outline-variant/20 flex flex-col gap-0.5">
-          <div className="flex items-baseline justify-between">
-            <span className="font-title-md text-[15px] text-primary font-semibold">{formatINR(p.price)}</span>
-            {off > 0 && <span className="bg-primary/10 text-primary font-label-md text-[9px] font-semibold px-1 rounded">{off}% OFF</span>}
-          </div>
-          {off > 0 && <span className="font-body-sm text-[11px] text-outline line-through">MRP {formatINR(p.mrp)}</span>}
-        </div>
+        <PriceBlock variant="grid" price={p.price} mrp={p.mrp} />
       </div>
     </Link>
   );
@@ -100,11 +87,11 @@ export function MiniCard({ p }) {
 export function CardSkeleton({ rail = false }) {
   return (
     <div className={`${rail ? 'shrink-0 w-[200px] md:w-[230px] lg:w-auto' : ''} flex flex-col bg-surface-container-lowest rounded-xl border border-outline-variant/25 overflow-hidden`}>
-      <div className="w-full aspect-[3/4] bg-surface-container-low animate-pulse" />
+      <Skeleton tone="low" className="w-full aspect-[3/4]" />
       <div className="p-2.5 space-y-2">
-        <div className="h-2.5 w-2/3 rounded bg-surface-container animate-pulse" />
-        <div className="h-3.5 w-4/5 rounded bg-surface-container animate-pulse" />
-        <div className="h-3.5 w-1/2 rounded bg-surface-container animate-pulse mt-3" />
+        <Skeleton className="h-2.5 w-2/3 rounded" />
+        <Skeleton className="h-3.5 w-4/5 rounded" />
+        <Skeleton className="h-3.5 w-1/2 rounded mt-3" />
       </div>
     </div>
   );

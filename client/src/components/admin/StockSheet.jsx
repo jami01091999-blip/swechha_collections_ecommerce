@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Sheet, Stepper, StockStateChip, Thumb } from './bits';
+import { Thumb } from './bits';
+import { Button, Card, Sheet, Stepper, StockStateChip } from '../ui';
 import { updateProduct } from '../../lib/api';
 import { threshold } from '../../lib/stock';
 import { useToast } from '../../context/Toast';
@@ -39,7 +40,7 @@ export default function StockSheet({ product, onClose }) {
           <p className="font-label-md text-label-md text-on-surface-variant">{product.code}</p>
         </div>
       </div>
-      <div className="admin-card mt-3 py-1">
+      <Card className="mt-3 py-1">
         {sized ? (
           sizes.map((s, i) => (
             <div key={s.label} className={row}>
@@ -59,16 +60,11 @@ export default function StockSheet({ product, onClose }) {
             <Stepper label="Free Size" value={free} onChange={setFree} />
           </div>
         )}
-      </div>
+      </Card>
       {err && <p className="font-body-sm text-[12px] text-error mt-2">{err}</p>}
-      <button
-        onClick={save}
-        disabled={busy}
-        className="w-full mt-4 bg-primary-container hover:bg-[#541423] text-surface-container-lowest py-3.5 rounded-xl font-title-md text-title-md font-semibold shadow-luxury active:scale-95 transition-all disabled:opacity-60"
-        type="button"
-      >
+      <Button size="lg" className="w-full mt-4" onClick={save} disabled={busy}>
         {busy ? 'Saving…' : 'Save Stock'}
-      </button>
+      </Button>
     </Sheet>
   );
 }

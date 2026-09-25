@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import Img from '../shared/Img';
-import { ALL_COLLECTIONS_TILE, CATEGORIES, DESK } from '../../lib/constants';
+import { ALL_COLLECTIONS_TILE, CATEGORIES } from '../../lib/constants';
+import { PageContainer, SectionHeader } from '../ui';
 
 /** Shop by Category — 2-column grid of 6 tiles, counts and photos come from real products. */
 export default function CategoryTiles({ products = [] }) {
@@ -8,11 +9,8 @@ export default function CategoryTiles({ products = [] }) {
   const allTile = ALL_COLLECTIONS_TILE;
 
   return (
-    <section className={`mt-space-lg md:mt-space-xl px-margin-mobile ${DESK}`}>
-      <div className="mb-space-sm">
-        <h2 className="font-headline-sm text-headline-sm md:text-headline-md text-primary font-medium">Shop by Category</h2>
-        <p className="font-body-sm text-body-sm text-on-surface-variant">Explore our artisanal repertoire &amp; heritage crafts</p>
-      </div>
+    <PageContainer as="section" className="mt-space-lg md:mt-space-xl px-margin-mobile">
+      <SectionHeader className="mb-space-sm" title="Shop by Category" subtitle="Explore our artisanal repertoire & heritage crafts" />
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
         <Link
           to="/collection"
@@ -50,6 +48,6 @@ export default function CategoryTiles({ products = [] }) {
           );
         })}
       </div>
-    </section>
+    </PageContainer>
   );
 }

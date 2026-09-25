@@ -7,8 +7,9 @@ import Icon from '../../components/shared/Icon';
 import { FreeSizeChip, SizeSection } from '../../components/shared/SizeAvailability';
 import { useProduct, useProducts, useSettings } from '../../lib/api';
 import { Link } from 'react-router-dom';
-import { categoryMeta, DESK } from '../../lib/constants';
-import { discountPercent, formatINR, waLink } from '../../lib/format';
+import { categoryMeta } from '../../lib/constants';
+import { Button, IconButton, PageContainer, PriceBlock, Skeleton } from '../../components/ui';
+import { formatINR, waLink } from '../../lib/format';
 import { isOutOfStock } from '../../lib/stock';
 import { useToast } from '../../context/Toast';
 import NotFound from './NotFound';
@@ -77,7 +78,6 @@ function ProductView({ p }) {
   const [zoom, setZoom] = useState(false);
   const gallery = useRef(null);
   const goTo = (i) => gallery.current?.scrollTo({ left: i * gallery.current.offsetWidth, behavior: 'smooth' });
-  const off = discountPercent(p.mrp, p.price);
   const isSaree = p.category === 'Sarees';
   const images = p.images?.length ? p.images : [{ url: '' }];
   const out = isOutOfStock(p);
@@ -129,27 +129,26 @@ function ProductView({ p }) {
         title={p.name}
         subtitle={p.category}
         right={
-          <button
-            aria-label="Share"
-            className="w-9 h-9 rounded-full flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container transition-colors active:scale-90"
+          <IconButton
+            icon="share"
+            label="Share"
             onClick={share}
-            type="button"
-          >
-            <Icon name="share" className="text-xl" />
-          </button>
+            className="text-on-surface hover:text-primary hover:bg-surface-container transition-colors active:scale-90"
+            iconClassName="text-xl"
+          />
         }
       />
 
       {/* Laptop breadcrumb */}
-      <nav aria-label="Breadcrumb" className={`hidden md:flex items-center gap-1.5 pt-6 pb-4 font-label-md text-label-md text-on-surface-variant ${DESK}`}>
+      <PageContainer as="nav" aria-label="Breadcrumb" className="hidden md:flex items-center gap-1.5 pt-6 pb-4 font-label-md text-label-md text-on-surface-variant">
         <Link to="/" className="hover:text-primary">Home</Link>
         <Icon name="chevron_right" className="text-sm" />
         <Link to={`/collection?category=${encodeURIComponent(p.category)}`} className="hover:text-primary">{categoryMeta(p.category).label}</Link>
         <Icon name="chevron_right" className="text-sm" />
         <span className="text-primary truncate">{p.name}</span>
-      </nav>
+      </PageContainer>
 
-      <div className={`md:grid md:grid-cols-2 md:gap-10 lg:gap-14 md:items-start ${DESK}`}>
+      <PageContainer className="md:grid md:grid-cols-2 md:gap-10 lg:gap-14 md:items-start">
       <div className="md:sticky md:top-24">
       {/* Gallery */}
       <section className="relative w-full aspect-[3/4] bg-surface-container-low overflow-hidden md:rounded-xl md:border md:border-outline-variant/30">
@@ -227,16 +226,7 @@ function ProductView({ p }) {
             <p className="mt-1 whitespace-pre-line text-[12px] leading-5 text-on-surface-variant">{p.description}</p>
           </div>
         )}
-        <div className="mt-2.5 flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
-          <span className="font-headline-sm text-[22px] font-semibold text-primary">{formatINR(p.price)}</span>
-          {off > 0 && (
-            <>
-              <span className="font-body-sm text-[13px] text-outline line-through">MRP {formatINR(p.mrp)}</span>
-              <span className="bg-primary/10 text-primary font-label-md text-[11px] font-semibold px-2 py-0.5 rounded">{off}% OFF</span>
-            </>
-          )}
-          <span className="text-[10px] text-outline ml-auto">Inclusive of all taxes</span>
-        </div>
+        <PriceBlock variant="pdp" price={p.price} mrp={p.mrp} />
         {p.colors?.length > 0 && (
           <div className="space-y-2 mt-4 pt-3 border-t border-outline-variant/20">
             <div className="flex items-center justify-between">
@@ -299,15 +289,10 @@ function ProductView({ p }) {
 
       {/* Laptop: enquiry actions inline (phones use the sticky bar below) */}
       <div className="hidden md:flex items-center gap-2.5 pt-6">
-        <a
-          className="flex-1 bg-[#1b4332] hover:bg-[#143225] text-white py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all text-[15px] font-semibold tracking-wide"
-          href={waLink(settings?.whatsapp, waText)}
-          target="_blank"
-          rel="noreferrer"
-        >
+        <Button as="a" variant="whatsapp" size="lg" className="flex-1" href={waLink(settings?.whatsapp, waText)} target="_blank" rel="noreferrer">
           <Icon name="chat" className="text-xl" />
           <span>Enquire on WhatsApp</span>
-        </a>
+        </Button>
         <button type="button" aria-label="Share" onClick={share} className="w-[52px] h-[52px] rounded-xl border border-[#C59B6A] text-on-surface flex items-center justify-center hover:bg-surface-container-low transition-colors">
           <Icon name="share" className="text-2xl" />
         </button>
@@ -316,10 +301,10 @@ function ProductView({ p }) {
         <span className="text-[11px] text-on-surface-variant">Enquire on whatsapp for more details</span>
       </div>
       </div>
-      </div>
+      </PageContainer>
 
       {related.length > 0 && (
-        <section className={`mt-space-md md:mt-space-xl pb-space-lg ${DESK}`}>
+        <PageContainer as="section" className="mt-space-md md:mt-space-xl pb-space-lg">
           <div className="px-margin-mobile md:px-0 mb-space-sm flex items-center justify-between">
             <h3 className="font-headline-sm text-[18px] md:text-headline-sm text-primary font-medium">You May Also Like</h3>
             <span className="font-label-md text-[10px] text-secondary">Similar Weaves</span>
@@ -329,21 +314,16 @@ function ProductView({ p }) {
               <MiniCard key={r._id} p={r} />
             ))}
           </div>
-        </section>
+        </PageContainer>
       )}
 
       {/* Sticky WhatsApp enquiry bar */}
       <div className="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface/95 backdrop-blur-md px-margin-mobile py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] max-w-[480px] mx-auto right-0 border-t border-outline-variant/30 shadow-[0_-6px_20px_rgba(78,5,26,0.08)]">
         <div className="flex flex-col gap-1.5">
-          <a
-            className="w-full bg-[#1b4332] hover:bg-[#143225] text-white py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all text-[14px] font-semibold tracking-wide"
-            href={waLink(settings?.whatsapp, waText)}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <Button as="a" variant="whatsapp" className="w-full" href={waLink(settings?.whatsapp, waText)} target="_blank" rel="noreferrer">
             <Icon name="chat" className="text-xl" />
             <span>Enquire on WhatsApp</span>
-          </a>
+          </Button>
         </div>
       </div>
 
@@ -356,14 +336,14 @@ function PdpSkeleton() {
   return (
     <div className="w-full min-h-screen bg-surface">
       <div className="h-14 md:hidden border-b border-outline-variant/30" />
-      <div className={`md:grid md:grid-cols-2 md:gap-10 md:pt-10 ${DESK}`}>
-      <div className="w-full aspect-[3/4] bg-surface-container-low animate-pulse md:rounded-xl" />
-      <div className="px-margin-mobile md:px-0 pt-4 md:pt-0 space-y-3">
-        <div className="h-3 w-1/3 bg-surface-container rounded animate-pulse" />
-        <div className="h-6 w-2/3 bg-surface-container rounded animate-pulse" />
-        <div className="h-5 w-1/2 bg-surface-container rounded animate-pulse" />
-      </div>
-      </div>
+      <PageContainer className="md:grid md:grid-cols-2 md:gap-10 md:pt-10">
+        <Skeleton tone="low" className="w-full aspect-[3/4] md:rounded-xl" />
+        <div className="px-margin-mobile md:px-0 pt-4 md:pt-0 space-y-3">
+          <Skeleton className="h-3 w-1/3 rounded" />
+          <Skeleton className="h-6 w-2/3 rounded" />
+          <Skeleton className="h-5 w-1/2 rounded" />
+        </div>
+      </PageContainer>
     </div>
   );
 }

@@ -6,7 +6,8 @@ import CategoryChips from '../../components/public/CategoryChips';
 import { CardSkeleton, GridCard } from '../../components/public/ProductCards';
 import Icon from '../../components/shared/Icon';
 import { useProducts } from '../../lib/api';
-import { categoryMeta, DESK } from '../../lib/constants';
+import { categoryMeta } from '../../lib/constants';
+import { Chip, EmptyState, PageContainer } from '../../components/ui';
 import { isOutOfStock } from '../../lib/stock';
 import { LoadError } from './Home';
 
@@ -55,19 +56,15 @@ export default function Collection() {
   }, [products, category, filter, q, sort, inStock]);
 
   const title = category ? categoryMeta(category).label : filter === 'new' ? 'New Arrivals' : filter === 'featured' ? 'Featured Masterpieces' : 'All Designs';
-  const pill = (active) =>
-    `shrink-0 px-3 py-1.5 rounded-full font-label-md text-label-md transition-colors active:scale-95 border ${
-      active ? 'bg-primary-container text-white border-primary-container' : 'bg-surface-container-low text-on-surface-variant border-outline-variant/30 hover:bg-surface-container'
-    }`;
 
   return (
     <div className="w-full flex flex-col pb-24 md:pb-16 min-h-screen">
       <SubHeader title={title} subtitle={products ? `${items.length} design${items.length === 1 ? '' : 's'}` : 'Lookbook'} />
-      <div className={`hidden md:flex items-baseline justify-between pt-8 pb-2 ${DESK}`}>
+      <PageContainer className="hidden md:flex items-baseline justify-between pt-8 pb-2">
         <h1 className="font-headline-md text-headline-md text-primary">{title}</h1>
         {products && <span className="font-label-lg text-label-lg text-secondary">{items.length} design{items.length === 1 ? '' : 's'}</span>}
-      </div>
-      <div className={`px-margin-mobile pt-3 ${DESK}`}>
+      </PageContainer>
+      <PageContainer className="px-margin-mobile pt-3">
         <label className="relative block md:max-w-md">
           <span className="sr-only">Search the catalogue</span>
           <Icon name="search" className="absolute left-3 top-1/2 -translate-y-1/2 text-outline text-xl" />
@@ -80,11 +77,11 @@ export default function Collection() {
             className="w-full rounded-xl border border-[#EBE5DD] bg-[#FAF6F0] pl-10 pr-3 py-2.5 font-body-sm text-[14px] text-on-surface placeholder:text-outline/70 focus:border-[#C59B6A] focus:ring-0"
           />
         </label>
-      </div>
+      </PageContainer>
       <div className="pt-2 md:[&_div]:justify-start">
         <CategoryChips value={category} onChange={(c) => update({ category: c })} />
       </div>
-      <div className={`flex items-center gap-2 px-margin-mobile pt-1 pb-3 md:pb-5 overflow-x-auto no-scrollbar ${DESK}`}>
+      <PageContainer className="flex items-center gap-2 px-margin-mobile pt-1 pb-3 md:pb-5 overflow-x-auto no-scrollbar">
         <label className="relative shrink-0">
           <span className="sr-only">Sort</span>
           <select
@@ -100,17 +97,17 @@ export default function Collection() {
           </select>
           <Icon name="expand_more" className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-base text-outline" />
         </label>
-        <button className={pill(inStock)} onClick={() => update({ instock: inStock ? '' : '1' })} type="button" aria-pressed={inStock}>
+        <Chip kind="toggle" active={inStock} onClick={() => update({ instock: inStock ? '' : '1' })} aria-pressed={inStock}>
           In stock only
-        </button>
+        </Chip>
         {filter && (
-          <button className={pill(true)} onClick={() => update({ filter: '' })} type="button">
+          <Chip kind="toggle" active onClick={() => update({ filter: '' })}>
             {filter === 'new' ? 'New' : 'Featured'} ✕
-          </button>
+          </Chip>
         )}
-      </div>
+      </PageContainer>
 
-      <main className={`px-margin-mobile flex-1 ${DESK}`}>
+      <PageContainer as="main" className="px-margin-mobile flex-1">
         {error && !products ? (
           <LoadError error={error} onRetry={reload} />
         ) : loading && !products ? (
@@ -126,16 +123,13 @@ export default function Collection() {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center text-center py-16 px-6">
-            <Icon name="search_off" className="text-4xl text-outline" />
-            <p className="font-headline-sm text-[18px] text-primary mt-2">No designs match</p>
-            <p className="font-body-sm text-body-sm text-on-surface-variant mt-1">Try another word or clear the filters.</p>
+          <EmptyState icon="search_off" title="No designs match" body="Try another word or clear the filters.">
             <button onClick={() => setParams({}, { replace: true })} className="mt-3 font-label-lg text-label-lg text-secondary underline" type="button">
               Clear filters
             </button>
-          </div>
+          </EmptyState>
         )}
-      </main>
+      </PageContainer>
       <BottomNav />
     </div>
   );

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import Icon from '../shared/Icon';
+import { Button, Card, Input } from '../ui';
+import { AdminPageLoading } from './AdminLoading';
 import { adminKey, api, onAuthFailure } from '../../lib/api';
 
 /**
@@ -60,22 +62,19 @@ export default function AdminGate({ children }) {
 
   if (state === 'ok') return children;
 
+  if (state === 'checking') return <AdminPageLoading />;
+
   return (
     <div className="flex-1 flex items-center justify-center px-gutter-mobile py-16">
-      {state === 'checking' ? (
-        <div className="flex flex-col items-center gap-2 text-on-surface-variant">
-          <span className="w-8 h-8 rounded-full border-2 border-primary-container border-t-transparent animate-spin" />
-          <span className="font-label-md text-label-md">Opening atelier…</span>
-        </div>
-      ) : state === 'error' ? (
-        <div className="admin-card text-center w-full md:max-w-sm">
+      {state === 'error' ? (
+        <Card className="text-center w-full md:max-w-sm">
           <p className="font-body-sm text-body-sm text-on-surface">{err}</p>
-          <button onClick={check} className="mt-3 font-label-lg text-label-lg text-primary underline" type="button">
+          <Button variant="ghost" size="sm" onClick={check} className="mt-3">
             Try again
-          </button>
-        </div>
+          </Button>
+        </Card>
       ) : (
-        <form onSubmit={submit} className="admin-card w-full md:max-w-sm shadow-luxury flex flex-col items-center text-center p-5">
+        <Card as="form" onSubmit={submit} className="w-full md:max-w-sm shadow-luxury flex flex-col items-center text-center p-5">
           <div className="w-12 h-12 rounded-full bg-secondary-container/60 border border-secondary/40 flex items-center justify-center text-primary">
             <Icon name="lock" className="text-[24px]" />
           </div>
@@ -83,13 +82,14 @@ export default function AdminGate({ children }) {
           <p className="font-body-sm text-body-sm text-on-surface-variant mt-1">Asked once on this device.</p>
           <label className="relative w-full mt-4 text-left">
             <span className="sr-only">Admin key</span>
-            <input
+            <Input
               type={show ? 'text' : 'password'}
               value={value}
               onChange={(e) => setValue(e.target.value)}
               autoFocus
               autoComplete="current-password"
-              className={`field pr-11 ${err ? 'field-error' : ''}`}
+              className="pr-11"
+              invalid={!!err}
               placeholder="Admin key"
             />
             <button
@@ -102,14 +102,10 @@ export default function AdminGate({ children }) {
             </button>
           </label>
           {err && <p className="w-full text-left font-body-sm text-[12px] text-error mt-1.5">{err}</p>}
-          <button
-            disabled={busy}
-            className="w-full mt-4 bg-primary-container hover:bg-[#541423] text-surface-container-lowest py-3 rounded-xl font-title-md text-[15px] font-semibold shadow-luxury active:scale-95 transition-all disabled:opacity-60"
-            type="submit"
-          >
+          <Button type="submit" disabled={busy} className="w-full mt-4">
             {busy ? 'Checking…' : 'Continue'}
-          </button>
-        </form>
+          </Button>
+        </Card>
       )}
     </div>
   );

@@ -18,6 +18,21 @@ const Products = lazy(() => import('./pages/admin/Products'));
 const ProductForm = lazy(() => import('./pages/admin/ProductForm'));
 const Lookbook = lazy(() => import('./pages/admin/Lookbook'));
 
+// UI kit gallery, dev server only: import.meta.env.DEV is false in `vite build`, so this import is dropped.
+const UiKit = import.meta.env.DEV ? lazy(() => import('./dev/UiKit')) : null;
+const devRoutes = UiKit
+  ? [
+      {
+        path: '/__ui',
+        element: (
+          <Suspense fallback={null}>
+            <UiKit />
+          </Suspense>
+        ),
+      },
+    ]
+  : [];
+
 function Root() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -56,6 +71,7 @@ export const routes = [
           { path: 'lookbook', element: <Lookbook /> },
         ],
       },
+      ...devRoutes,
       { path: '*', element: <NotFound /> },
     ],
   },

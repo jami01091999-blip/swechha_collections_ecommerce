@@ -41,4 +41,3 @@ export const ADMIN_BASE = '/adminDivya';
 
 // Laptop/desktop content width (phones are unaffected: every class is md: and up).
 export const DESK = 'md:max-w-6xl md:mx-auto md:w-full md:px-8';
-export const ADESK = 'md:max-w-6xl md:mx-auto md:w-full md:px-8';

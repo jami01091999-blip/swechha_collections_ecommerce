@@ -3,7 +3,8 @@ import containerQueries from '@tailwindcss/container-queries';
 
 // Tokens copied 1:1 from the Stitch "Regal Modernity" design system (DESIGN.md / code.html)
 export default {
-  content: ['./index.html', './src/**/*.{js,jsx}'],
+  // src/dev (the /__ui gallery) is dev-only, so it is not scanned for the production stylesheet.
+  content: process.env.NODE_ENV === 'production' ? ['./index.html', './src/**/*.{js,jsx}', '!./src/dev/**'] : ['./index.html', './src/**/*.{js,jsx}'],
   darkMode: 'class',
   theme: {
     extend: {

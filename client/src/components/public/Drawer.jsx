@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../shared/Icon';
+import { Button } from '../ui';
 import { CATEGORIES } from '../../lib/constants';
 import { useSettings } from '../../lib/api';
 import { waLink } from '../../lib/format';
@@ -45,14 +46,16 @@ export default function Drawer({ open, onClose }) {
         </nav>
         {settings?.whatsapp && (
           <div className="p-margin-mobile">
-            <a
+            <Button
+              as="a"
+              variant="whatsapp"
               href={waLink(settings.whatsapp, 'Hello Swechha Collections, I would like to know more about your collection.')}
               target="_blank"
               rel="noreferrer"
-              className="w-full bg-[#1b4332] hover:bg-[#143225] text-white py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all text-[14px] font-semibold tracking-wide"
+              className="w-full"
             >
               <Icon name="chat" className="text-xl" /> Chat on WhatsApp
-            </a>
+            </Button>
           </div>
         )}
       </aside>

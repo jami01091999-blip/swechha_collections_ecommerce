@@ -1,9 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`admin > dashboard 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="admin-root antialiased bg-[#f0eded] flex justify-center md:py-0 min-h-screen py-0 selection:bg-primary-container selection:text-white sm:py-6 text-on-surface"
@@ -263,7 +261,7 @@ exports[`admin > dashboard 1`] = `
             class="md:hidden"
           >
             <button
-              class="active:scale-95 bg-primary-container border border-primary-fixed/20 duration-150 flex font-semibold font-title-md gap-2 hover:bg-[#541423] items-center justify-center px-space-lg py-3.5 rounded-xl shadow-luxury text-surface-container-lowest text-title-md transition-all w-full"
+              class="active:scale-95 bg-primary-container border border-primary-fixed/20 disabled:opacity-60 duration-150 flex font-semibold font-title-md gap-2 hover:bg-[#541423] items-center justify-center px-space-lg py-3.5 rounded-xl shadow-luxury text-surface-container-lowest text-title-md transition-all w-full"
               type="button"
             >
               <span
@@ -650,9 +648,7 @@ exports[`admin > dashboard 1`] = `
 `;
 
 exports[`admin > gate: asks for the key 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="admin-root antialiased bg-[#f0eded] flex justify-center md:py-0 min-h-screen py-0 selection:bg-primary-container selection:text-white sm:py-6 text-on-surface"
@@ -734,9 +730,7 @@ exports[`admin > gate: asks for the key 1`] = `
 `;
 
 exports[`admin > gate: wrong key 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="admin-root antialiased bg-[#f0eded] flex justify-center md:py-0 min-h-screen py-0 selection:bg-primary-container selection:text-white sm:py-6 text-on-surface"
@@ -823,9 +817,7 @@ exports[`admin > gate: wrong key 1`] = `
 `;
 
 exports[`admin > lookbook 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="admin-root antialiased bg-[#f0eded] flex justify-center md:py-0 min-h-screen py-0 selection:bg-primary-container selection:text-white sm:py-6 text-on-surface"
@@ -1713,9 +1705,7 @@ exports[`admin > lookbook 1`] = `
 `;
 
 exports[`admin > product form: edit 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="admin-root antialiased bg-[#f0eded] flex justify-center md:py-0 min-h-screen py-0 selection:bg-primary-container selection:text-white sm:py-6 text-on-surface"
@@ -3729,9 +3719,7 @@ exports[`admin > product form: edit a draft (not in the public list) 1`] = `
 `;
 
 exports[`admin > product form: new 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="admin-root antialiased bg-[#f0eded] flex justify-center md:py-0 min-h-screen py-0 selection:bg-primary-container selection:text-white sm:py-6 text-on-surface"
@@ -4349,9 +4337,7 @@ exports[`admin > product form: new 1`] = `
 `;
 
 exports[`admin > product form: new, validation errors 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="admin-root antialiased bg-[#f0eded] flex justify-center md:py-0 min-h-screen py-0 selection:bg-primary-container selection:text-white sm:py-6 text-on-surface"
@@ -5011,9 +4997,7 @@ exports[`admin > product form: new, validation errors 1`] = `
 `;
 
 exports[`admin > products 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="admin-root antialiased bg-[#f0eded] flex justify-center md:py-0 min-h-screen py-0 selection:bg-primary-container selection:text-white sm:py-6 text-on-surface"
@@ -7893,9 +7877,7 @@ exports[`admin > products: quick stock sheet 1`] = `
 `;
 
 exports[`public site > /saved stays unrouted (404) 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="bg-surface flex flex-col items-center justify-center min-h-screen px-8 text-center"
@@ -7933,9 +7915,7 @@ exports[`public site > /saved stays unrouted (404) 1`] = `
 `;
 
 exports[`public site > collection 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="antialiased bg-background flex font-body-md justify-center min-h-screen selection:bg-primary-container selection:text-white text-body-md text-on-surface"
@@ -8441,9 +8421,7 @@ exports[`public site > collection 1`] = `
 `;
 
 exports[`public site > collection: category + in stock + sort 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="antialiased bg-background flex font-body-md justify-center min-h-screen selection:bg-primary-container selection:text-white text-body-md text-on-surface"
@@ -8844,9 +8822,7 @@ exports[`public site > collection: category + in stock + sort 1`] = `
 `;
 
 exports[`public site > collection: empty 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="antialiased bg-background flex font-body-md justify-center min-h-screen selection:bg-primary-container selection:text-white text-body-md text-on-surface"
@@ -12816,9 +12792,7 @@ exports[`public site > home: loading 1`] = `
 `;
 
 exports[`public site > not found route 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="bg-surface flex flex-col items-center justify-center min-h-screen px-8 text-center"
@@ -12856,9 +12830,7 @@ exports[`public site > not found route 1`] = `
 `;
 
 exports[`public site > product: draft is not found for customers 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="antialiased bg-background flex font-body-md justify-center min-h-screen selection:bg-primary-container selection:text-white text-body-md text-on-surface"
@@ -12960,9 +12932,7 @@ exports[`public site > product: draft is not found for customers 1`] = `
 `;
 
 exports[`public site > product: free size saree 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="antialiased bg-background flex font-body-md justify-center min-h-screen selection:bg-primary-container selection:text-white text-body-md text-on-surface"
@@ -13355,9 +13325,7 @@ exports[`public site > product: free size saree 1`] = `
 `;
 
 exports[`public site > product: out of stock 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="antialiased bg-background flex font-body-md justify-center min-h-screen selection:bg-primary-container selection:text-white text-body-md text-on-surface"
@@ -13830,9 +13798,7 @@ exports[`public site > product: out of stock 1`] = `
 `;
 
 exports[`public site > product: sized, with size picked 1`] = `
-"<body
-  style=""
->
+"<body>
   <div>
     <div
       class="antialiased bg-background flex font-body-md justify-center min-h-screen selection:bg-primary-container selection:text-white text-body-md text-on-surface"

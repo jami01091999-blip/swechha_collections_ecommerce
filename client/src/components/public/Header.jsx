@@ -1,31 +1,32 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Icon from '../shared/Icon';
+import { IconButton } from '../ui';
 
 /** Sticky top app bar — Stitch home header. */
 export default function Header({ onMenu }) {
   const navigate = useNavigate();
   return (
     <header className="md:hidden flex justify-between items-center w-full px-gutter-mobile py-space-sm max-w-7xl mx-auto sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant/20">
-      <button
-        aria-label="Open Navigation Drawer"
+      <IconButton
+        size="lg"
+        icon="menu"
+        label="Open Navigation Drawer"
         onClick={onMenu}
-        className="w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-surface-container-high transition-colors duration-200 active:scale-95"
-        type="button"
-      >
-        <Icon name="menu" className="text-primary text-2xl" />
-      </button>
+        className="text-primary hover:bg-surface-container-high transition-colors duration-200 active:scale-95"
+        iconClassName="text-primary text-2xl"
+      />
       <Link to="/" className="flex flex-col items-center justify-center text-center">
         <span className="font-headline-sm text-headline-sm font-medium tracking-wide text-primary">Swechha Collections</span>
       </Link>
-      <button
-        aria-label="Search Catalogue"
+      <IconButton
+        size="lg"
+        icon="search"
+        label="Search Catalogue"
         onClick={() => navigate('/collection?search=1')}
-        className="w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-surface-container-high transition-colors duration-200 active:scale-95"
-        type="button"
-      >
-        <Icon name="search" className="text-primary text-2xl" />
-      </button>
+        className="text-primary hover:bg-surface-container-high transition-colors duration-200 active:scale-95"
+        iconClassName="text-primary text-2xl"
+      />
     </header>
   );
 }
@@ -36,14 +37,13 @@ export function SubHeader({ title, subtitle, right, onBack }) {
   const back = onBack || (() => (window.history.state?.idx > 0 ? navigate(-1) : navigate('/')));
   return (
     <header className="md:hidden sticky top-0 z-40 bg-surface/95 backdrop-blur-md px-margin-mobile py-2.5 border-b border-outline-variant/30 flex items-center justify-between">
-      <button
-        aria-label="Return to Catalogue"
-        className="w-9 h-9 -ml-1 rounded-full flex items-center justify-center text-primary hover:bg-surface-container transition-colors active:scale-90"
+      <IconButton
+        icon="arrow_back"
+        label="Return to Catalogue"
         onClick={back}
-        type="button"
-      >
-        <Icon name="arrow_back" className="text-2xl" />
-      </button>
+        className="-ml-1 text-primary hover:bg-surface-container transition-colors active:scale-90"
+        iconClassName="text-2xl"
+      />
       <div className="flex flex-col items-center justify-center text-center px-2 flex-1 overflow-hidden">
         <span className="font-title-md text-[14px] text-primary truncate max-w-[210px] font-medium">{title}</span>
         {subtitle && <span className="font-label-md text-[10px] text-secondary uppercase tracking-widest -mt-0.5">{subtitle}</span>}

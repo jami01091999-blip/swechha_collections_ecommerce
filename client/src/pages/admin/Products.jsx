@@ -1,15 +1,15 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AdminHeader, AdminNav } from '../../components/admin/AdminChrome';
-import { StatusChip, Thumb, ToneChip } from '../../components/admin/bits';
+import { Thumb } from '../../components/admin/bits';
+import { Button, Card, Chip, ConfirmSheet, Input, PageContainer, Skeleton, StatusChip, ToneChip } from '../../components/ui';
 import StockSheet from '../../components/admin/StockSheet';
 import Icon from '../../components/shared/Icon';
 import { deleteProduct, useAdminProducts } from '../../lib/api';
-import { ADESK, ADMIN_BASE, CATEGORIES } from '../../lib/constants';
+import { ADMIN_BASE, CATEGORIES } from '../../lib/constants';
 import { formatINR } from '../../lib/format';
 import { attentionChip, isOutOfStock, sizeRows, totalStock } from '../../lib/stock';
 import { useInventoryStats } from './Dashboard';
-import { ConfirmSheet } from '../../components/admin/bits';
 
 const STATUS_FILTERS = [
   { key: 'published', label: 'Published' },
@@ -17,11 +17,6 @@ const STATUS_FILTERS = [
   { key: 'out', label: 'Out of Stock' },
   { key: 'attention', label: 'Needs Attention' },
 ];
-
-const chip = (active) =>
-  `shrink-0 px-3.5 py-1.5 rounded-full font-label-md text-label-md transition-colors active:scale-95 border ${
-    active ? 'bg-primary-container text-white border-primary-container font-semibold shadow-sm' : 'bg-surface-container-low text-on-surface-variant border-outline-variant/30 hover:bg-surface-container'
-  }`;
 
 export default function Products() {
   const { data: products, loading, error, reload } = useAdminProducts();
@@ -63,7 +58,7 @@ export default function Products() {
   return (
     <>
       <AdminHeader alerts={stats.attention.length} />
-      <main className={`pt-3 md:pt-6 space-y-3 ${ADESK}`}>
+      <PageContainer as="main" className="pt-3 md:pt-6 space-y-3">
         <div className="px-gutter-mobile md:px-0 flex items-baseline justify-between">
           <h2 className="font-headline-sm text-headline-sm md:text-headline-md text-primary">Products ({products?.length ?? '…'})</h2>
           <Link to={`${ADMIN_BASE}/products/new`} className="font-label-lg text-label-lg text-secondary hover:text-primary font-semibold flex items-center gap-0.5">
@@ -74,37 +69,37 @@ export default function Products() {
           <label className="relative block md:max-w-md">
             <span className="sr-only">Search products</span>
             <Icon name="search" className="absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]" />
-            <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search by name, code or fabric" className="field pl-10" />
+            <Input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search by name, code or fabric" className="pl-10" />
           </label>
         </div>
         <div className="flex items-center gap-2 px-gutter-mobile md:px-0 overflow-x-auto no-scrollbar">
-          <button className={chip(!cat)} onClick={() => setCat('')} type="button">
+          <Chip active={!cat} onClick={() => setCat('')}>
             All
-          </button>
+          </Chip>
           {CATEGORIES.map((c) => (
-            <button key={c.key} className={chip(cat === c.key)} onClick={() => setCat(cat === c.key ? '' : c.key)} type="button">
+            <Chip key={c.key} active={cat === c.key} onClick={() => setCat(cat === c.key ? '' : c.key)}>
               {c.chip || c.label}
-            </button>
+            </Chip>
           ))}
         </div>
         <div className="flex items-center gap-2 px-gutter-mobile md:px-0 overflow-x-auto no-scrollbar">
           {STATUS_FILTERS.map((s) => (
-            <button key={s.key} className={chip(status === s.key)} onClick={() => setStatus(status === s.key ? '' : s.key)} type="button">
+            <Chip key={s.key} active={status === s.key} onClick={() => setStatus(status === s.key ? '' : s.key)}>
               {s.label}
-            </button>
+            </Chip>
           ))}
         </div>
 
         <div className="px-gutter-mobile md:px-0 space-y-2 pb-4 md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-3 md:space-y-0">
           {error && !products ? (
-            <div className="admin-card text-center md:col-span-full">
+            <Card className="text-center md:col-span-full">
               <p className="font-body-sm text-body-sm">{error.message}</p>
-              <button onClick={reload} className="mt-2 font-label-lg text-label-lg text-primary underline" type="button">
+              <Button variant="ghost" size="sm" onClick={reload} className="mt-2">
                 Try again
-              </button>
-            </div>
+              </Button>
+            </Card>
           ) : loading && !products ? (
-            [0, 1, 2].map((i) => <div key={i} className="h-[92px] rounded-xl bg-surface-container-lowest border border-outline-variant/40 animate-pulse" />)
+            [0, 1, 2].map((i) => <Skeleton key={i} tone="lowest" className="h-[92px] rounded-xl border border-outline-variant/40" />)
           ) : items.length ? (
             items.map((p) => {
               const alert = attentionChip(p);
@@ -146,7 +141,7 @@ export default function Products() {
               );
             })
           ) : (
-            <div className="admin-card text-center py-8 md:col-span-full">
+            <Card className="text-center py-8 md:col-span-full">
               <Icon name="styler" className="text-3xl text-outline" />
               <p className="font-title-md text-[15px] text-primary mt-1">{products?.length ? 'No products match' : 'No products yet'}</p>
               <p className="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
@@ -157,10 +152,10 @@ export default function Products() {
                   Add New Product
                 </Link>
               )}
-            </div>
+            </Card>
           )}
         </div>
-      </main>
+      </PageContainer>
       <AdminNav />
       {stockFor && <StockSheet product={stockFor} onClose={() => setStockFor(null)} />}
       {deleteProductId && deletingProduct && (

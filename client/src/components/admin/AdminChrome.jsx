@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Icon from '../shared/Icon';
+import { IconButton } from '../ui';
 import { ADMIN_BASE } from '../../lib/constants';
 
 /** Sticky admin header — Stitch dashboard header. */
@@ -41,14 +42,13 @@ export function AdminSubHeader({ title, subtitle, right, backTo }) {
   return (
     <header className="sticky top-0 z-40 bg-surface/95 backdrop-blur-md px-gutter-mobile md:px-0 py-2.5 border-b border-outline-variant/30">
       <div className="flex items-center gap-2 md:max-w-6xl md:mx-auto md:px-8">
-      <button
-        aria-label="Back"
+      <IconButton
+        icon="arrow_back"
+        label="Back"
         onClick={() => (backTo ? navigate(backTo) : window.history.state?.idx > 0 ? navigate(-1) : navigate(ADMIN_BASE))}
-        className="w-9 h-9 -ml-1 rounded-full flex items-center justify-center text-primary hover:bg-surface-container transition-colors active:scale-90"
-        type="button"
-      >
-        <Icon name="arrow_back" className="text-2xl" />
-      </button>
+        className="-ml-1 text-primary hover:bg-surface-container transition-colors active:scale-90"
+        iconClassName="text-2xl"
+      />
       <div className="flex-1 min-w-0">
         <h1 className="font-headline-sm text-[19px] leading-tight text-primary truncate">{title}</h1>
         {subtitle && <p className="font-label-md text-label-md text-on-surface-variant truncate">{subtitle}</p>}

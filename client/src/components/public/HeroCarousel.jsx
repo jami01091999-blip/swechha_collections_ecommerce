@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Img from '../shared/Img';
 import Icon from '../shared/Icon';
-import { DESK } from '../../lib/constants';
+import { PageContainer, Skeleton } from '../ui';
 
 /** Hero banner carousel — Stitch hero, one slide per banner set in admin → Lookbook. */
 export default function HeroCarousel({ banners = [] }) {
@@ -37,14 +37,14 @@ export default function HeroCarousel({ banners = [] }) {
 
   if (!banners.length) {
     return (
-      <section className={`relative px-margin-mobile pt-space-xs pb-space-md md:pt-6 ${DESK}`}>
-        <div className="w-full aspect-[4/5] md:aspect-[16/7] rounded-xl bg-surface-container-low animate-pulse" />
-      </section>
+      <PageContainer as="section" className="relative px-margin-mobile pt-space-xs pb-space-md md:pt-6">
+        <Skeleton tone="low" className="w-full aspect-[4/5] md:aspect-[16/7] rounded-xl" />
+      </PageContainer>
     );
   }
 
   return (
-    <section className={`relative px-margin-mobile pt-space-xs pb-space-md md:pt-6 ${DESK}`}>
+    <PageContainer as="section" className="relative px-margin-mobile pt-space-xs pb-space-md md:pt-6">
       <div className="relative w-full aspect-[4/5] md:aspect-[16/7] rounded-xl overflow-hidden shadow-lg border border-outline-variant/30">
         <div
           ref={track}
@@ -83,6 +83,6 @@ export default function HeroCarousel({ banners = [] }) {
           </div>
         )}
       </div>
-    </section>
+    </PageContainer>
   );
 }
