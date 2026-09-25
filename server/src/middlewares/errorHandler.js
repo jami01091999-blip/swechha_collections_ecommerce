@@ -11,9 +11,7 @@ export function errorHandler(err, req, res, next) {
   }
   if (err?.code === 11000) {
     const field = Object.keys(err.keyPattern || {})[0] || 'field';
-    return res
-      .status(409)
-      .json({ error: `Another product already uses this ${field === 'code' ? 'product code' : field}.`, requestId });
+    return res.status(409).json({ error: `Another product already uses this ${field === 'code' ? 'product code' : field}.`, requestId });
   }
   const status = err?.status || err?.statusCode || 500;
   if (!err?.expose) req.log?.error({ err }, 'Unhandled error');

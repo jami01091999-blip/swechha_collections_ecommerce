@@ -15,7 +15,9 @@ export default function Segmented({ value, options, onChange, label }) {
           aria-checked={value === o.value}
           onClick={() => onChange(o.value)}
           className={`py-2 rounded-lg font-label-lg text-label-lg transition-all ${
-            value === o.value ? 'bg-surface-container-lowest text-primary shadow-sm border border-outline-variant/40' : 'text-on-surface-variant'
+            value === o.value
+              ? 'bg-surface-container-lowest text-primary shadow-sm border border-outline-variant/40'
+              : 'text-on-surface-variant'
           }`}
         >
           {o.label}

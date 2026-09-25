@@ -46,10 +46,13 @@ export default function Home() {
             title="New Arrivals"
             subtitle="Fresh artisanal weavings from Varanasi & Chanderi"
             action={
-            <Link to="/collection?filter=new" className="flex items-center gap-0.5 text-secondary hover:text-primary font-label-md text-label-md font-semibold transition-colors shrink-0">
-              <span>View all</span>
-              <Icon name="chevron_right" className="text-sm font-semibold" />
-            </Link>
+              <Link
+                to="/collection?filter=new"
+                className="flex items-center gap-0.5 text-secondary hover:text-primary font-label-md text-label-md font-semibold transition-colors shrink-0"
+              >
+                <span>View all</span>
+                <Icon name="chevron_right" className="text-sm font-semibold" />
+              </Link>
             }
           />
           {error && !products ? (

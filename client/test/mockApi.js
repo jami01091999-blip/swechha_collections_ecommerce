@@ -13,8 +13,12 @@ export function createMockApi({ failProducts = false } = {}) {
     if (path === '/api/settings') return json(200, SETTINGS);
     if (path === '/api/products') {
       if (failProducts) return json(500, { error: 'The server could not complete the request. Try again in a moment.' });
-      if (u.searchParams.get('all') === '1') return admin ? json(200, PRODUCTS) : json(401, { error: 'Admin key is missing or incorrect.' });
-      return json(200, PRODUCTS.filter((p) => p.status === 'published'));
+      if (u.searchParams.get('all') === '1')
+        return admin ? json(200, PRODUCTS) : json(401, { error: 'Admin key is missing or incorrect.' });
+      return json(
+        200,
+        PRODUCTS.filter((p) => p.status === 'published')
+      );
     }
     const m = path.match(/^\/api\/products\/(.+)$/);
     if (m) {

@@ -7,10 +7,7 @@ export function signature(req, res) {
   noStore(res);
   const cfg = cloudinaryConfig();
   if (!cfg) {
-    throw new HttpError(
-      503,
-      'Photo upload is not set up. Add the CLOUDINARY_* keys to your environment, or paste an image link instead.'
-    );
+    throw new HttpError(503, 'Photo upload is not set up. Add the CLOUDINARY_* keys to your environment, or paste an image link instead.');
   }
   const timestamp = Math.floor(Date.now() / 1000);
   res.status(200).json({

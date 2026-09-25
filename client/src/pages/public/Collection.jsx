@@ -55,14 +55,24 @@ export default function Collection() {
     return list;
   }, [products, category, filter, q, sort, inStock]);
 
-  const title = category ? categoryMeta(category).label : filter === 'new' ? 'New Arrivals' : filter === 'featured' ? 'Featured Masterpieces' : 'All Designs';
+  const title = category
+    ? categoryMeta(category).label
+    : filter === 'new'
+      ? 'New Arrivals'
+      : filter === 'featured'
+        ? 'Featured Masterpieces'
+        : 'All Designs';
 
   return (
     <div className="w-full flex flex-col pb-24 md:pb-16 min-h-screen">
       <SubHeader title={title} subtitle={products ? `${items.length} design${items.length === 1 ? '' : 's'}` : 'Lookbook'} />
       <PageContainer className="hidden md:flex items-baseline justify-between pt-8 pb-2">
         <h1 className="font-headline-md text-headline-md text-primary">{title}</h1>
-        {products && <span className="font-label-lg text-label-lg text-secondary">{items.length} design{items.length === 1 ? '' : 's'}</span>}
+        {products && (
+          <span className="font-label-lg text-label-lg text-secondary">
+            {items.length} design{items.length === 1 ? '' : 's'}
+          </span>
+        )}
       </PageContainer>
       <PageContainer className="px-margin-mobile pt-3">
         <label className="relative block md:max-w-md">
@@ -124,7 +134,11 @@ export default function Collection() {
           </div>
         ) : (
           <EmptyState icon="search_off" title="No designs match" body="Try another word or clear the filters.">
-            <button onClick={() => setParams({}, { replace: true })} className="mt-3 font-label-lg text-label-lg text-secondary underline" type="button">
+            <button
+              onClick={() => setParams({}, { replace: true })}
+              className="mt-3 font-label-lg text-label-lg text-secondary underline"
+              type="button"
+            >
               Clear filters
             </button>
           </EmptyState>

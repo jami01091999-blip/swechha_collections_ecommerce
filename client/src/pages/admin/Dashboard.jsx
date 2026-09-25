@@ -32,7 +32,9 @@ export function useInventoryStats(products) {
 
 function Stat({ label, icon, value, note, iconWrap, valueClass, noteClass, hover }) {
   return (
-    <div className={`bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-3.5 flex flex-col justify-between shadow-luxury-subtle ${hover} transition-all duration-200`}>
+    <div
+      className={`bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-3.5 flex flex-col justify-between shadow-luxury-subtle ${hover} transition-all duration-200`}
+    >
       <div className="flex items-center justify-between gap-1">
         <span className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold">{label}</span>
         <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${iconWrap}`}>
@@ -70,9 +72,15 @@ export default function Dashboard() {
 
   const tip =
     stats.drafts > 0
-      ? { title: 'Drafts waiting', text: `${stats.drafts} product${stats.drafts === 1 ? ' is' : 's are'} saved as draft and hidden from customers. Open them from Products and publish when ready.` }
+      ? {
+          title: 'Drafts waiting',
+          text: `${stats.drafts} product${stats.drafts === 1 ? ' is' : 's are'} saved as draft and hidden from customers. Open them from Products and publish when ready.`,
+        }
       : stats.out > 0
-        ? { title: 'Restock reminder', text: `${stats.out} product${stats.out === 1 ? ' shows' : 's show'} “Out of Stock” to customers. Update stock as soon as new pieces arrive.` }
+        ? {
+            title: 'Restock reminder',
+            text: `${stats.out} product${stats.out === 1 ? ' shows' : 's show'} “Out of Stock” to customers. Update stock as soon as new pieces arrive.`,
+          }
         : { title: 'Catalogue in good shape', text: 'Every published design has stock. Add new arrivals with the + button.' };
 
   return (
@@ -85,12 +93,18 @@ export default function Dashboard() {
           <div className="flex items-center gap-2.5 min-w-0">
             <div className={`w-2.5 h-2.5 rounded-full shrink-0 ${live ? 'bg-emerald-600 animate-pulse' : 'bg-outline'}`} />
             <div className="min-w-0">
-              <p className="font-label-md text-label-md text-on-surface-variant font-medium">{live ? 'Boutique Catalogue Live' : 'Catalogue Offline'}</p>
-              <p className="font-body-sm text-body-sm text-on-surface font-medium truncate">{settings?.collectionName || 'Swechha Collections'}</p>
+              <p className="font-label-md text-label-md text-on-surface-variant font-medium">
+                {live ? 'Boutique Catalogue Live' : 'Catalogue Offline'}
+              </p>
+              <p className="font-body-sm text-body-sm text-on-surface font-medium truncate">
+                {settings?.collectionName || 'Swechha Collections'}
+              </p>
             </div>
           </div>
           <div className="text-right shrink-0">
-            <span className="font-label-md text-label-md text-secondary border border-secondary/30 bg-surface-container-low px-2 py-1 rounded-full">Private Salon</span>
+            <span className="font-label-md text-label-md text-secondary border border-secondary/30 bg-surface-container-low px-2 py-1 rounded-full">
+              Private Salon
+            </span>
           </div>
         </div>
 
@@ -113,13 +127,24 @@ export default function Dashboard() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-4">
             <Stat
-              label="Total Products" icon="inventory_2" value={stats.total}
+              label="Total Products"
+              icon="inventory_2"
+              value={stats.total}
               note={`${stats.categories} Active Categor${stats.categories === 1 ? 'y' : 'ies'}`}
-              iconWrap="bg-surface-container-low text-primary" valueClass="text-primary" noteClass="text-secondary" hover="hover:border-secondary/50"
+              iconWrap="bg-surface-container-low text-primary"
+              valueClass="text-primary"
+              noteClass="text-secondary"
+              hover="hover:border-secondary/50"
             />
             <Stat
-              label="Published" icon="check_circle" value={stats.published} note="In Online Folio"
-              iconWrap="bg-emerald-50 text-emerald-800" valueClass="text-emerald-950" noteClass="text-emerald-700" hover="hover:border-emerald-600/40"
+              label="Published"
+              icon="check_circle"
+              value={stats.published}
+              note="In Online Folio"
+              iconWrap="bg-emerald-50 text-emerald-800"
+              valueClass="text-emerald-950"
+              noteClass="text-emerald-700"
+              hover="hover:border-emerald-600/40"
             />
           </div>
         </section>
@@ -138,51 +163,55 @@ export default function Dashboard() {
         </div>
 
         <div className="space-y-5 md:space-y-0 md:grid md:grid-cols-1 md:gap-6 md:items-start">
-        {/* Recently Added */}
-        <section className="space-y-2.5">
-          <div className="flex items-baseline justify-between px-0.5">
-            <div className="flex items-center gap-2">
-              <h2 className="font-headline-sm text-headline-sm text-primary">Recently Added</h2>
-              <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+          {/* Recently Added */}
+          <section className="space-y-2.5">
+            <div className="flex items-baseline justify-between px-0.5">
+              <div className="flex items-center gap-2">
+                <h2 className="font-headline-sm text-headline-sm text-primary">Recently Added</h2>
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+              </div>
+              <Link
+                to={`${ADMIN_BASE}/products`}
+                className="font-label-lg text-label-lg text-secondary hover:text-primary font-semibold transition-colors flex items-center gap-0.5"
+              >
+                View All
+                <Icon name="chevron_right" className="text-[15px]" />
+              </Link>
             </div>
-            <Link to={`${ADMIN_BASE}/products`} className="font-label-lg text-label-lg text-secondary hover:text-primary font-semibold transition-colors flex items-center gap-0.5">
-              View All
-              <Icon name="chevron_right" className="text-[15px]" />
-            </Link>
-          </div>
-          <div className="space-y-2">
-            {loading && !products ? (
-              <RowSkeleton />
-            ) : recent.length ? (
-              recent.map((p) => (
-                <Link
-                  key={p._id}
-                  to={`${ADMIN_BASE}/products/${p._id}`}
-                  className="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-3 flex items-center justify-between shadow-luxury-subtle hover:border-outline-variant transition-colors"
-                >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <Thumb p={p} />
-                    <div className="space-y-1 min-w-0">
-                      <h3 className="font-title-md text-title-md text-primary leading-tight truncate">{p.name}</h3>
-                      <div className="flex items-center gap-2 font-label-md text-label-md text-on-surface-variant">
-                        <span>{p.category}</span>
-                        <span>•</span>
-                        <span className="font-semibold text-on-surface">{formatINR(p.price)}</span>
+            <div className="space-y-2">
+              {loading && !products ? (
+                <RowSkeleton />
+              ) : recent.length ? (
+                recent.map((p) => (
+                  <Link
+                    key={p._id}
+                    to={`${ADMIN_BASE}/products/${p._id}`}
+                    className="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-3 flex items-center justify-between shadow-luxury-subtle hover:border-outline-variant transition-colors"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <Thumb p={p} />
+                      <div className="space-y-1 min-w-0">
+                        <h3 className="font-title-md text-title-md text-primary leading-tight truncate">{p.name}</h3>
+                        <div className="flex items-center gap-2 font-label-md text-label-md text-on-surface-variant">
+                          <span>{p.category}</span>
+                          <span>•</span>
+                          <span className="font-semibold text-on-surface">{formatINR(p.price)}</span>
+                        </div>
+                        <StatusChip status={p.status} />
                       </div>
-                      <StatusChip status={p.status} />
                     </div>
-                  </div>
-                  <span aria-label="Edit product" className="p-2 text-on-surface-variant hover:text-primary rounded-lg">
-                    <Icon name="edit" className="text-[20px]" />
-                  </span>
-                </Link>
-              ))
-            ) : (
-              <p className="font-body-sm text-body-sm text-on-surface-variant px-0.5">No products yet. Tap “Add New Product” to create the first one.</p>
-            )}
-          </div>
-        </section>
-
+                    <span aria-label="Edit product" className="p-2 text-on-surface-variant hover:text-primary rounded-lg">
+                      <Icon name="edit" className="text-[20px]" />
+                    </span>
+                  </Link>
+                ))
+              ) : (
+                <p className="font-body-sm text-body-sm text-on-surface-variant px-0.5">
+                  No products yet. Tap “Add New Product” to create the first one.
+                </p>
+              )}
+            </div>
+          </section>
         </div>
 
         {/* Tip */}

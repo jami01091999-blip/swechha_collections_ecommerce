@@ -14,7 +14,9 @@ export default function PriceBlock({ price, mrp, variant = 'grid' }) {
           <span className="font-title-md text-title-md text-primary font-semibold">{formatINR(price)}</span>
           {off > 0 && <span className="font-body-sm text-body-sm text-outline line-through ml-1">{formatINR(mrp)}</span>}
         </div>
-        {off > 0 && <span className="bg-primary/10 text-primary font-label-md text-label-md font-semibold px-1.5 py-0.5 rounded">{off}% OFF</span>}
+        {off > 0 && (
+          <span className="bg-primary/10 text-primary font-label-md text-label-md font-semibold px-1.5 py-0.5 rounded">{off}% OFF</span>
+        )}
       </div>
     );
   }

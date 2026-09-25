@@ -48,7 +48,11 @@ export default function StockSheet({ product, onClose }) {
                 <span className="font-title-md text-[15px] text-on-surface">{s.label}</span>
                 <StockStateChip stock={s.stock} limit={limit} />
               </div>
-              <Stepper label={s.label} value={s.stock} onChange={(v) => setSizes((all) => all.map((x, j) => (j === i ? { ...x, stock: v } : x)))} />
+              <Stepper
+                label={s.label}
+                value={s.stock}
+                onChange={(v) => setSizes((all) => all.map((x, j) => (j === i ? { ...x, stock: v } : x)))}
+              />
             </div>
           ))
         ) : (

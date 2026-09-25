@@ -89,4 +89,3 @@ export function SizeSection({ product, selected, onSelect, onGuide }) {
     </div>
   );
 }
-

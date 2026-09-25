@@ -19,7 +19,9 @@ export function sign(params, apiSecret) {
     .sort()
     .map((k) => `${k}=${params[k]}`)
     .join('&');
-  return createHash('sha1').update(toSign + apiSecret).digest('hex');
+  return createHash('sha1')
+    .update(toSign + apiSecret)
+    .digest('hex');
 }
 
 /** Best-effort image delete; never throws. */

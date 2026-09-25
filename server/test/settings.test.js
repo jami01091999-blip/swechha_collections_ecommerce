@@ -26,7 +26,9 @@ describe('/api/settings', () => {
   });
 
   it('PUT requires the admin key', async () => {
-    const res = await request(app).put('/api/settings').send({ banners: [banner] });
+    const res = await request(app)
+      .put('/api/settings')
+      .send({ banners: [banner] });
     expect(res.status).toBe(401);
   });
 
@@ -71,13 +73,19 @@ describe('/api/settings', () => {
   });
 
   it('needs at least one banner', async () => {
-    const res = await request(app).put('/api/settings').set(ADMIN).send({ banners: [{ title: 'No image' }] });
+    const res = await request(app)
+      .put('/api/settings')
+      .set(ADMIN)
+      .send({ banners: [{ title: 'No image' }] });
     expect(res.status).toBe(400);
     expect(res.body.error).toBe('Keep at least one banner with a title and an image.');
   });
 
   it('rejects a WhatsApp number without a country code', async () => {
-    const res = await request(app).put('/api/settings').set(ADMIN).send({ banners: [banner], whatsapp: '98765' });
+    const res = await request(app)
+      .put('/api/settings')
+      .set(ADMIN)
+      .send({ banners: [banner], whatsapp: '98765' });
     expect(res.status).toBe(400);
     expect(res.body.error).toBe('WhatsApp number needs the country code, e.g. 919876543210.');
   });

@@ -11,7 +11,16 @@ const onlyDigits = (s) => String(s || '').replace(/\D/g, '');
  * Supports paste of the whole code, SMS/email autofill, auto-advance, backspace to the previous box,
  * arrow keys, and opens the numeric keypad on phones. Calls onComplete(code) once every box is filled.
  */
-export default function OtpInput({ value = '', onChange, onComplete, length = 6, invalid = false, disabled = false, autoFocus = false, label = 'One-time code' }) {
+export default function OtpInput({
+  value = '',
+  onChange,
+  onComplete,
+  length = 6,
+  invalid = false,
+  disabled = false,
+  autoFocus = false,
+  label = 'One-time code',
+}) {
   const refs = useRef([]);
   const code = onlyDigits(value).slice(0, length);
   const focus = (i) => {

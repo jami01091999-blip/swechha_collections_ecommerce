@@ -21,7 +21,13 @@ export const CATEGORIES = [
   { key: 'Dresses(3-pcs)', label: 'Dresses(3-pcs)', singular: 'Dress(3-pcs)', blurb: 'Set styling', img: dresses3Pcs },
   { key: 'Frocks', label: 'Frocks', singular: 'Frock', blurb: 'Light and playful', img: frocks },
   { key: 'Night dresses', label: 'Night dresses', singular: 'Night dress', blurb: 'Soft comfort', img: nightDresses },
-  { key: 'Bamboo night dresses', label: 'Bamboo night dresses', singular: 'Bamboo night dress', blurb: 'Breathable lounge', img: bambooNightDresses },
+  {
+    key: 'Bamboo night dresses',
+    label: 'Bamboo night dresses',
+    singular: 'Bamboo night dress',
+    blurb: 'Breathable lounge',
+    img: bambooNightDresses,
+  },
 ];
 
 export const ALL_COLLECTIONS_TILE = {

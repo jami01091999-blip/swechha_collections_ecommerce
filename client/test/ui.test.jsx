@@ -45,7 +45,11 @@ describe('OtpInput', () => {
     fireEvent.paste(boxes()[0], { clipboardData: { getData: () => ' 123-456 ' } });
     await nextFrame();
     expect(value()).toBe('123456');
-    expect(boxes().map((b) => b.value).join('')).toBe('123456');
+    expect(
+      boxes()
+        .map((b) => b.value)
+        .join('')
+    ).toBe('123456');
     expect(onComplete).toHaveBeenCalledWith('123456');
   });
 

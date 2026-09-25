@@ -92,7 +92,10 @@ describe('POST /api/products', () => {
       validProduct({
         code: ' sc-2025-001 ',
         images: [PHOTO, { url: 'http://insecure.example/x.jpg' }],
-        sizes: [{ label: 'm', stock: '3' }, { label: 'M', stock: 9 }],
+        sizes: [
+          { label: 'm', stock: '3' },
+          { label: 'M', stock: 9 },
+        ],
         colors: [{ name: 'Ruby', hex: 'not-a-hex' }],
         isFeatured: 'true',
         hacker: 'ignored',

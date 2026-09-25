@@ -32,8 +32,16 @@ export default function Saved() {
             ))}
           </div>
         ) : (
-          <EmptyState icon="favorite" title="Nothing saved yet" body="Tap the heart on any design to keep it here for later." bodyClassName="max-w-[260px]">
-            <Link to="/collection" className="mt-4 bg-primary-container text-white px-5 py-2.5 rounded-xl font-label-lg text-label-lg tracking-wide active:scale-95 transition-all">
+          <EmptyState
+            icon="favorite"
+            title="Nothing saved yet"
+            body="Tap the heart on any design to keep it here for later."
+            bodyClassName="max-w-[260px]"
+          >
+            <Link
+              to="/collection"
+              className="mt-4 bg-primary-container text-white px-5 py-2.5 rounded-xl font-label-lg text-label-lg tracking-wide active:scale-95 transition-all"
+            >
               Browse designs
             </Link>
           </EmptyState>

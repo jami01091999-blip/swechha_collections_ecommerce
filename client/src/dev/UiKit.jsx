@@ -74,7 +74,13 @@ export default function UiKit() {
 
         <Block title="IconButton">
           <Row>
-            <IconButton icon="menu" label="Menu" size="lg" className="text-primary hover:bg-surface-container-high" iconClassName="text-2xl" />
+            <IconButton
+              icon="menu"
+              label="Menu"
+              size="lg"
+              className="text-primary hover:bg-surface-container-high"
+              iconClassName="text-2xl"
+            />
             <IconButton icon="arrow_back" label="Back" className="text-primary hover:bg-surface-container" iconClassName="text-2xl" />
             <IconButton icon="share" label="Share" className="text-on-surface hover:text-primary" iconClassName="text-xl" />
           </Row>
@@ -144,7 +150,9 @@ export default function UiKit() {
 
         <Block title="OtpInput">
           <OtpInput value={otp} onChange={setOtp} onComplete={setDone} />
-          <p className="font-body-sm text-[12px] text-on-surface-variant text-center">{done ? `Completed: ${done}` : 'Type or paste a 6-digit code.'}</p>
+          <p className="font-body-sm text-[12px] text-on-surface-variant text-center">
+            {done ? `Completed: ${done}` : 'Type or paste a 6-digit code.'}
+          </p>
           <OtpInput value="123" onChange={() => {}} invalid label="Invalid code" />
           <OtpInput value="123456" onChange={() => {}} disabled label="Disabled code" />
         </Block>
@@ -181,7 +189,15 @@ export default function UiKit() {
         </Block>
 
         <Block title="SectionHeader">
-          <SectionHeader title="New Arrivals" subtitle="Fresh artisanal weavings" action={<Button variant="ghost" size="sm">View all</Button>} />
+          <SectionHeader
+            title="New Arrivals"
+            subtitle="Fresh artisanal weavings"
+            action={
+              <Button variant="ghost" size="sm">
+                View all
+              </Button>
+            }
+          />
           <SectionHeader title="Shop by Category" subtitle="Without an action" />
         </Block>
 

@@ -16,7 +16,12 @@ export default function CategoryTiles({ products = [] }) {
           to="/collection"
           className="relative aspect-square rounded-xl overflow-hidden border border-outline-variant/30 group cursor-pointer shadow-sm"
         >
-          <Img src={allTile.img} alt={allTile.label} width={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          <Img
+            src={allTile.img}
+            alt={allTile.label}
+            width={400}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/30 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 p-2.5 flex flex-col">
             <span className="font-headline-sm text-[17px] md:text-[19px] text-surface-container-lowest font-medium">{allTile.label}</span>
@@ -35,7 +40,12 @@ export default function CategoryTiles({ products = [] }) {
               to={`/collection?category=${encodeURIComponent(c.key)}`}
               className="relative aspect-square rounded-xl overflow-hidden border border-outline-variant/30 group cursor-pointer shadow-sm"
             >
-              <Img src={c.img} alt={c.label} width={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <Img
+                src={c.img}
+                alt={c.label}
+                width={400}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/30 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-2.5 flex flex-col">
                 <span className="font-headline-sm text-[17px] md:text-[19px] text-surface-container-lowest font-medium">{c.label}</span>

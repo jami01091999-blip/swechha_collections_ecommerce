@@ -17,7 +17,6 @@ const strList = (v, maxItems = 12, maxLen = 200) =>
     .filter(Boolean)
     .slice(0, maxItems);
 
-
 const FIELD_SANITIZERS = {
   name: (v) => str(v, 120),
   code: (v) => str(v, 40).toUpperCase(),

@@ -16,7 +16,10 @@ const idParam = validate(productIdParams, 'params');
 
 export const apiRouter = Router();
 
-apiRouter.route('/health').get(health).all(methodNotAllowed(['GET']));
+apiRouter
+  .route('/health')
+  .get(health)
+  .all(methodNotAllowed(['GET']));
 
 apiRouter
   .route('/products')

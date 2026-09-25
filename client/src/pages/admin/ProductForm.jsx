@@ -3,7 +3,20 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AdminSubHeader } from '../../components/admin/AdminChrome';
 import ImageManager from '../../components/admin/ImageManager';
 import { ErrorSummary, Section } from '../../components/admin/FormBits';
-import { Button, Chip, ConfirmSheet, Field, Input, PageContainer, Select, Spinner, Stepper, StockStateChip, Switch, Textarea } from '../../components/ui';
+import {
+  Button,
+  Chip,
+  ConfirmSheet,
+  Field,
+  Input,
+  PageContainer,
+  Select,
+  Spinner,
+  Stepper,
+  StockStateChip,
+  Switch,
+  Textarea,
+} from '../../components/ui';
 import Icon from '../../components/shared/Icon';
 import { SizeSection } from '../../components/shared/SizeAvailability';
 import { createProduct, deleteProduct, updateProduct, useAdminProduct, useAdminProducts } from '../../lib/api';
@@ -51,8 +64,14 @@ const toPayload = (f) => ({
   ...f,
   mrp: Number(f.mrp) || 0,
   price: Number(f.price) || 0,
-  fabricDetails: f.fabricDetails.split('\n').map((s) => s.trim()).filter(Boolean),
-  care: f.care.split('\n').map((s) => s.trim()).filter(Boolean),
+  fabricDetails: f.fabricDetails
+    .split('\n')
+    .map((s) => s.trim())
+    .filter(Boolean),
+  care: f.care
+    .split('\n')
+    .map((s) => s.trim())
+    .filter(Boolean),
 });
 
 function validate(f) {
@@ -196,12 +215,22 @@ export default function ProductForm() {
     <>
       <AdminSubHeader
         title={editing ? 'Edit Product' : 'Add Product'}
-        subtitle={editing ? `${product.code} · last updated ${new Date(product.updatedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}` : 'Fill in the details customers will see'}
+        subtitle={
+          editing
+            ? `${product.code} · last updated ${new Date(product.updatedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}`
+            : 'Fill in the details customers will see'
+        }
         backTo={`${ADMIN_BASE}/products`}
         right={
           editing &&
           product.status === 'published' && (
-            <a href={`/product/${product.slug}`} target="_blank" rel="noreferrer" className="p-2 text-secondary hover:text-primary" aria-label="View on site">
+            <a
+              href={`/product/${product.slug}`}
+              target="_blank"
+              rel="noreferrer"
+              className="p-2 text-secondary hover:text-primary"
+              aria-label="View on site"
+            >
               <Icon name="open_in_new" className="text-[20px]" />
             </a>
           )
@@ -210,174 +239,295 @@ export default function ProductForm() {
       <PageContainer as="main" className="px-gutter-mobile pt-3 md:pt-6 pb-8 space-y-4">
         <ErrorSummary errors={{ ...errors, server: serverError }} />
         <div className="space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-5 md:items-start">
-        <div className="space-y-4">
+          <div className="space-y-4">
+            <Section title="Photos" hint="The first photo is the cover on product cards." id="photos">
+              <ImageManager images={form.images} onChange={(images) => set({ images })} invalid={!!errors.images} />
+            </Section>
 
-        <Section title="Photos" hint="The first photo is the cover on product cards." id="photos">
-          <ImageManager images={form.images} onChange={(images) => set({ images })} invalid={!!errors.images} />
-        </Section>
+            <Section title="Basic Details">
+              <Field label="Product name" required error={errors.name} htmlFor="name">
+                <Input
+                  id="name"
+                  invalid={!!errors.name}
+                  value={form.name}
+                  onChange={(e) => set({ name: e.target.value })}
+                  placeholder="e.g. Gulmohar Silk Saree"
+                />
+              </Field>
+              <Field label="Product code / SKU" error={errors.code} htmlFor="code" hint="Shown to customers and in WhatsApp enquiries.">
+                <div className="flex gap-2">
+                  <Input
+                    id="code"
+                    className="flex-1 uppercase"
+                    invalid={!!errors.code}
+                    value={form.code}
+                    onChange={(e) => set({ code: e.target.value })}
+                    placeholder="SC-2025-084"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => set({ code: makeCode((all || []).map((p) => p.code)) })}
+                    className="shrink-0 px-3 rounded-xl border border-[#C59B6A] text-on-surface font-label-lg text-label-lg active:scale-95"
+                  >
+                    Auto
+                  </button>
+                </div>
+              </Field>
+              <Field label="Category" htmlFor="category">
+                <Select id="category" value={form.category} onChange={(e) => set({ category: e.target.value })}>
+                  {CATEGORIES.map((c) => (
+                    <option key={c.key} value={c.key}>
+                      {c.label}
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+              <Field
+                label="Fabric line"
+                error={errors.fabric}
+                htmlFor="fabric"
+                hint="Short line above the name, e.g. “Pure Tussar Silk with Zari”."
+              >
+                <Input
+                  id="fabric"
+                  invalid={!!errors.fabric}
+                  value={form.fabric}
+                  onChange={(e) => set({ fabric: e.target.value })}
+                  placeholder="Pure Tussar Silk with Zari"
+                />
+              </Field>
+            </Section>
 
-        <Section title="Basic Details">
-          <Field label="Product name" required error={errors.name} htmlFor="name">
-            <Input id="name" invalid={!!errors.name} value={form.name} onChange={(e) => set({ name: e.target.value })} placeholder="e.g. Gulmohar Silk Saree" />
-          </Field>
-          <Field label="Product code / SKU" error={errors.code} htmlFor="code" hint="Shown to customers and in WhatsApp enquiries.">
-            <div className="flex gap-2">
-              <Input id="code" className="flex-1 uppercase" invalid={!!errors.code} value={form.code} onChange={(e) => set({ code: e.target.value })} placeholder="SC-2025-084" />
-              <button type="button" onClick={() => set({ code: makeCode((all || []).map((p) => p.code)) })} className="shrink-0 px-3 rounded-xl border border-[#C59B6A] text-on-surface font-label-lg text-label-lg active:scale-95">
-                Auto
-              </button>
-            </div>
-          </Field>
-          <Field label="Category" htmlFor="category">
-            <Select id="category" value={form.category} onChange={(e) => set({ category: e.target.value })}>
-              {CATEGORIES.map((c) => (
-                <option key={c.key} value={c.key}>
-                  {c.label}
-                </option>
-              ))}
-            </Select>
-          </Field>
-          <Field label="Fabric line" error={errors.fabric} htmlFor="fabric" hint="Short line above the name, e.g. “Pure Tussar Silk with Zari”.">
-            <Input id="fabric" invalid={!!errors.fabric} value={form.fabric} onChange={(e) => set({ fabric: e.target.value })} placeholder="Pure Tussar Silk with Zari" />
-          </Field>
-        </Section>
-
-        <Section title="Price">
-          <div className="grid grid-cols-2 gap-3">
-            <Field label="MRP (₹)" error={errors.mrp} htmlFor="mrp">
-              <Input id="mrp" type="number" inputMode="numeric" min="0" invalid={!!errors.mrp} value={form.mrp} onChange={(e) => set({ mrp: e.target.value })} placeholder="24000" />
-            </Field>
-            <Field label="Selling price (₹)" required error={errors.price} htmlFor="price">
-              <Input id="price" type="number" inputMode="numeric" min="0" invalid={!!errors.price} value={form.price} onChange={(e) => set({ price: e.target.value })} placeholder="14500" />
-            </Field>
+            <Section title="Price">
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="MRP (₹)" error={errors.mrp} htmlFor="mrp">
+                  <Input
+                    id="mrp"
+                    type="number"
+                    inputMode="numeric"
+                    min="0"
+                    invalid={!!errors.mrp}
+                    value={form.mrp}
+                    onChange={(e) => set({ mrp: e.target.value })}
+                    placeholder="24000"
+                  />
+                </Field>
+                <Field label="Selling price (₹)" required error={errors.price} htmlFor="price">
+                  <Input
+                    id="price"
+                    type="number"
+                    inputMode="numeric"
+                    min="0"
+                    invalid={!!errors.price}
+                    value={form.price}
+                    onChange={(e) => set({ price: e.target.value })}
+                    placeholder="14500"
+                  />
+                </Field>
+              </div>
+              <p className="font-body-sm text-[12px] text-on-surface-variant">
+                {off > 0 ? (
+                  <span className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold px-2 py-0.5 rounded-full">
+                    {off}% OFF shown to customers
+                  </span>
+                ) : (
+                  'Leave MRP empty (or equal to price) to show no discount.'
+                )}
+              </p>
+            </Section>
           </div>
-          <p className="font-body-sm text-[12px] text-on-surface-variant">
-            {off > 0 ? (
-              <span className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold px-2 py-0.5 rounded-full">{off}% OFF shown to customers</span>
-            ) : (
-              'Leave MRP empty (or equal to price) to show no discount.'
-            )}
-          </p>
-        </Section>
-
-        </div>
-        <div className="space-y-4">
-        <Section title="Sizes & Stock" hint="Set 0 for any size you don't have — customers will see it as Not Available." id="sizes">
-          <div>
-            <span className="field-label">Select sizes</span>
-            <div className="flex flex-wrap gap-2">
-              {allSizeLabels.map((l) => (
-                <Chip key={l} kind="size" active={form.sizes.some((s) => s.label === l)} onClick={() => toggleSize(l)} aria-pressed={form.sizes.some((s) => s.label === l)}>
-                  {l}
-                </Chip>
-              ))}
-            </div>
-            <div className="flex gap-2 mt-2">
-              <Input
-                value={customSize}
-                onChange={(e) => setCustomSize(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addCustomSize())}
-                placeholder="Custom size, e.g. 32 or 34"
-                className="flex-1 text-[13px]"
-              />
-              <button type="button" onClick={addCustomSize} className="shrink-0 px-3 rounded-xl border border-[#C59B6A] font-label-lg text-label-lg active:scale-95">
-                + Add
-              </button>
-            </div>
-            {errors.sizes && <p className="font-body-sm text-[12px] text-error mt-1">{errors.sizes}</p>}
-          </div>
-          {form.sizes.length > 0 && (
-            <div className="rounded-xl border border-outline-variant/40 divide-y divide-outline-variant/20">
-              {form.sizes.map((s) => (
-                <div key={s.label} className="flex items-center justify-between gap-2 px-3 py-2.5">
-                  <div className="flex flex-col gap-1 min-w-0">
-                    <span className="font-title-md text-[15px] text-on-surface">{s.label}</span>
-                    <StockStateChip stock={s.stock} limit={form.lowStockThreshold} />
+          <div className="space-y-4">
+            <Section title="Sizes & Stock" hint="Set 0 for any size you don't have — customers will see it as Not Available." id="sizes">
+              <div>
+                <span className="field-label">Select sizes</span>
+                <div className="flex flex-wrap gap-2">
+                  {allSizeLabels.map((l) => (
+                    <Chip
+                      key={l}
+                      kind="size"
+                      active={form.sizes.some((s) => s.label === l)}
+                      onClick={() => toggleSize(l)}
+                      aria-pressed={form.sizes.some((s) => s.label === l)}
+                    >
+                      {l}
+                    </Chip>
+                  ))}
+                </div>
+                <div className="flex gap-2 mt-2">
+                  <Input
+                    value={customSize}
+                    onChange={(e) => setCustomSize(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addCustomSize())}
+                    placeholder="Custom size, e.g. 32 or 34"
+                    className="flex-1 text-[13px]"
+                  />
+                  <button
+                    type="button"
+                    onClick={addCustomSize}
+                    className="shrink-0 px-3 rounded-xl border border-[#C59B6A] font-label-lg text-label-lg active:scale-95"
+                  >
+                    + Add
+                  </button>
+                </div>
+                {errors.sizes && <p className="font-body-sm text-[12px] text-error mt-1">{errors.sizes}</p>}
+              </div>
+              {form.sizes.length > 0 && (
+                <div className="rounded-xl border border-outline-variant/40 divide-y divide-outline-variant/20">
+                  {form.sizes.map((s) => (
+                    <div key={s.label} className="flex items-center justify-between gap-2 px-3 py-2.5">
+                      <div className="flex flex-col gap-1 min-w-0">
+                        <span className="font-title-md text-[15px] text-on-surface">{s.label}</span>
+                        <StockStateChip stock={s.stock} limit={form.lowStockThreshold} />
+                      </div>
+                      <Stepper label={s.label} value={s.stock} onChange={(v) => setSizeStock(s.label, v)} />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {form.sizes.length > 0 && (
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => set({ sizes: form.sizes.map((s) => ({ ...s, stock: Math.max(1, s.stock) })) })}
+                    className="py-2 rounded-xl border border-outline-variant/60 font-label-md text-label-md text-on-surface active:scale-95"
+                  >
+                    Mark all available
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => set({ sizes: form.sizes.map((s) => ({ ...s, stock: 0 })) })}
+                    className="py-2 rounded-xl border border-outline-variant/60 font-label-md text-label-md text-on-surface active:scale-95"
+                  >
+                    Set all to 0
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => set({ sizes: form.sizes.map((s) => ({ ...s, stock: 0 })) })}
+                    className="py-2 rounded-xl border border-outline-variant/60 font-label-md text-label-md text-on-surface active:scale-95"
+                  >
+                    Mark all out of stock
+                  </button>
+                </div>
+              )}
+              <Field label="Low stock alert when at or below" htmlFor="low" hint="Customers see “Only N left” at this level.">
+                <Input
+                  id="low"
+                  type="number"
+                  min="1"
+                  inputMode="numeric"
+                  className="w-28"
+                  value={form.lowStockThreshold}
+                  onChange={(e) => set({ lowStockThreshold: Math.max(1, Number(e.target.value) || 1) })}
+                />
+              </Field>
+              <p className="font-body-sm text-[12px] text-on-surface">
+                Total stock: <strong>{summary.total}</strong>
+                {summary.available.length > 0 && ` · Available: ${summary.available.join(', ')}`}
+                {summary.out.length > 0 && ` · Not available: ${summary.out.join(', ')}`}
+              </p>
+              {form.sizes.length > 0 && (
+                <div className="rounded-xl bg-surface-container-low/70 border border-outline-variant/30 p-3">
+                  <span className="font-label-md text-label-md text-secondary font-semibold uppercase tracking-wider">
+                    Customers will see
+                  </span>
+                  <div className="mt-2">
+                    <SizeSection product={previewProduct} />
                   </div>
-                  <Stepper label={s.label} value={s.stock} onChange={(v) => setSizeStock(s.label, v)} />
+                </div>
+              )}
+            </Section>
+
+            <Section title="Colours" hint="Link a colour to another product to open it when tapped.">
+              {form.colors.map((c, i) => (
+                <div key={i} className="rounded-xl border border-outline-variant/40 p-2.5 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <label
+                      className="relative w-10 h-10 shrink-0 rounded-full ring-1 ring-outline-variant/60 overflow-hidden cursor-pointer"
+                      style={{ backgroundColor: c.hex }}
+                    >
+                      <span className="sr-only">Pick colour</span>
+                      <input
+                        type="color"
+                        value={c.hex}
+                        onChange={(e) => setColour(i, { hex: e.target.value })}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                      />
+                    </label>
+                    <Input
+                      className="flex-1"
+                      value={c.name}
+                      onChange={(e) => setColour(i, { name: e.target.value })}
+                      placeholder="Colour name, e.g. Vermilion Crimson"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => set({ colors: form.colors.filter((_, j) => j !== i) })}
+                      className="p-2 text-on-surface-variant hover:text-error"
+                      aria-label="Remove colour"
+                    >
+                      <Icon name="delete" className="text-[20px]" />
+                    </button>
+                  </div>
+                  <Select
+                    className="text-[13px]"
+                    value={c.productSlug || ''}
+                    onChange={(e) => setColour(i, { productSlug: e.target.value })}
+                    aria-label="Linked product"
+                  >
+                    <option value="">This product (no link)</option>
+                    {others.map((p) => (
+                      <option key={p._id} value={p.slug}>
+                        Opens: {p.name}
+                      </option>
+                    ))}
+                  </Select>
                 </div>
               ))}
-            </div>
-          )}
-          {form.sizes.length > 0 && (
-            <div className="grid grid-cols-3 gap-2">
-              <button type="button" onClick={() => set({ sizes: form.sizes.map((s) => ({ ...s, stock: Math.max(1, s.stock) })) })} className="py-2 rounded-xl border border-outline-variant/60 font-label-md text-label-md text-on-surface active:scale-95">
-                Mark all available
-              </button>
-              <button type="button" onClick={() => set({ sizes: form.sizes.map((s) => ({ ...s, stock: 0 })) })} className="py-2 rounded-xl border border-outline-variant/60 font-label-md text-label-md text-on-surface active:scale-95">
-                Set all to 0
-              </button>
-              <button type="button" onClick={() => set({ sizes: form.sizes.map((s) => ({ ...s, stock: 0 })) })} className="py-2 rounded-xl border border-outline-variant/60 font-label-md text-label-md text-on-surface active:scale-95">
-                Mark all out of stock
-              </button>
-            </div>
-          )}
-          <Field label="Low stock alert when at or below" htmlFor="low" hint="Customers see “Only N left” at this level.">
-            <Input id="low" type="number" min="1" inputMode="numeric" className="w-28" value={form.lowStockThreshold} onChange={(e) => set({ lowStockThreshold: Math.max(1, Number(e.target.value) || 1) })} />
-          </Field>
-          <p className="font-body-sm text-[12px] text-on-surface">
-            Total stock: <strong>{summary.total}</strong>
-            {summary.available.length > 0 && ` · Available: ${summary.available.join(', ')}`}
-            {summary.out.length > 0 && ` · Not available: ${summary.out.join(', ')}`}
-          </p>
-          {form.sizes.length > 0 && (
-            <div className="rounded-xl bg-surface-container-low/70 border border-outline-variant/30 p-3">
-              <span className="font-label-md text-label-md text-secondary font-semibold uppercase tracking-wider">Customers will see</span>
-              <div className="mt-2">
-                <SizeSection product={previewProduct} />
-              </div>
-            </div>
-          )}
-        </Section>
-
-        <Section title="Colours" hint="Link a colour to another product to open it when tapped.">
-          {form.colors.map((c, i) => (
-            <div key={i} className="rounded-xl border border-outline-variant/40 p-2.5 space-y-2">
-              <div className="flex items-center gap-2">
-                <label className="relative w-10 h-10 shrink-0 rounded-full ring-1 ring-outline-variant/60 overflow-hidden cursor-pointer" style={{ backgroundColor: c.hex }}>
-                  <span className="sr-only">Pick colour</span>
-                  <input type="color" value={c.hex} onChange={(e) => setColour(i, { hex: e.target.value })} className="absolute inset-0 opacity-0 cursor-pointer" />
-                </label>
-                <Input className="flex-1" value={c.name} onChange={(e) => setColour(i, { name: e.target.value })} placeholder="Colour name, e.g. Vermilion Crimson" />
-                <button type="button" onClick={() => set({ colors: form.colors.filter((_, j) => j !== i) })} className="p-2 text-on-surface-variant hover:text-error" aria-label="Remove colour">
-                  <Icon name="delete" className="text-[20px]" />
+              {form.colors.length < 12 && (
+                <button
+                  type="button"
+                  onClick={() => set({ colors: [...form.colors, { name: '', hex: '#6b1d2f', productSlug: '' }] })}
+                  className="w-full py-2.5 rounded-xl border border-dashed border-[#C59B6A] text-primary font-label-lg text-label-lg active:scale-95"
+                >
+                  + Add colour
                 </button>
-              </div>
-              <Select className="text-[13px]" value={c.productSlug || ''} onChange={(e) => setColour(i, { productSlug: e.target.value })} aria-label="Linked product">
-                <option value="">This product (no link)</option>
-                {others.map((p) => (
-                  <option key={p._id} value={p.slug}>
-                    Opens: {p.name}
-                  </option>
-                ))}
-              </Select>
-            </div>
-          ))}
-          {form.colors.length < 12 && (
-            <button type="button" onClick={() => set({ colors: [...form.colors, { name: '', hex: '#6b1d2f', productSlug: '' }] })} className="w-full py-2.5 rounded-xl border border-dashed border-[#C59B6A] text-primary font-label-lg text-label-lg active:scale-95">
-              + Add colour
-            </button>
-          )}
-        </Section>
+              )}
+            </Section>
 
-        <Section title="Story & Care" hint="Each box becomes a section on the product page. Empty boxes are hidden.">
-          <Field label="Description" htmlFor="desc">
-            <Textarea id="desc" rows={4} maxLength={2000} value={form.description} onChange={(e) => set({ description: e.target.value })} placeholder="Tell the story of the weave and the craft…" />
-            <span className="block text-right font-label-md text-[10px] text-outline mt-0.5">{form.description.length}/2000</span>
-          </Field>
-        </Section>
+            <Section title="Story & Care" hint="Each box becomes a section on the product page. Empty boxes are hidden.">
+              <Field label="Description" htmlFor="desc">
+                <Textarea
+                  id="desc"
+                  rows={4}
+                  maxLength={2000}
+                  value={form.description}
+                  onChange={(e) => set({ description: e.target.value })}
+                  placeholder="Tell the story of the weave and the craft…"
+                />
+                <span className="block text-right font-label-md text-[10px] text-outline mt-0.5">{form.description.length}/2000</span>
+              </Field>
+            </Section>
 
-        <Section title="Visibility">
-          <p className="font-body-sm text-[12px] text-on-surface-variant">Visible to customers.</p>
-          <Switch checked={form.isNewArrival} onChange={(v) => set({ isNewArrival: v })} label="Mark as New Arrival" hint="Shows in New Arrivals with a “New” badge." />
-        </Section>
+            <Section title="Visibility">
+              <p className="font-body-sm text-[12px] text-on-surface-variant">Visible to customers.</p>
+              <Switch
+                checked={form.isNewArrival}
+                onChange={(v) => set({ isNewArrival: v })}
+                label="Mark as New Arrival"
+                hint="Shows in New Arrivals with a “New” badge."
+              />
+            </Section>
 
-        {editing && (
-          <button type="button" onClick={() => setConfirmDelete(true)} className="w-full py-3 rounded-xl text-error font-label-lg text-label-lg flex items-center justify-center gap-1.5 hover:bg-error-container/30">
-            <Icon name="delete" className="text-[18px]" /> Delete Product
-          </button>
-        )}
-        </div>
+            {editing && (
+              <button
+                type="button"
+                onClick={() => setConfirmDelete(true)}
+                className="w-full py-3 rounded-xl text-error font-label-lg text-label-lg flex items-center justify-center gap-1.5 hover:bg-error-container/30"
+              >
+                <Icon name="delete" className="text-[18px]" /> Delete Product
+              </button>
+            )}
+          </div>
         </div>
       </PageContainer>
 

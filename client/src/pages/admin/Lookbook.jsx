@@ -83,78 +83,99 @@ export default function Lookbook() {
         ) : (
           <>
             <div className="space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-5 md:items-start">
-            {form.banners.map((b, i) => (
-              <Section
-                key={i}
-                title={`Banner ${i + 1}`}
-                hint={i === 0 ? 'Shows first when the site opens.' : undefined}
-                action={
-                  <>
-                    <button type="button" className={iconBtn} onClick={() => moveBanner(i, -1)} disabled={i === 0} aria-label="Move up">
-                      <Icon name="arrow_upward" className="text-[18px]" />
-                    </button>
-                    <button type="button" className={iconBtn} onClick={() => moveBanner(i, 1)} disabled={i === form.banners.length - 1} aria-label="Move down">
-                      <Icon name="arrow_downward" className="text-[18px]" />
-                    </button>
-                    <button type="button" className={iconBtn} onClick={() => set({ banners: form.banners.filter((_, j) => j !== i) })} disabled={form.banners.length === 1} aria-label="Remove banner">
-                      <Icon name="delete" className="text-[18px]" />
-                    </button>
-                  </>
-                }
-              >
-                <Field label="Photo" required>
-                  <SingleImage value={b.image} onChange={(image) => setBanner(i, { image })} />
-                </Field>
-                <Field label="Small tag" hint="e.g. AUTUMN / FESTIVE 2025">
-                  <Input maxLength={40} value={b.tag} onChange={(e) => setBanner(i, { tag: e.target.value })} />
-                </Field>
-                <Field label="Title" required>
-                  <Input maxLength={80} value={b.title} onChange={(e) => setBanner(i, { title: e.target.value })} placeholder="The Festive Edit" />
-                </Field>
-                <Field label="Subtitle">
-                  <Textarea rows={2} maxLength={200} value={b.subtitle} onChange={(e) => setBanner(i, { subtitle: e.target.value })} />
-                </Field>
-                <div className="grid grid-cols-2 gap-3">
-                  <Field label="Button text">
-                    <Input maxLength={40} value={b.ctaLabel} onChange={(e) => setBanner(i, { ctaLabel: e.target.value })} />
+              {form.banners.map((b, i) => (
+                <Section
+                  key={i}
+                  title={`Banner ${i + 1}`}
+                  hint={i === 0 ? 'Shows first when the site opens.' : undefined}
+                  action={
+                    <>
+                      <button type="button" className={iconBtn} onClick={() => moveBanner(i, -1)} disabled={i === 0} aria-label="Move up">
+                        <Icon name="arrow_upward" className="text-[18px]" />
+                      </button>
+                      <button
+                        type="button"
+                        className={iconBtn}
+                        onClick={() => moveBanner(i, 1)}
+                        disabled={i === form.banners.length - 1}
+                        aria-label="Move down"
+                      >
+                        <Icon name="arrow_downward" className="text-[18px]" />
+                      </button>
+                      <button
+                        type="button"
+                        className={iconBtn}
+                        onClick={() => set({ banners: form.banners.filter((_, j) => j !== i) })}
+                        disabled={form.banners.length === 1}
+                        aria-label="Remove banner"
+                      >
+                        <Icon name="delete" className="text-[18px]" />
+                      </button>
+                    </>
+                  }
+                >
+                  <Field label="Photo" required>
+                    <SingleImage value={b.image} onChange={(image) => setBanner(i, { image })} />
                   </Field>
-                  <Field label="Button opens">
-                    <Select value={b.ctaLink} onChange={(e) => setBanner(i, { ctaLink: e.target.value })}>
-                      {!linkOptions.some((o) => o.value === b.ctaLink) && <option value={b.ctaLink}>{b.ctaLink}</option>}
-                      {linkOptions.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </Select>
+                  <Field label="Small tag" hint="e.g. AUTUMN / FESTIVE 2025">
+                    <Input maxLength={40} value={b.tag} onChange={(e) => setBanner(i, { tag: e.target.value })} />
                   </Field>
-                </div>
-              </Section>
-            ))}
+                  <Field label="Title" required>
+                    <Input
+                      maxLength={80}
+                      value={b.title}
+                      onChange={(e) => setBanner(i, { title: e.target.value })}
+                      placeholder="The Festive Edit"
+                    />
+                  </Field>
+                  <Field label="Subtitle">
+                    <Textarea rows={2} maxLength={200} value={b.subtitle} onChange={(e) => setBanner(i, { subtitle: e.target.value })} />
+                  </Field>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Field label="Button text">
+                      <Input maxLength={40} value={b.ctaLabel} onChange={(e) => setBanner(i, { ctaLabel: e.target.value })} />
+                    </Field>
+                    <Field label="Button opens">
+                      <Select value={b.ctaLink} onChange={(e) => setBanner(i, { ctaLink: e.target.value })}>
+                        {!linkOptions.some((o) => o.value === b.ctaLink) && <option value={b.ctaLink}>{b.ctaLink}</option>}
+                        {linkOptions.map((o) => (
+                          <option key={o.value} value={o.value}>
+                            {o.label}
+                          </option>
+                        ))}
+                      </Select>
+                    </Field>
+                  </div>
+                </Section>
+              ))}
             </div>
             {form.banners.length < 6 && (
-              <button type="button" onClick={() => set({ banners: [...form.banners, { ...NEW_BANNER }] })} className="w-full md:w-auto md:px-8 py-3 rounded-xl border border-dashed border-[#C59B6A] text-primary font-label-lg text-label-lg active:scale-95 bg-surface-container-lowest">
+              <button
+                type="button"
+                onClick={() => set({ banners: [...form.banners, { ...NEW_BANNER }] })}
+                className="w-full md:w-auto md:px-8 py-3 rounded-xl border border-dashed border-[#C59B6A] text-primary font-label-lg text-label-lg active:scale-95 bg-surface-container-lowest"
+              >
                 + Add banner
               </button>
             )}
 
             <Section title="Boutique Details" hint="Used for WhatsApp enquiries and the site footer.">
               <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 md:gap-4">
-              <Field label="Current collection name" hint="Shown on your dashboard.">
-                <Input value={form.collectionName} onChange={(e) => set({ collectionName: e.target.value })} />
-              </Field>
-              <Field label="WhatsApp number" hint="With country code, no + or spaces. e.g. 919876543210">
-                <Input inputMode="tel" value={form.whatsapp} onChange={(e) => set({ whatsapp: e.target.value })} />
-              </Field>
-              <Field label="Email">
-                <Input type="email" inputMode="email" value={form.email} onChange={(e) => set({ email: e.target.value })} />
-              </Field>
-              <Field label="Atelier locations">
-                <Input value={form.locations} onChange={(e) => set({ locations: e.target.value })} />
-              </Field>
-              <Field label="Instagram" hint="Profile link or @handle">
-                <Input value={form.instagram} onChange={(e) => set({ instagram: e.target.value })} placeholder="@swechhacollections" />
-              </Field>
+                <Field label="Current collection name" hint="Shown on your dashboard.">
+                  <Input value={form.collectionName} onChange={(e) => set({ collectionName: e.target.value })} />
+                </Field>
+                <Field label="WhatsApp number" hint="With country code, no + or spaces. e.g. 919876543210">
+                  <Input inputMode="tel" value={form.whatsapp} onChange={(e) => set({ whatsapp: e.target.value })} />
+                </Field>
+                <Field label="Email">
+                  <Input type="email" inputMode="email" value={form.email} onChange={(e) => set({ email: e.target.value })} />
+                </Field>
+                <Field label="Atelier locations">
+                  <Input value={form.locations} onChange={(e) => set({ locations: e.target.value })} />
+                </Field>
+                <Field label="Instagram" hint="Profile link or @handle">
+                  <Input value={form.instagram} onChange={(e) => set({ instagram: e.target.value })} placeholder="@swechhacollections" />
+                </Field>
               </div>
             </Section>
 

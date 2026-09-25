@@ -19,7 +19,8 @@ export default function Drawer({ open, onClose }) {
     };
   }, [open, onClose]);
   if (!open) return null;
-  const item = 'flex items-center justify-between py-3 border-b border-outline-variant/20 font-title-md text-[15px] text-on-surface hover:text-primary';
+  const item =
+    'flex items-center justify-between py-3 border-b border-outline-variant/20 font-title-md text-[15px] text-on-surface hover:text-primary';
   return (
     <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label="Menu">
       <button className="absolute inset-0 bg-on-surface/40 backdrop-blur-[2px]" aria-label="Close menu" onClick={onClose} />
@@ -29,7 +30,11 @@ export default function Drawer({ open, onClose }) {
             <span className="font-headline-sm text-headline-sm font-medium tracking-wide text-primary">Swechha Collections</span>
             <span className="font-label-md text-label-md tracking-widest text-secondary font-semibold -mt-1">ATELIER</span>
           </div>
-          <button onClick={onClose} aria-label="Close menu" className="w-9 h-9 rounded-full flex items-center justify-center text-primary hover:bg-surface-container">
+          <button
+            onClick={onClose}
+            aria-label="Close menu"
+            className="w-9 h-9 rounded-full flex items-center justify-center text-primary hover:bg-surface-container"
+          >
             <Icon name="close" className="text-2xl" />
           </button>
         </div>

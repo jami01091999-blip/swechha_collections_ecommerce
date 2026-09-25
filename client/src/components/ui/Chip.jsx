@@ -6,7 +6,8 @@ const IDLE = 'bg-surface-container-low text-on-surface-variant border-outline-va
 const KINDS = {
   /** Home / collection category row. */
   category: {
-    active: 'shrink-0 bg-primary-container text-white px-4 py-1.5 rounded-full font-label-md text-label-md font-semibold shadow-sm active:scale-95 transition-transform',
+    active:
+      'shrink-0 bg-primary-container text-white px-4 py-1.5 rounded-full font-label-md text-label-md font-semibold shadow-sm active:scale-95 transition-transform',
     idle: `shrink-0 border ${IDLE} px-3.5 py-1.5 rounded-full font-label-md text-label-md transition-colors active:scale-95`,
   },
   /** Admin product filters. */

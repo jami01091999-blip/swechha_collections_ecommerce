@@ -52,36 +52,60 @@ export default function ImageManager({ images, onChange, max = 8, invalid }) {
   const makeCover = (i) => onChange([images[i], ...images.filter((_, k) => k !== i)]);
   const remove = (i) => onChange(images.filter((_, k) => k !== i));
   const full = images.length + pending.length >= max;
-  const iconBtn = 'w-7 h-7 rounded-full bg-surface-container-lowest/90 backdrop-blur-sm text-on-surface flex items-center justify-center shadow-sm active:scale-90 disabled:opacity-30';
+  const iconBtn =
+    'w-7 h-7 rounded-full bg-surface-container-lowest/90 backdrop-blur-sm text-on-surface flex items-center justify-center shadow-sm active:scale-90 disabled:opacity-30';
 
   return (
     <div>
       <div className="grid grid-cols-3 gap-2">
         {images.map((img, i) => (
-          <div key={img.url + i} className="relative aspect-[3/4] rounded-lg overflow-hidden border border-outline-variant/40 bg-surface-container">
+          <div
+            key={img.url + i}
+            className="relative aspect-[3/4] rounded-lg overflow-hidden border border-outline-variant/40 bg-surface-container"
+          >
             <Img src={img.url} alt={`Photo ${i + 1}`} width={240} className="w-full h-full object-cover" />
             {i === 0 ? (
-              <span className="absolute top-1.5 left-1.5 bg-secondary text-white font-label-md text-[10px] px-2 py-0.5 rounded-full">Cover</span>
+              <span className="absolute top-1.5 left-1.5 bg-secondary text-white font-label-md text-[10px] px-2 py-0.5 rounded-full">
+                Cover
+              </span>
             ) : (
-              <button type="button" onClick={() => makeCover(i)} className="absolute top-1.5 left-1.5 bg-surface-container-lowest/90 text-primary font-label-md text-[10px] px-2 py-0.5 rounded-full shadow-sm">
+              <button
+                type="button"
+                onClick={() => makeCover(i)}
+                className="absolute top-1.5 left-1.5 bg-surface-container-lowest/90 text-primary font-label-md text-[10px] px-2 py-0.5 rounded-full shadow-sm"
+              >
                 Set cover
               </button>
             )}
-            <button type="button" onClick={() => remove(i)} aria-label={`Remove photo ${i + 1}`} className={`absolute top-1.5 right-1.5 ${iconBtn}`}>
+            <button
+              type="button"
+              onClick={() => remove(i)}
+              aria-label={`Remove photo ${i + 1}`}
+              className={`absolute top-1.5 right-1.5 ${iconBtn}`}
+            >
               <Icon name="close" className="text-[16px]" />
             </button>
             <div className="absolute bottom-1.5 inset-x-1.5 flex justify-between">
               <button type="button" onClick={() => move(i, -1)} disabled={i === 0} aria-label="Move left" className={iconBtn}>
                 <Icon name="chevron_left" className="text-[18px]" />
               </button>
-              <button type="button" onClick={() => move(i, 1)} disabled={i === images.length - 1} aria-label="Move right" className={iconBtn}>
+              <button
+                type="button"
+                onClick={() => move(i, 1)}
+                disabled={i === images.length - 1}
+                aria-label="Move right"
+                className={iconBtn}
+              >
                 <Icon name="chevron_right" className="text-[18px]" />
               </button>
             </div>
           </div>
         ))}
         {pending.map((p) => (
-          <div key={p.id} className="relative aspect-[3/4] rounded-lg overflow-hidden border border-outline-variant/40 bg-surface-container">
+          <div
+            key={p.id}
+            className="relative aspect-[3/4] rounded-lg overflow-hidden border border-outline-variant/40 bg-surface-container"
+          >
             <img src={p.preview} alt="" className="w-full h-full object-cover opacity-60" />
             <div className="absolute inset-x-2 bottom-2 h-1.5 rounded-full bg-white/70 overflow-hidden">
               <div className="h-full bg-primary-container transition-all" style={{ width: `${p.progress}%` }} />

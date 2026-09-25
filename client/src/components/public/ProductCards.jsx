@@ -23,19 +23,28 @@ export function RailCard({ p }) {
       className="shrink-0 w-[200px] md:w-[230px] lg:w-auto flex flex-col bg-surface-container-lowest rounded-xl border border-outline-variant/25 overflow-hidden shadow-sm hover:shadow-md transition-all active:scale-[0.98] cursor-pointer relative group"
     >
       <div className="relative w-full aspect-[3/4] bg-surface-container-low overflow-hidden">
-        <Img src={coverImage(p)} alt={p.name} width={420} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+        <Img
+          src={coverImage(p)}
+          alt={p.name}
+          width={420}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
         {out ? (
           <OutOfStockOverlay />
         ) : (
           p.isNewArrival && (
-            <span className="absolute top-2 left-2 bg-secondary text-surface-container-lowest font-label-md text-label-md px-2 py-0.5 rounded-full tracking-wide">New</span>
+            <span className="absolute top-2 left-2 bg-secondary text-surface-container-lowest font-label-md text-label-md px-2 py-0.5 rounded-full tracking-wide">
+              New
+            </span>
           )
         )}
       </div>
       <div className={`p-2.5 flex flex-col flex-1 justify-between ${out ? 'opacity-80' : ''}`}>
         <div>
           <span className="font-label-md text-label-md text-secondary block font-medium line-clamp-1">{p.fabric}</span>
-          <h3 className="font-title-md text-title-md text-on-surface mt-0.5 line-clamp-1 group-hover:text-primary transition-colors">{p.name}</h3>
+          <h3 className="font-title-md text-title-md text-on-surface mt-0.5 line-clamp-1 group-hover:text-primary transition-colors">
+            {p.name}
+          </h3>
         </div>
         <PriceBlock variant="rail" price={p.price} mrp={p.mrp} />
       </div>
@@ -52,13 +61,20 @@ export function GridCard({ p }) {
       className="flex flex-col bg-surface-container-lowest rounded-xl border border-outline-variant/25 overflow-hidden shadow-sm hover:shadow-md transition-all active:scale-[0.98] cursor-pointer group"
     >
       <div className="relative w-full aspect-[3/4] bg-surface-container-low overflow-hidden">
-        <Img src={coverImage(p)} alt={p.name} width={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+        <Img
+          src={coverImage(p)}
+          alt={p.name}
+          width={400}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
         {out && <OutOfStockOverlay />}
       </div>
       <div className={`p-2.5 flex flex-col flex-1 justify-between ${out ? 'opacity-80' : ''}`}>
         <div>
           <span className="font-label-md text-[10px] text-secondary block font-medium line-clamp-1">{p.fabric}</span>
-          <h3 className="font-title-md text-[14px] leading-tight text-on-surface mt-0.5 line-clamp-1 group-hover:text-primary transition-colors">{p.name}</h3>
+          <h3 className="font-title-md text-[14px] leading-tight text-on-surface mt-0.5 line-clamp-1 group-hover:text-primary transition-colors">
+            {p.name}
+          </h3>
         </div>
         <PriceBlock variant="grid" price={p.price} mrp={p.mrp} />
       </div>
@@ -86,7 +102,9 @@ export function MiniCard({ p }) {
 
 export function CardSkeleton({ rail = false }) {
   return (
-    <div className={`${rail ? 'shrink-0 w-[200px] md:w-[230px] lg:w-auto' : ''} flex flex-col bg-surface-container-lowest rounded-xl border border-outline-variant/25 overflow-hidden`}>
+    <div
+      className={`${rail ? 'shrink-0 w-[200px] md:w-[230px] lg:w-auto' : ''} flex flex-col bg-surface-container-lowest rounded-xl border border-outline-variant/25 overflow-hidden`}
+    >
       <Skeleton tone="low" className="w-full aspect-[3/4]" />
       <div className="p-2.5 space-y-2">
         <Skeleton className="h-2.5 w-2/3 rounded" />

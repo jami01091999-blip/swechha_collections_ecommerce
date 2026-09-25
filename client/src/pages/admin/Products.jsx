@@ -61,7 +61,10 @@ export default function Products() {
       <PageContainer as="main" className="pt-3 md:pt-6 space-y-3">
         <div className="px-gutter-mobile md:px-0 flex items-baseline justify-between">
           <h2 className="font-headline-sm text-headline-sm md:text-headline-md text-primary">Products ({products?.length ?? '…'})</h2>
-          <Link to={`${ADMIN_BASE}/products/new`} className="font-label-lg text-label-lg text-secondary hover:text-primary font-semibold flex items-center gap-0.5">
+          <Link
+            to={`${ADMIN_BASE}/products/new`}
+            className="font-label-lg text-label-lg text-secondary hover:text-primary font-semibold flex items-center gap-0.5"
+          >
             <Icon name="add" className="text-[16px]" /> Add
           </Link>
         </div>
@@ -69,7 +72,13 @@ export default function Products() {
           <label className="relative block md:max-w-md">
             <span className="sr-only">Search products</span>
             <Icon name="search" className="absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]" />
-            <Input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search by name, code or fabric" className="pl-10" />
+            <Input
+              type="search"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search by name, code or fabric"
+              className="pl-10"
+            />
           </label>
         </div>
         <div className="flex items-center gap-2 px-gutter-mobile md:px-0 overflow-x-auto no-scrollbar">
@@ -105,7 +114,10 @@ export default function Products() {
               const alert = attentionChip(p);
               const rows = sizeRows(p);
               return (
-                <div key={p._id} className="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-3 flex items-center justify-between gap-2 shadow-luxury-subtle">
+                <div
+                  key={p._id}
+                  className="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-3 flex items-center justify-between gap-2 shadow-luxury-subtle"
+                >
                   <Link to={`${ADMIN_BASE}/products/${p._id}`} className="flex items-center gap-3 min-w-0 flex-1">
                     <Thumb p={p} />
                     <div className="space-y-1 min-w-0">
@@ -122,18 +134,36 @@ export default function Products() {
                       )}
                       <div className="flex flex-wrap gap-1">
                         <StatusChip status={p.status} />
-                        {alert ? <ToneChip tone={alert.tone}>{alert.text}</ToneChip> : <ToneChip tone="green">{totalStock(p)} in stock</ToneChip>}
+                        {alert ? (
+                          <ToneChip tone={alert.tone}>{alert.text}</ToneChip>
+                        ) : (
+                          <ToneChip tone="green">{totalStock(p)} in stock</ToneChip>
+                        )}
                       </div>
                     </div>
                   </Link>
                   <div className="flex flex-col items-center gap-1 shrink-0">
-                    <Link to={`${ADMIN_BASE}/products/${p._id}`} aria-label={`Edit ${p.name}`} className="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-high rounded-lg transition-colors active:scale-95">
+                    <Link
+                      to={`${ADMIN_BASE}/products/${p._id}`}
+                      aria-label={`Edit ${p.name}`}
+                      className="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-high rounded-lg transition-colors active:scale-95"
+                    >
                       <Icon name="edit" className="text-[20px]" />
                     </Link>
-                    <button onClick={() => setStockFor(p)} aria-label={`Update stock for ${p.name}`} className="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-high rounded-lg transition-colors active:scale-95" type="button">
+                    <button
+                      onClick={() => setStockFor(p)}
+                      aria-label={`Update stock for ${p.name}`}
+                      className="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-high rounded-lg transition-colors active:scale-95"
+                      type="button"
+                    >
                       <Icon name="inventory" className="text-[20px]" />
                     </button>
-                    <button onClick={() => setDeleteProductId(p._id)} aria-label={`Delete ${p.name}`} className="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded-lg transition-colors active:scale-95" type="button">
+                    <button
+                      onClick={() => setDeleteProductId(p._id)}
+                      aria-label={`Delete ${p.name}`}
+                      className="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded-lg transition-colors active:scale-95"
+                      type="button"
+                    >
                       <Icon name="delete" className="text-[20px]" />
                     </button>
                   </div>
@@ -148,7 +178,10 @@ export default function Products() {
                 {products?.length ? 'Clear the search or filters.' : 'Add your first design to start the catalogue.'}
               </p>
               {!products?.length && (
-                <Link to={`${ADMIN_BASE}/products/new`} className="inline-block mt-3 bg-primary-container text-white px-4 py-2.5 rounded-xl font-label-lg text-label-lg">
+                <Link
+                  to={`${ADMIN_BASE}/products/new`}
+                  className="inline-block mt-3 bg-primary-container text-white px-4 py-2.5 rounded-xl font-label-lg text-label-lg"
+                >
                   Add New Product
                 </Link>
               )}

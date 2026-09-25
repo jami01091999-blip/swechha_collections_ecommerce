@@ -11,10 +11,16 @@ export function AdminHeader({ alerts = 0 }) {
       <div className="flex justify-between items-center w-full gap-4 md:max-w-6xl md:mx-auto md:px-8">
         <Link to={ADMIN_BASE} className="flex flex-col">
           <div className="flex items-center gap-2">
-            <span className="font-headline-sm text-headline-sm font-medium tracking-wide text-primary md:whitespace-nowrap">Swechha Collections</span>
-            <span className="bg-primary-container text-surface-container-lowest font-label-md text-label-md px-2 py-0.5 rounded-full tracking-wider shadow-sm">ADMIN</span>
+            <span className="font-headline-sm text-headline-sm font-medium tracking-wide text-primary md:whitespace-nowrap">
+              Swechha Collections
+            </span>
+            <span className="bg-primary-container text-surface-container-lowest font-label-md text-label-md px-2 py-0.5 rounded-full tracking-wider shadow-sm">
+              ADMIN
+            </span>
           </div>
-          <span className="font-label-md text-label-md text-secondary tracking-widest mt-0.5 md:whitespace-nowrap">ATELIER CONCIERGE &amp; INVENTORY</span>
+          <span className="font-label-md text-label-md text-secondary tracking-widest mt-0.5 md:whitespace-nowrap">
+            ATELIER CONCIERGE &amp; INVENTORY
+          </span>
         </Link>
         <DesktopAdminNav />
         <div className="flex items-center gap-2.5 shrink-0">
@@ -42,18 +48,18 @@ export function AdminSubHeader({ title, subtitle, right, backTo }) {
   return (
     <header className="sticky top-0 z-40 bg-surface/95 backdrop-blur-md px-gutter-mobile md:px-0 py-2.5 border-b border-outline-variant/30">
       <div className="flex items-center gap-2 md:max-w-6xl md:mx-auto md:px-8">
-      <IconButton
-        icon="arrow_back"
-        label="Back"
-        onClick={() => (backTo ? navigate(backTo) : window.history.state?.idx > 0 ? navigate(-1) : navigate(ADMIN_BASE))}
-        className="-ml-1 text-primary hover:bg-surface-container transition-colors active:scale-90"
-        iconClassName="text-2xl"
-      />
-      <div className="flex-1 min-w-0">
-        <h1 className="font-headline-sm text-[19px] leading-tight text-primary truncate">{title}</h1>
-        {subtitle && <p className="font-label-md text-label-md text-on-surface-variant truncate">{subtitle}</p>}
-      </div>
-      {right}
+        <IconButton
+          icon="arrow_back"
+          label="Back"
+          onClick={() => (backTo ? navigate(backTo) : window.history.state?.idx > 0 ? navigate(-1) : navigate(ADMIN_BASE))}
+          className="-ml-1 text-primary hover:bg-surface-container transition-colors active:scale-90"
+          iconClassName="text-2xl"
+        />
+        <div className="flex-1 min-w-0">
+          <h1 className="font-headline-sm text-[19px] leading-tight text-primary truncate">{title}</h1>
+          {subtitle && <p className="font-label-md text-label-md text-on-surface-variant truncate">{subtitle}</p>}
+        </div>
+        {right}
       </div>
     </header>
   );
@@ -112,9 +118,15 @@ function DesktopAdminNav() {
     }`;
   return (
     <nav className="hidden md:flex items-center gap-5 lg:gap-8">
-      <NavLink to={ADMIN_BASE} end className={link}>Dashboard</NavLink>
-      <NavLink to={`${ADMIN_BASE}/products`} className={link}>Products</NavLink>
-      <NavLink to={`${ADMIN_BASE}/lookbook`} className={link}>Lookbook</NavLink>
+      <NavLink to={ADMIN_BASE} end className={link}>
+        Dashboard
+      </NavLink>
+      <NavLink to={`${ADMIN_BASE}/products`} className={link}>
+        Products
+      </NavLink>
+      <NavLink to={`${ADMIN_BASE}/lookbook`} className={link}>
+        Lookbook
+      </NavLink>
       <a href="/" target="_blank" rel="noreferrer" aria-label="View Site" className={link({ isActive: false })}>
         <Icon name="storefront" className="text-[20px] lg:hidden" />
         <span className="hidden lg:inline">View Site</span>
