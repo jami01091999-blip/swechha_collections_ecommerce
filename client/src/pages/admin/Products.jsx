@@ -1,15 +1,15 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AdminHeader, AdminNav } from '../../components/admin/AdminChrome';
 import { Thumb } from '../../components/admin/bits';
 import { Button, Card, Chip, ConfirmSheet, Input, PageContainer, Skeleton, StatusChip, ToneChip } from '../../components/ui';
 import StockSheet from '../../components/admin/StockSheet';
 import Icon from '../../components/shared/Icon';
-import { deleteProduct, useAdminProducts } from '../../lib/api';
+import { deleteProduct, useAdminProductList, useAdminStats } from '../../lib/api';
+import { useDebounced } from '../../components/catalog/SearchBox';
 import { ADMIN_BASE, CATEGORIES } from '../../lib/constants';
 import { formatINR } from '../../lib/format';
-import { attentionChip, isOutOfStock, sizeRows, totalStock } from '../../lib/stock';
-import { useInventoryStats } from './Dashboard';
+import { attentionChip, sizeRows, totalStock } from '../../lib/stock';
 
 const STATUS_FILTERS = [
   { key: 'published', label: 'Published' },
@@ -19,29 +19,32 @@ const STATUS_FILTERS = [
 ];
 
 export default function Products() {
-  const { data: products, loading, error, reload } = useAdminProducts();
-  const stats = useInventoryStats(products);
   const [q, setQ] = useState('');
   const [cat, setCat] = useState('');
   const [status, setStatus] = useState('');
+  const search = useDebounced(q.trim());
+  // Filtering and search run on the server, 24 at a time; more load as you scroll.
+  const { items, loading, error, reload, fetchNext, hasMore, loadingMore } = useAdminProductList({
+    q: search,
+    category: cat,
+    status: status === 'published' || status === 'draft' ? status : '',
+    stock: status === 'out' || status === 'attention' ? status : '',
+  });
+  const { data: stats } = useAdminStats();
+  const allCount = stats?.total;
+  const sentinel = useRef(null);
+  useEffect(() => {
+    const el = sentinel.current;
+    if (!el || !hasMore || loadingMore || typeof IntersectionObserver === 'undefined') return undefined;
+    const io = new IntersectionObserver((e) => e.some((x) => x.isIntersecting) && fetchNext(), { rootMargin: '400px 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [hasMore, loadingMore, fetchNext]);
   const [stockFor, setStockFor] = useState(null);
   const [deleteProductId, setDeleteProductId] = useState(null);
   const [deleting, setDeleting] = useState(false);
 
-  const items = useMemo(() => {
-    let list = products || [];
-    if (cat) list = list.filter((p) => p.category === cat);
-    if (status === 'published' || status === 'draft') list = list.filter((p) => p.status === status);
-    if (status === 'out') list = list.filter(isOutOfStock);
-    if (status === 'attention') list = list.filter((p) => attentionChip(p));
-    if (q) {
-      const n = q.toLowerCase();
-      list = list.filter((p) => [p.name, p.code, p.fabric].some((s) => s?.toLowerCase().includes(n)));
-    }
-    return list;
-  }, [products, cat, status, q]);
-
-  const deletingProduct = products?.find((p) => p._id === deleteProductId) || null;
+  const deletingProduct = items.find((p) => p._id === deleteProductId) || null;
 
   const handleDelete = async () => {
     if (!deleteProductId) return;
@@ -49,7 +52,6 @@ export default function Products() {
     try {
       await deleteProduct(deleteProductId);
       setDeleteProductId(null);
-      await reload();
     } finally {
       setDeleting(false);
     }
@@ -57,10 +59,10 @@ export default function Products() {
 
   return (
     <>
-      <AdminHeader alerts={stats.attention.length} />
+      <AdminHeader />
       <PageContainer as="main" className="pt-3 md:pt-6 space-y-3">
         <div className="px-gutter-mobile md:px-0 flex items-baseline justify-between">
-          <h2 className="font-headline-sm text-headline-sm md:text-headline-md text-primary">Products ({products?.length ?? '…'})</h2>
+          <h2 className="font-headline-sm text-headline-sm md:text-headline-md text-primary">Products ({allCount ?? '…'})</h2>
           <Link
             to={`${ADMIN_BASE}/products/new`}
             className="font-label-lg text-label-lg text-secondary hover:text-primary font-semibold flex items-center gap-0.5"
@@ -100,14 +102,14 @@ export default function Products() {
         </div>
 
         <div className="px-gutter-mobile md:px-0 space-y-2 pb-4 md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-3 md:space-y-0">
-          {error && !products ? (
+          {error && !items.length ? (
             <Card className="text-center md:col-span-full">
               <p className="font-body-sm text-body-sm">{error.message}</p>
               <Button variant="ghost" size="sm" onClick={reload} className="mt-2">
                 Try again
               </Button>
             </Card>
-          ) : loading && !products ? (
+          ) : loading ? (
             [0, 1, 2].map((i) => <Skeleton key={i} tone="lowest" className="h-[92px] rounded-xl border border-outline-variant/40" />)
           ) : items.length ? (
             items.map((p) => {
@@ -173,11 +175,11 @@ export default function Products() {
           ) : (
             <Card className="text-center py-8 md:col-span-full">
               <Icon name="styler" className="text-3xl text-outline" />
-              <p className="font-title-md text-[15px] text-primary mt-1">{products?.length ? 'No products match' : 'No products yet'}</p>
+              <p className="font-title-md text-[15px] text-primary mt-1">{allCount ? 'No products match' : 'No products yet'}</p>
               <p className="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
-                {products?.length ? 'Clear the search or filters.' : 'Add your first design to start the catalogue.'}
+                {allCount ? 'Clear the search or filters.' : 'Add your first design to start the catalogue.'}
               </p>
-              {!products?.length && (
+              {!allCount && (
                 <Link
                   to={`${ADMIN_BASE}/products/new`}
                   className="inline-block mt-3 bg-primary-container text-white px-4 py-2.5 rounded-xl font-label-lg text-label-lg"
@@ -188,6 +190,14 @@ export default function Products() {
             </Card>
           )}
         </div>
+        <div ref={sentinel} className="h-px" aria-hidden="true" />
+        {(hasMore || loadingMore) && (
+          <div className="flex justify-center pb-4">
+            <Button variant="secondary" size="sm" onClick={() => fetchNext()} disabled={loadingMore} className="px-8">
+              {loadingMore ? 'Loading…' : 'Load more'}
+            </Button>
+          </div>
+        )}
       </PageContainer>
       <AdminNav />
       {stockFor && <StockSheet product={stockFor} onClose={() => setStockFor(null)} />}

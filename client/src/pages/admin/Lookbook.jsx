@@ -5,10 +5,9 @@ import { SingleImage } from '../../components/admin/ImageManager';
 import { ErrorSummary, Section } from '../../components/admin/FormBits';
 import { Button, Card, Field, Input, PageContainer, Select, Skeleton, Textarea } from '../../components/ui';
 import Icon from '../../components/shared/Icon';
-import { saveSettings, useAdminProducts, useSettings } from '../../lib/api';
+import { saveSettings, useAdminProductOptions, useSettings } from '../../lib/api';
 import { ADMIN_BASE, CATEGORIES } from '../../lib/constants';
 import { isAdmin, useAuth } from '../../lib/auth';
-import { useInventoryStats } from './Dashboard';
 import { useToast } from '../../context/Toast';
 
 const NEW_BANNER = { tag: '', title: '', subtitle: '', image: '', ctaLabel: 'Explore Collection', ctaLink: '/collection' };
@@ -19,8 +18,7 @@ export default function Lookbook() {
   const { user } = useAuth();
   const canSave = isAdmin(user);
   const { data: settings, loading } = useSettings();
-  const { data: products } = useAdminProducts();
-  const stats = useInventoryStats(products);
+  const { data: products } = useAdminProductOptions();
   const [form, setForm] = useState(null);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
@@ -75,7 +73,7 @@ export default function Lookbook() {
 
   return (
     <>
-      <AdminHeader alerts={stats.attention.length} />
+      <AdminHeader />
       <PageContainer as="main" className="px-gutter-mobile pt-3 md:pt-6 pb-8 space-y-4">
         <div>
           <h2 className="font-headline-sm text-headline-sm md:text-headline-md text-primary">Lookbook</h2>
@@ -200,6 +198,19 @@ export default function Lookbook() {
                 </Field>
                 <Field label="Instagram" hint="Profile link or @handle">
                   <Input value={form.instagram} onChange={(e) => set({ instagram: e.target.value })} placeholder="@swechhacollections" />
+                </Field>
+                <Field label="Default GST rate (%)" htmlFor="tax-rate" hint="Used for new products. Each product can have its own rate.">
+                  <Input
+                    id="tax-rate"
+                    type="number"
+                    inputMode="decimal"
+                    min="0"
+                    max="28"
+                    step="0.25"
+                    className="w-28"
+                    value={form.defaultTaxRatePercent ?? 5}
+                    onChange={(e) => set({ defaultTaxRatePercent: e.target.value })}
+                  />
                 </Field>
               </div>
             </Section>

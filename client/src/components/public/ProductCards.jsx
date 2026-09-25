@@ -27,6 +27,7 @@ export function RailCard({ p }) {
           src={coverImage(p)}
           alt={p.name}
           width={420}
+          sizes="(min-width: 1024px) 25vw, (min-width: 768px) 230px, 200px"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         {out ? (
@@ -65,6 +66,7 @@ export function GridCard({ p }) {
           src={coverImage(p)}
           alt={p.name}
           width={400}
+          sizes="(min-width: 1024px) 22vw, (min-width: 768px) 30vw, 50vw"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         {out && <OutOfStockOverlay />}
@@ -90,7 +92,7 @@ export function MiniCard({ p }) {
       className="shrink-0 w-[140px] md:w-[180px] flex flex-col bg-surface-container-lowest rounded-xl border border-outline-variant/25 overflow-hidden shadow-sm active:scale-95 transition-all cursor-pointer"
     >
       <div className="relative w-full aspect-[3/4] bg-surface-container-low overflow-hidden">
-        <Img src={coverImage(p)} alt={p.name} width={300} className="w-full h-full object-cover" />
+        <Img src={coverImage(p)} alt={p.name} width={300} sizes="(min-width: 768px) 180px, 140px" className="w-full h-full object-cover" />
       </div>
       <div className="p-2 flex flex-col justify-between flex-1">
         <h4 className="font-title-md text-[12px] text-on-surface line-clamp-1">{p.name}</h4>

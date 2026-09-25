@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Icon from '../shared/Icon';
 import { Avatar, IconButton, initials } from '../ui';
 import { useAuth } from '../../lib/auth';
+import SearchBox from '../catalog/SearchBox';
 
 /** Sticky top app bar — Stitch home header. */
 export default function Header({ onMenu }) {
@@ -63,7 +63,7 @@ const DESKTOP_LINKS = [
 export function DesktopHeader() {
   const { pathname, hash, search } = useLocation();
   const navigate = useNavigate();
-  const [q, setQ] = useState(() => new URLSearchParams(search).get('q') || '');
+  const q = new URLSearchParams(search).get('q') || '';
   const { user } = useAuth();
   return (
     <header className="hidden md:block sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant/20">
@@ -89,24 +89,13 @@ export function DesktopHeader() {
           })}
         </nav>
         <div className="flex items-center gap-2 shrink-0">
-          <form
-            role="search"
-            onSubmit={(e) => {
-              e.preventDefault();
-              navigate(q.trim() ? `/collection?q=${encodeURIComponent(q.trim())}` : '/collection');
-            }}
-            className="relative"
-          >
-            <Icon name="search" className="absolute left-3 top-1/2 -translate-y-1/2 text-outline text-xl" />
-            <input
-              type="search"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Search designs"
-              aria-label="Search the catalogue"
-              className="w-44 lg:w-60 rounded-full border border-[#EBE5DD] bg-[#FAF6F0] pl-10 pr-4 py-2 font-body-sm text-[13px] text-on-surface placeholder:text-outline/70 focus:border-[#C59B6A] focus:ring-0"
-            />
-          </form>
+          <SearchBox
+            initial={q}
+            onSearch={(term) => navigate(term ? `/collection?q=${encodeURIComponent(term)}` : '/collection')}
+            placeholder="Search designs"
+            dropdownClassName="right-0 w-80"
+            inputClassName="w-44 lg:w-60 rounded-full border border-[#EBE5DD] bg-[#FAF6F0] pl-10 pr-4 py-2 font-body-sm text-[13px] text-on-surface placeholder:text-outline/70 focus:border-[#C59B6A] focus:ring-0"
+          />
           {user ? (
             <Link to="/account" aria-label="My account" title={user.email}>
               <Avatar>{initials(user, 1)}</Avatar>

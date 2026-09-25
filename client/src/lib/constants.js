@@ -47,3 +47,32 @@ export const ADMIN_BASE = '/adminDivya';
 
 // Laptop/desktop content width (phones are unaffected: every class is md: and up).
 export const DESK = 'md:max-w-6xl md:mx-auto md:w-full md:px-8';
+
+// Package defaults per category (same numbers as server/src/validators/product.js CATEGORY_DEFAULTS).
+export const CATEGORY_WEIGHT_GRAMS = {
+  Sarees: 700,
+  Lehengas: 1500,
+  Kurti: 400,
+  Leggings: 250,
+  Tops: 250,
+  'Co-Ord sets': 500,
+  'Dresses(3-pcs)': 600,
+  Frocks: 400,
+  'Night dresses': 350,
+  'Bamboo night dresses': 350,
+};
+export const DEFAULT_WEIGHT_GRAMS = 500;
+export const DEFAULT_DIMENSIONS_CM = { l: 30, b: 25, h: 5 };
+export const weightFor = (category) => CATEGORY_WEIGHT_GRAMS[category] ?? DEFAULT_WEIGHT_GRAMS;
+
+/** SKU the server would generate: code-label, upper case, spaces → dashes. */
+export const autoSku = (code, label) =>
+  code
+    ? `${code}-${label}`
+        .toUpperCase()
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/[^A-Z0-9-]/g, '')
+        .replace(/-+/g, '-')
+        .slice(0, 60)
+    : '';

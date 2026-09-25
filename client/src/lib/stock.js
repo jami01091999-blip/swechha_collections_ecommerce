@@ -29,7 +29,8 @@ export function totalStock(p) {
   return sizeRows(p).reduce((sum, s) => sum + (Number(s.stock) || 0), 0);
 }
 
-export const isOutOfStock = (p) => totalStock(p) <= 0;
+/** List/card data carries `inStock` from the API; full products are computed from their sizes. */
+export const isOutOfStock = (p) => (p?.inStock !== undefined ? !p.inStock : totalStock(p) <= 0);
 
 export function stockSummary(p) {
   const limit = threshold(p);

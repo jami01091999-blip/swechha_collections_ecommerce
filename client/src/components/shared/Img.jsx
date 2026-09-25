@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { imgUrl } from '../../lib/format';
+import { imgSrcSet, imgUrl } from '../../lib/format';
 
-/** Lazy image with a soft placeholder and a quiet fallback if the photo fails to load. */
-export default function Img({ src, alt = '', width = 600, className = '', eager = false, ...rest }) {
+/**
+ * Lazy image with a soft placeholder and a quiet fallback if the photo fails to load.
+ * Pass `sizes` (how wide it is on screen) to let the browser pick a Cloudinary width from srcSet.
+ */
+export default function Img({ src, alt = '', width = 600, sizes, className = '', eager = false, ...rest }) {
   const [failed, setFailed] = useState(false);
   if (!src || failed) {
     return (
@@ -11,9 +14,12 @@ export default function Img({ src, alt = '', width = 600, className = '', eager 
       </div>
     );
   }
+  const srcSet = sizes ? imgSrcSet(src) : '';
   return (
     <img
       src={imgUrl(src, width)}
+      srcSet={srcSet || undefined}
+      sizes={srcSet ? sizes : undefined}
       alt={alt}
       loading={eager ? 'eager' : 'lazy'}
       decoding="async"

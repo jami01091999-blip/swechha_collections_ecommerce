@@ -3,11 +3,14 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Icon from '../shared/Icon';
 import { Avatar, IconButton, initials } from '../ui';
 import { isAdmin, useAuth } from '../../lib/auth';
-import { logout } from '../../lib/api';
+import { logout, useAdminStats } from '../../lib/api';
 import { ADMIN_BASE } from '../../lib/constants';
 
 /** Sticky admin header — Stitch dashboard header. */
-export function AdminHeader({ alerts = 0 }) {
+/** `alerts` defaults to the "needs attention" count from /api/admin/stats (shared, cached query). */
+export function AdminHeader({ alerts: alertsProp }) {
+  const { data: stats } = useAdminStats();
+  const alerts = alertsProp ?? stats?.attentionCount ?? 0;
   const navigate = useNavigate();
   return (
     <header className="sticky top-0 z-40 bg-surface/90 backdrop-blur-md px-gutter-mobile md:px-0 py-3 md:border-b md:border-outline-variant/30 transition-colors duration-200">

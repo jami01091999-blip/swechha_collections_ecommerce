@@ -11,6 +11,15 @@ export function imgUrl(url, width = 600) {
   return url;
 }
 
+/** Widths offered to the browser for responsive Cloudinary images. */
+export const IMG_WIDTHS = [300, 600, 900, 1200];
+
+/** "url 300w, url 600w, …" for Cloudinary images; '' for anything else (served as-is). */
+export function imgSrcSet(url) {
+  if (!url || !url.includes('res.cloudinary.com') || !url.includes('/image/upload/') || url.includes('/image/upload/f_auto')) return '';
+  return IMG_WIDTHS.map((w) => `${imgUrl(url, w)} ${w}w`).join(', ');
+}
+
 export const coverImage = (p) => p?.images?.[0]?.url || '';
 
 export function waLink(number, text) {

@@ -60,6 +60,7 @@ export default function HeroCarousel({ banners = [] }) {
                 src={b.image}
                 alt={b.title}
                 width={900}
+                sizes="(min-width: 1152px) 1088px, 100vw"
                 eager={i === 0}
                 className="absolute inset-0 w-full h-full object-cover object-top md:object-[center_25%]"
               />

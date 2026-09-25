@@ -3,9 +3,10 @@ import Img from '../shared/Img';
 import { ALL_COLLECTIONS_TILE, CATEGORIES } from '../../lib/constants';
 import { PageContainer, SectionHeader } from '../ui';
 
-/** Shop by Category — 2-column grid of 6 tiles, counts and photos come from real products. */
-export default function CategoryTiles({ products = [] }) {
-  const total = products.length;
+/** Shop by Category — tile grid; counts come from /api/home ([{ key, count }]). */
+export default function CategoryTiles({ counts = [] }) {
+  const countOf = new Map(counts.map((c) => [c.key, c.count]));
+  const total = counts.reduce((sum, c) => sum + c.count, 0);
   const allTile = ALL_COLLECTIONS_TILE;
 
   return (
@@ -33,7 +34,7 @@ export default function CategoryTiles({ products = [] }) {
         </Link>
 
         {CATEGORIES.map((c) => {
-          const items = products.filter((p) => p.category === c.key);
+          const n = countOf.get(c.key) || 0;
           return (
             <Link
               key={c.key}
@@ -51,7 +52,7 @@ export default function CategoryTiles({ products = [] }) {
                 <span className="font-headline-sm text-[17px] md:text-[19px] text-surface-container-lowest font-medium">{c.label}</span>
                 <span className="font-label-md text-[10px] text-secondary-fixed opacity-90 line-clamp-1">{c.blurb}</span>
                 <span className="mt-1 font-label-md text-[10px] text-surface-container-highest/80">
-                  {items.length ? `${items.length} design${items.length === 1 ? '' : 's'}` : 'Coming soon'}
+                  {n ? `${n} design${n === 1 ? '' : 's'}` : 'Coming soon'}
                 </span>
               </div>
             </Link>

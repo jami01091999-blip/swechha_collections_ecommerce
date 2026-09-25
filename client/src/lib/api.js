@@ -1,7 +1,7 @@
 // React → Express API (fetch) with TanStack Query caching, so going "back" renders instantly
 // and scroll position is restored. Hooks keep the old { data, error, loading, reload } shape.
 // Sign-in uses httpOnly cookies set by the API; nothing about the session is stored in JavaScript.
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { queryClient } from './queryClient';
 
 export class ApiError extends Error {
@@ -16,13 +16,20 @@ export class ApiError extends Error {
 
 /* ── query keys ───────────────────────────────────────────── */
 export const keys = {
-  products: ['products'],
+  home: ['home'],
+  catalog: (qs) => ['catalog', qs],
+  catalogCount: (qs) => ['catalog-count', qs],
   product: (slug) => ['product', slug],
+  related: (slug) => ['related', slug],
+  suggest: (q) => ['suggest', q],
   settings: ['settings'],
   me: ['me'],
   addresses: ['me', 'addresses'],
-  adminProducts: ['admin', 'products'],
+  wishlist: ['me', 'wishlist'],
+  adminList: (qs) => ['admin', 'products', qs],
   adminProduct: (id) => ['admin', 'product', id],
+  adminOptions: ['admin', 'options'],
+  adminStats: ['admin', 'stats'],
   team: ['admin', 'team'],
 };
 
@@ -31,6 +38,7 @@ export const keys = {
 export function clearUserQueries() {
   queryClient.removeQueries({ queryKey: ['admin'] });
   queryClient.removeQueries({ queryKey: keys.addresses });
+  queryClient.removeQueries({ queryKey: keys.wishlist });
 }
 
 export function setSignedIn(user) {
@@ -115,15 +123,75 @@ function useResource(queryKey, queryFn, enabled = true) {
   };
 }
 
-/* ── public hooks ─────────────────────────────────────────── */
-export const useProducts = () => useResource(keys.products, () => api('/products'));
+/* ── public catalogue ─────────────────────────────────────── */
 export const useSettings = () => useResource(keys.settings, () => api('/settings'));
 
-export function useProduct(slug) {
-  const list = useProducts();
-  const fromList = list.data?.find((p) => p.slug === slug);
-  const single = useResource(keys.product(slug), () => api(`/products/${encodeURIComponent(slug)}`), !fromList && !!slug);
-  return fromList ? { data: fromList, loading: false, error: null } : single;
+/** Home page in one request: { newArrivals, featured, categories: [{ key, count, cover }] }. */
+export const useHome = () => useResource(keys.home, () => api('/home'));
+
+export const useProduct = (slug) => useResource(keys.product(slug), () => api(`/products/${encodeURIComponent(slug)}`), !!slug);
+
+export const useRelated = (slug) =>
+  useResource(keys.related(slug), () => api(`/products/${encodeURIComponent(slug)}/related`).then((d) => d.items), !!slug);
+
+/** Search-box suggestions (2+ characters). Keeps the previous result on screen while typing. */
+export function useSuggest(term) {
+  const q = (term || '').trim();
+  const r = useQuery({
+    queryKey: keys.suggest(q.toLowerCase()),
+    queryFn: () => api(`/search/suggest?q=${encodeURIComponent(q)}`),
+    enabled: q.length >= 2,
+    placeholderData: keepPreviousData,
+    staleTime: 60_000,
+  });
+  return { data: q.length >= 2 ? r.data : undefined, loading: r.isFetching };
+}
+
+/** Query string for /api/products from a plain object (empty values dropped, stable order). */
+export const catalogQs = (params) =>
+  new URLSearchParams(
+    Object.entries(params)
+      .filter(([, v]) => v !== undefined && v !== null && v !== '' && v !== false)
+      .sort(([a], [b]) => a.localeCompare(b))
+  ).toString();
+
+/**
+ * Infinite product list for the collection page. Pages stay cached, so coming back from a product
+ * shows the same items (and ScrollRestoration puts you where you were).
+ */
+export function useCatalog(params) {
+  const qs = catalogQs(params);
+  const q = useInfiniteQuery({
+    queryKey: keys.catalog(qs),
+    queryFn: ({ pageParam }) => api(`/products?${qs ? `${qs}&` : ''}page=${pageParam}`),
+    initialPageParam: 1,
+    getNextPageParam: (last) => (last.page < last.totalPages ? last.page + 1 : undefined),
+  });
+  const pages = q.data?.pages || [];
+  return {
+    items: pages.flatMap((p) => p.items),
+    total: pages[0]?.total,
+    facets: pages[0]?.facets,
+    loading: q.isPending,
+    error: q.error || null,
+    reload: q.refetch,
+    fetchNext: q.fetchNextPage,
+    hasMore: Boolean(q.hasNextPage),
+    loadingMore: q.isFetchingNextPage,
+  };
+}
+
+/** Result count + facets for filters that are not applied yet (the filter sheet's "Show N designs"). */
+export function useCatalogCount(params, enabled = true) {
+  const qs = catalogQs({ ...params, limit: 1 });
+  const q = useQuery({
+    queryKey: keys.catalogCount(qs),
+    queryFn: () => api(`/products?${qs}`),
+    enabled,
+    placeholderData: keepPreviousData,
+    staleTime: 30_000,
+  });
+  return { total: q.data?.total, facets: q.data?.facets, loading: q.isFetching };
 }
 
 /* ── account ──────────────────────────────────────────────── */
@@ -170,14 +238,37 @@ export const deleteAddress = (id) => api(`/users/me/addresses/${id}`, { method: 
 export const makeDefaultAddress = (id) => api(`/users/me/addresses/${id}/default`, { method: 'POST' }).then(saveAddresses);
 
 /* ── admin hooks ──────────────────────────────────────────── */
-export const useAdminProducts = () => useResource(keys.adminProducts, () => api('/products?all=1'));
-
-export function useAdminProduct(id) {
-  const list = useAdminProducts();
-  const fromList = list.data?.find((p) => p._id === id);
-  const single = useResource(keys.adminProduct(id), () => api(`/products/${id}`), !fromList && !!id && !list.loading);
-  return fromList ? { data: fromList, loading: false, error: null } : { ...single, loading: single.loading || list.loading };
+/** Paginated admin product list (infinite). params: q, category, status, stock, sort. */
+export function useAdminProductList(params) {
+  const qs = catalogQs(params);
+  const q = useInfiniteQuery({
+    queryKey: keys.adminList(qs),
+    queryFn: ({ pageParam }) => api(`/admin/products?${qs ? `${qs}&` : ''}page=${pageParam}`),
+    initialPageParam: 1,
+    getNextPageParam: (last) => (last.page < last.totalPages ? last.page + 1 : undefined),
+  });
+  const pages = q.data?.pages || [];
+  return {
+    items: pages.flatMap((p) => p.items),
+    total: pages[0]?.total,
+    loading: q.isPending,
+    error: q.error || null,
+    reload: q.refetch,
+    fetchNext: q.fetchNextPage,
+    hasMore: Boolean(q.hasNextPage),
+    loadingMore: q.isFetchingNextPage,
+  };
 }
+
+/** Dashboard numbers + needs-attention + recently added, and the header's alert count. */
+export const useAdminStats = () => useResource(keys.adminStats, () => api('/admin/stats'));
+
+/** Full product (incl. drafts and admin fields) for the edit form. */
+export const useAdminProduct = (id) => useResource(keys.adminProduct(id), () => api(`/admin/products/${id}`), !!id);
+
+/** Up to 100 products (by name) for pickers such as "colour opens product". */
+export const useAdminProductOptions = () =>
+  useResource(keys.adminOptions, () => api('/admin/products?limit=100&sort=name').then((d) => d.items));
 
 export const useTeam = (enabled = true) => useResource(keys.team, () => api('/admin/team').then((d) => d.team), enabled);
 const refreshTeam = (data) => {
@@ -189,34 +280,40 @@ export const changeTeamRole = (userId, role) => api(`/admin/team/${userId}`, { m
 export const removeTeamMember = (userId) => api(`/admin/team/${userId}`, { method: 'DELETE' }).then(refreshTeam);
 
 /* ── mutations ────────────────────────────────────────────── */
-// Public caches are dropped after an admin write so the shop shows fresh data next time.
-function afterWrite() {
-  queryClient.removeQueries({ queryKey: keys.products });
-  queryClient.removeQueries({ queryKey: ['product'] });
+// After a catalogue write: public caches are dropped (fresh data next time), admin views refetch.
+function afterWrite(product) {
+  for (const key of [['home'], ['catalog'], ['catalog-count'], ['product'], ['related'], ['suggest']]) {
+    queryClient.removeQueries({ queryKey: key });
+  }
+  if (product?._id) queryClient.setQueryData(keys.adminProduct(product._id), (old) => (old ? { ...old, ...product } : product));
+  queryClient.invalidateQueries({ queryKey: ['admin', 'products'] });
+  queryClient.invalidateQueries({ queryKey: keys.adminStats });
+  queryClient.invalidateQueries({ queryKey: keys.adminOptions });
 }
-
-const patchAdminList = (fn) => {
-  if (queryClient.getQueryData(keys.adminProducts)) queryClient.setQueryData(keys.adminProducts, fn);
-};
 
 export async function createProduct(body) {
   const p = await api('/products', { method: 'POST', body });
-  patchAdminList((list) => [p, ...list]);
-  afterWrite();
+  afterWrite(p);
   return p;
 }
 
 export async function updateProduct(id, body) {
   const p = await api(`/products/${id}`, { method: 'PATCH', body });
-  patchAdminList((list) => list.map((x) => (x._id === id ? p : x)));
-  afterWrite();
+  afterWrite(p);
   return p;
 }
 
 export async function deleteProduct(id) {
   await api(`/products/${id}`, { method: 'DELETE' });
-  patchAdminList((list) => list.filter((x) => x._id !== id));
+  queryClient.removeQueries({ queryKey: keys.adminProduct(id) });
   afterWrite();
+}
+
+/** Stock per size (stock − reserved rules are checked on the server). */
+export async function updateStock(id, sizes) {
+  const p = await api(`/admin/products/${id}/stock`, { method: 'PATCH', body: { sizes } });
+  afterWrite(p);
+  return p;
 }
 
 export async function saveSettings(body) {

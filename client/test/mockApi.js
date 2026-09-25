@@ -1,12 +1,13 @@
 // In-memory stand-in for the Express API, following the same rules (drafts hidden, roles, sign-in, 404s).
-import { GOOD_CODE, PRODUCTS, SETTINGS, USERS } from './fixtures.js';
+import { GOOD_CODE, SETTINGS, USERS } from './fixtures.js';
+import * as catalog from './mockCatalog.js';
 
 /**
  * @param user        signed-in user at start (one of USERS) or null
  * @param failProducts make GET /api/products fail with 500
  */
 export function createMockApi({ failProducts = false, user = null } = {}) {
-  const state = { pending: 0, calls: [], user, addresses: [], team: [USERS.admin, USERS.staff] };
+  const state = { pending: 0, calls: [], user, addresses: [], team: [USERS.admin, USERS.staff], wishlist: [] };
   const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
   const staff = () => state.user && ['admin', 'staff'].includes(state.user.role);
   const needStaff = () =>
@@ -60,21 +61,54 @@ export function createMockApi({ failProducts = false, user = null } = {}) {
     }
     if (path === '/api/admin/team') return state.user?.role === 'admin' ? json(200, { team: state.team }) : needStaff();
     if (path === '/api/settings') return json(200, SETTINGS);
-    if (path === '/api/products') {
-      if (failProducts) return json(500, { error: 'The server could not complete the request. Try again in a moment.' });
-      if (u.searchParams.get('all') === '1') return staff() ? json(200, PRODUCTS) : needStaff();
-      return json(
-        200,
-        PRODUCTS.filter((p) => p.status === 'published')
-      );
+    const fail = () => json(500, { error: 'The server could not complete the request. Try again in a moment.' });
+    const sp = u.searchParams;
+    if (path === '/api/home') return failProducts ? fail() : json(200, catalog.home());
+    if (path === '/api/search/suggest') return json(200, catalog.suggest(sp.get('q') || ''));
+    if (path === '/api/products' && method === 'GET') return failProducts ? fail() : json(200, catalog.listProducts(sp));
+    const rel = path.match(/^\/api\/products\/([^/]+)\/related$/);
+    if (rel) {
+      const items = catalog.related(decodeURIComponent(rel[1]));
+      return items ? json(200, { items }) : json(404, { error: 'Product not found.' });
     }
-    const m = path.match(/^\/api\/products\/(.+)$/);
+    const m = path.match(/^\/api\/products\/([^/]+)$/);
     if (m) {
-      const id = decodeURIComponent(m[1]);
-      const p = PRODUCTS.find((x) => x._id === id || x.slug === id);
-      if (!p || (p.status !== 'published' && !staff())) return json(404, { error: 'Product not found.' });
-      if (method === 'DELETE') return json(200, { deleted: true });
+      if (method === 'DELETE') return staff() ? json(200, { deleted: true }) : needStaff();
+      const p = catalog.publicProduct(decodeURIComponent(m[1]));
+      return p ? json(200, p) : json(404, { error: 'Product not found.' });
+    }
+    if (path === '/api/admin/products') return staff() ? json(200, catalog.adminList(sp)) : needStaff();
+    if (path === '/api/admin/stats') return staff() ? json(200, catalog.adminStats()) : needStaff();
+    const adm = path.match(/^\/api\/admin\/products\/([^/]+)(\/stock)?$/);
+    if (adm) {
+      if (!staff()) return needStaff();
+      const p = catalog.adminProduct(adm[1]);
+      if (!p) return json(404, { error: 'Product not found.' });
+      if (adm[2]) {
+        const next = new Map(data.sizes.map((s) => [s.label, s.stock]));
+        return json(200, { ...p, sizes: p.sizes.map((s) => (next.has(s.label) ? { ...s, stock: next.get(s.label) } : s)) });
+      }
       return json(200, p);
+    }
+    if (path.startsWith('/api/wishlist')) {
+      if (!state.user) return json(401, { error: 'Please sign in to continue.', code: 'AUTH_REQUIRED' });
+      const all = catalog.shaped();
+      if (path === '/api/wishlist/items' && method === 'POST') {
+        if (!state.wishlist.includes(data.productId)) state.wishlist.unshift(data.productId);
+      } else if (path.startsWith('/api/wishlist/items/') && method === 'DELETE') {
+        const id = path.split('/').pop();
+        state.wishlist = state.wishlist.filter((x) => x !== id);
+      } else if (path === '/api/wishlist/merge') {
+        const ids = (data.slugs || []).map((s) => all.find((p) => p.slug === s && p.status === 'published')?._id).filter(Boolean);
+        state.wishlist = [...new Set([...ids, ...state.wishlist])];
+        state.merged = (state.merged || 0) + 1;
+      }
+      const items = state.wishlist.map((id) => {
+        const p = all.find((x) => x._id === id);
+        if (!p) return { _id: id, unavailable: true };
+        return p.status === 'published' ? catalog.card(p) : { ...catalog.card(p), unavailable: true };
+      });
+      return json(200, { items, count: items.length });
     }
     return json(404, { error: 'Unknown API route.' });
   }

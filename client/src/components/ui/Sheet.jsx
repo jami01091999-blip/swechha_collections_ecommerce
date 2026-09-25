@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 import Button from './Button';
 
-/** Bottom sheet container: slides up on phones, centred dialog from md:. Closes on Escape or backdrop tap; locks page scroll. */
-export default function Sheet({ onClose, children, label }) {
+/**
+ * Bottom sheet container: slides up on phones, centred dialog from md:. Closes on Escape or backdrop tap; locks page scroll.
+ * `full` makes it (nearly) full height on phones; `footer` stays pinned at the bottom while the body scrolls.
+ */
+export default function Sheet({ onClose, children, label, full = false, footer = null }) {
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && onClose();
     document.addEventListener('keydown', onKey);
@@ -20,10 +23,26 @@ export default function Sheet({ onClose, children, label }) {
       aria-label={label}
     >
       <button className="absolute inset-0 bg-on-surface/40 backdrop-blur-[2px]" aria-label="Close" onClick={onClose} />
-      <div className="animate-sheet-up relative w-full max-w-[480px] md:max-w-md max-h-[88vh] overflow-y-auto bg-background rounded-t-[24px] md:rounded-[24px] shadow-luxury border-t md:border border-outline-variant/30 px-gutter-mobile md:px-5 pt-2 md:pt-5 pb-[max(1rem,env(safe-area-inset-bottom))]">
-        <div className="md:hidden w-10 h-1 rounded-full bg-outline-variant mx-auto mb-3" />
-        {children}
-      </div>
+      {full || footer ? (
+        <div
+          className={`animate-sheet-up relative w-full max-w-[480px] md:max-w-md ${full ? 'h-[92dvh] md:h-auto' : ''} max-h-[92dvh] md:max-h-[88vh] flex flex-col bg-background rounded-t-[24px] md:rounded-[24px] shadow-luxury border-t md:border border-outline-variant/30`}
+        >
+          <div className="flex-1 overflow-y-auto px-gutter-mobile md:px-5 pt-2 md:pt-5 pb-4">
+            <div className="md:hidden w-10 h-1 rounded-full bg-outline-variant mx-auto mb-3" />
+            {children}
+          </div>
+          {footer && (
+            <div className="shrink-0 border-t border-outline-variant/30 bg-surface/95 px-gutter-mobile md:px-5 py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] rounded-b-none md:rounded-b-[24px]">
+              {footer}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="animate-sheet-up relative w-full max-w-[480px] md:max-w-md max-h-[88vh] overflow-y-auto bg-background rounded-t-[24px] md:rounded-[24px] shadow-luxury border-t md:border border-outline-variant/30 px-gutter-mobile md:px-5 pt-2 md:pt-5 pb-[max(1rem,env(safe-area-inset-bottom))]">
+          <div className="md:hidden w-10 h-1 rounded-full bg-outline-variant mx-auto mb-3" />
+          {children}
+        </div>
+      )}
     </div>
   );
 }

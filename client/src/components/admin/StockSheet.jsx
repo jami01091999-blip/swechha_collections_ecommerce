@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import { Thumb } from './bits';
 import { Button, Card, Sheet, Stepper, StockStateChip } from '../ui';
-import { updateProduct } from '../../lib/api';
-import { threshold } from '../../lib/stock';
+import { updateStock } from '../../lib/api';
+import { availableOf, threshold } from '../../lib/stock';
 import { useToast } from '../../context/Toast';
 
-/** Quick Stock Update — change quantities without opening the full form. */
+/** Size rows to edit: stored sizes, or one FREE row for products saved before Phase 2. */
+const editableRows = (p) =>
+  p.sizes?.length
+    ? p.sizes.map((s) => ({ ...s, reserved: s.reserved || 0 }))
+    : [{ label: 'FREE', stock: Number(p.freeSizeStock) || 0, reserved: 0 }];
+
+/** Quick Stock Update — change quantities without opening the full form. Stock can't go below what is reserved. */
 export default function StockSheet({ product, onClose }) {
   const toast = useToast();
-  const sized = product.sizeType === 'sized';
-  const [sizes, setSizes] = useState(() => (product.sizes || []).map((s) => ({ ...s })));
-  const [free, setFree] = useState(product.freeSizeStock || 0);
+  const [sizes, setSizes] = useState(() => editableRows(product));
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const limit = threshold(product);
@@ -19,7 +23,10 @@ export default function StockSheet({ product, onClose }) {
     setBusy(true);
     setErr('');
     try {
-      await updateProduct(product._id, sized ? { sizes } : { freeSizeStock: free });
+      await updateStock(
+        product._id,
+        sizes.map(({ label, stock }) => ({ label, stock }))
+      );
       toast('Stock updated');
       onClose();
     } catch (e) {
@@ -41,29 +48,24 @@ export default function StockSheet({ product, onClose }) {
         </div>
       </div>
       <Card className="mt-3 py-1">
-        {sized ? (
-          sizes.map((s, i) => (
+        {sizes.map((s, i) => {
+          const label = s.label === 'FREE' ? 'Free Size' : s.label;
+          return (
             <div key={s.label} className={row}>
               <div className="flex flex-col gap-1 min-w-0">
-                <span className="font-title-md text-[15px] text-on-surface">{s.label}</span>
-                <StockStateChip stock={s.stock} limit={limit} />
+                <span className="font-title-md text-[15px] text-on-surface">{label}</span>
+                <StockStateChip stock={availableOf(s)} limit={limit} />
+                {s.reserved > 0 && <span className="font-label-md text-label-md text-on-surface-variant">Reserved: {s.reserved}</span>}
               </div>
               <Stepper
-                label={s.label}
+                label={label}
                 value={s.stock}
+                min={s.reserved}
                 onChange={(v) => setSizes((all) => all.map((x, j) => (j === i ? { ...x, stock: v } : x)))}
               />
             </div>
-          ))
-        ) : (
-          <div className={row}>
-            <div className="flex flex-col gap-1">
-              <span className="font-title-md text-[15px] text-on-surface">Free Size</span>
-              <StockStateChip stock={free} limit={limit} />
-            </div>
-            <Stepper label="Free Size" value={free} onChange={setFree} />
-          </div>
-        )}
+          );
+        })}
       </Card>
       {err && <p className="font-body-sm text-[12px] text-error mt-2">{err}</p>}
       <Button size="lg" className="w-full mt-4" onClick={save} disabled={busy}>

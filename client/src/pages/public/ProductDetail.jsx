@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SubHeader } from '../../components/public/Header';
 import { MiniCard } from '../../components/public/ProductCards';
 import Img from '../../components/shared/Img';
 import Icon from '../../components/shared/Icon';
 import { SizeSection } from '../../components/shared/SizeAvailability';
-import { useProduct, useProducts, useSettings } from '../../lib/api';
+import { useProduct, useRelated, useSettings } from '../../lib/api';
 import { Link } from 'react-router-dom';
 import { categoryMeta } from '../../lib/constants';
 import { Button, IconButton, PageContainer, PriceBlock, Skeleton } from '../../components/ui';
@@ -75,7 +75,7 @@ function ZoomViewer({ images, start, onClose }) {
       <div ref={track} className="flex-1 flex overflow-x-auto snap-x snap-mandatory no-scrollbar">
         {images.map((img, i) => (
           <div key={i} className="w-full h-full shrink-0 snap-center flex items-center justify-center overflow-auto">
-            <Img src={img.url} alt={`Photo ${i + 1}`} width={1600} className="max-w-full max-h-full object-contain" />
+            <Img src={img.url} alt={`Photo ${i + 1}`} width={1600} sizes="100vw" className="max-w-full max-h-full object-contain" />
           </div>
         ))}
       </div>
@@ -86,7 +86,8 @@ function ZoomViewer({ images, start, onClose }) {
 function ProductView({ p }) {
   const navigate = useNavigate();
   const toast = useToast();
-  const { data: all } = useProducts();
+  // Same category first, in stock first (server-side), up to 8.
+  const { data: relatedItems } = useRelated(p.slug);
   const { data: settings } = useSettings();
   const [slide, setSlide] = useState(0);
   const [size, setSize] = useState(null);
@@ -106,10 +107,7 @@ function ProductView({ p }) {
     };
   }, [p.name]);
 
-  const related = useMemo(() => {
-    const others = (all || []).filter((x) => x.slug !== p.slug);
-    return [...others.filter((x) => x.category === p.category), ...others.filter((x) => x.category !== p.category)].slice(0, 6);
-  }, [all, p.slug, p.category]);
+  const related = relatedItems || [];
 
   const colourName = p.colors?.[colour]?.name;
   const waText = [
@@ -190,6 +188,7 @@ function ProductView({ p }) {
                     src={img.url}
                     alt={`${p.name} view ${i + 1}`}
                     width={900}
+                    sizes="(min-width: 768px) 50vw, 100vw"
                     eager={i === 0}
                     className={`w-full h-full object-cover ${i === 0 ? 'object-top' : 'object-center'}`}
                   />

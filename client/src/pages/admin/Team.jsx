@@ -14,9 +14,8 @@ import {
   ToneChip,
   initials,
 } from '../../components/ui';
-import { addTeamMember, changeTeamRole, removeTeamMember, useAdminProducts, useTeam } from '../../lib/api';
+import { addTeamMember, changeTeamRole, removeTeamMember, useTeam } from '../../lib/api';
 import { isAdmin, useAuth } from '../../lib/auth';
-import { useInventoryStats } from './Dashboard';
 import { useToast } from '../../context/Toast';
 
 const ROLES = [
@@ -106,8 +105,6 @@ export default function Team() {
   const toast = useToast();
   const { user } = useAuth();
   const allowed = isAdmin(user);
-  const { data: products } = useAdminProducts();
-  const stats = useInventoryStats(products);
   const { data: team, loading, error, reload } = useTeam(allowed);
   const [confirm, setConfirm] = useState(null); // { kind: 'role' | 'remove', member }
   const [busy, setBusy] = useState(false);
@@ -134,7 +131,7 @@ export default function Team() {
 
   return (
     <>
-      <AdminHeader alerts={stats.attention.length} />
+      <AdminHeader />
       <PageContainer as="main" className="px-gutter-mobile pt-3 md:pt-6 pb-8 space-y-4">
         <div>
           <h2 className="font-headline-sm text-headline-sm md:text-headline-md text-primary">Team</h2>

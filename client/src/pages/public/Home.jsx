@@ -9,7 +9,7 @@ import Footer from '../../components/public/Footer';
 import { CardSkeleton, RailCard } from '../../components/public/ProductCards';
 import Icon from '../../components/shared/Icon';
 import ScrollToHash from '../../components/shared/ScrollToHash';
-import { useProducts, useSettings } from '../../lib/api';
+import { useHome, useSettings } from '../../lib/api';
 import { DESK } from '../../lib/constants';
 import { Button, PageContainer, SectionHeader } from '../../components/ui';
 
@@ -26,10 +26,10 @@ export function LoadError({ error, onRetry }) {
 
 export default function Home() {
   const [drawer, setDrawer] = useState(false);
-  const { data: products, loading, error, reload } = useProducts();
+  // One request: new arrivals (or the newest designs when none are flagged) and category counts.
+  const { data: home, loading, error, reload } = useHome();
   const { data: settings } = useSettings();
-  const list = products || [];
-  const newArrivals = (list.some((p) => p.isNewArrival) ? list.filter((p) => p.isNewArrival) : list).slice(0, 8);
+  const newArrivals = home?.newArrivals || [];
 
   return (
     <div className="w-full flex flex-col pb-24 md:pb-0">
@@ -55,21 +55,21 @@ export default function Home() {
               </Link>
             }
           />
-          {error && !products ? (
+          {error && !home ? (
             <LoadError error={error} onRetry={reload} />
           ) : (
             <PageContainer className="flex gap-3 md:gap-4 px-margin-mobile overflow-x-auto no-scrollbar scroll-smooth pb-2 lg:grid lg:grid-cols-4 lg:overflow-visible">
-              {loading && !products
+              {loading && !home
                 ? [0, 1, 2].map((i) => <CardSkeleton key={i} rail />)
                 : newArrivals.map((p) => <RailCard key={p._id} p={p} />)}
-              {!loading && products && !list.length && (
+              {!loading && home && !newArrivals.length && (
                 <p className="font-body-sm text-body-sm text-on-surface-variant py-6">New designs are on their way. Check back soon.</p>
               )}
             </PageContainer>
           )}
         </section>
 
-        <CategoryTiles products={list} />
+        <CategoryTiles counts={home?.categories} />
 
         <Footer settings={settings || {}} />
       </main>

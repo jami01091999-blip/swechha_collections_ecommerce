@@ -10,6 +10,7 @@ import {
   Field,
   Input,
   PageContainer,
+  Segmented,
   Select,
   Spinner,
   Stepper,
@@ -19,8 +20,8 @@ import {
 } from '../../components/ui';
 import Icon from '../../components/shared/Icon';
 import { SizeSection } from '../../components/shared/SizeAvailability';
-import { createProduct, deleteProduct, updateProduct, useAdminProduct, useAdminProducts } from '../../lib/api';
-import { ADMIN_BASE, CATEGORIES, STANDARD_SIZES } from '../../lib/constants';
+import { createProduct, deleteProduct, updateProduct, useAdminProduct, useAdminProductOptions, useSettings } from '../../lib/api';
+import { ADMIN_BASE, CATEGORIES, DEFAULT_DIMENSIONS_CM, STANDARD_SIZES, autoSku, weightFor } from '../../lib/constants';
 import { discountPercent } from '../../lib/format';
 import { stockSummary } from '../../lib/stock';
 import { useToast } from '../../context/Toast';
@@ -36,7 +37,6 @@ const EMPTY = {
   images: [],
   colors: [],
   sizeType: 'sized',
-  freeSizeStock: 1,
   sizes: [],
   lowStockThreshold: 2,
   sareeDetails: { sareeLength: '', blousePiece: 'Included (Unstitched)', blouseLength: '', blouseFabric: '' },
@@ -48,11 +48,28 @@ const EMPTY = {
   isNewArrival: false,
   isFeatured: false,
   displayOrder: 0,
+  // Shipping & tax (category defaults are filled in for new products)
+  weightGrams: weightFor('Sarees'),
+  dimensionsCm: { ...DEFAULT_DIMENSIONS_CM },
+  hsnCode: '',
+  taxRatePercent: 5,
+  isCodAllowed: true,
+  isReturnable: true,
+  maxQtyPerOrder: 5,
 };
+
+const SIZE_TYPES = [
+  { value: 'sized', label: 'Sized' },
+  { value: 'free', label: 'Free Size' },
+];
+const sizeName = (label) => (label === 'FREE' ? 'Free Size' : label);
 
 const toForm = (p) => ({
   ...EMPTY,
   ...p,
+  // Products saved before Phase 2 may still have freeSizeStock instead of a FREE size row.
+  sizes: p.sizes?.length ? p.sizes : p.sizeType === 'sized' ? [] : [{ label: 'FREE', sku: '', stock: Number(p.freeSizeStock) || 0 }],
+  dimensionsCm: { ...DEFAULT_DIMENSIONS_CM, ...(p.dimensionsCm || {}) },
   mrp: p.mrp || '',
   price: p.price || '',
   sareeDetails: { ...EMPTY.sareeDetails, ...(p.sareeDetails || {}) },
@@ -60,10 +77,16 @@ const toForm = (p) => ({
   care: (p.care || []).join('\n'),
 });
 
-const toPayload = (f) => ({
+const toPayload = ({ freeSizeStock: _legacy, ...f }) => ({
   ...f,
+  // `reserved` is managed by checkout; the server ignores it, so it isn't sent.
+  sizes: f.sizes.map(({ label, sku, stock }) => ({ label, sku: (sku || '').trim(), stock })),
   mrp: Number(f.mrp) || 0,
   price: Number(f.price) || 0,
+  weightGrams: Number(f.weightGrams) || 0,
+  dimensionsCm: { l: Number(f.dimensionsCm.l) || 0, b: Number(f.dimensionsCm.b) || 0, h: Number(f.dimensionsCm.h) || 0 },
+  taxRatePercent: Number(f.taxRatePercent) || 0,
+  maxQtyPerOrder: Number(f.maxQtyPerOrder) || 1,
   fabricDetails: f.fabricDetails
     .split('\n')
     .map((s) => s.trim())
@@ -79,6 +102,9 @@ function validate(f) {
   if (!f.name.trim()) e.name = 'Product name is required.';
   if (f.mrp && f.price && Number(f.mrp) < Number(f.price)) e.mrp = 'MRP cannot be lower than the selling price.';
   if (f.price && Number(f.price) <= 0) e.price = 'Selling price must be more than 0.';
+  const skus = f.sizes.map((s) => (s.sku || '').trim().toUpperCase()).filter(Boolean);
+  if (new Set(skus).size !== skus.length) e.sizes = 'Each size needs its own SKU.';
+  if (f.hsnCode && !/^\d{4,8}$/.test(f.hsnCode)) e.hsnCode = 'HSN code has 4 to 8 digits.';
   return e;
 }
 
@@ -95,8 +121,11 @@ export default function ProductForm() {
   const editing = Boolean(id);
   const navigate = useNavigate();
   const toast = useToast();
-  const { data: all } = useAdminProducts();
+  const { data: all } = useAdminProductOptions();
   const { data: product, loading, error } = useAdminProduct(id);
+  const { data: settings } = useSettings();
+  const [skuErrors, setSkuErrors] = useState({});
+  const sizedBackup = useRef([]);
   const [form, setForm] = useState(EMPTY);
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState('');
@@ -108,10 +137,17 @@ export default function ProductForm() {
 
   useEffect(() => {
     if (editing && product && !loaded.current) {
-      setForm(toForm({ ...product, sizeType: product.sizeType === 'free' ? 'sized' : product.sizeType }));
+      setForm(toForm(product));
       loaded.current = true;
     }
   }, [editing, product]);
+
+  // New products start with the shop's default GST rate.
+  useEffect(() => {
+    if (!editing && settings?.defaultTaxRatePercent !== undefined && !dirty.current) {
+      setForm((f) => ({ ...f, taxRatePercent: settings.defaultTaxRatePercent }));
+    }
+  }, [editing, settings?.defaultTaxRatePercent]);
 
   useEffect(() => {
     const warn = (e) => {
@@ -136,7 +172,8 @@ export default function ProductForm() {
 
   const off = discountPercent(Number(form.mrp), Number(form.price));
   const others = useMemo(() => (all || []).filter((p) => p._id !== id), [all, id]);
-  const previewProduct = { ...form, freeSizeStock: Number(form.freeSizeStock) || 0 };
+  const previewProduct = form;
+  const codeChanged = editing && product && form.code.trim().toUpperCase() !== product.code;
   const summary = stockSummary(previewProduct);
 
   /* sizes */
@@ -153,6 +190,22 @@ export default function ProductForm() {
     setCustomSize('');
   };
   const setSizeStock = (label, stock) => set({ sizes: form.sizes.map((s) => (s.label === label ? { ...s, stock } : s)) });
+  const setSizeSku = (label, sku) => {
+    set({ sizes: form.sizes.map((s) => (s.label === label ? { ...s, sku: sku.toUpperCase().replace(/\s+/g, '-') } : s)) });
+    setSkuErrors((e) => ({ ...e, [label]: undefined }));
+  };
+  // Switching type keeps the other type's rows so switching back doesn't lose them.
+  const setSizeType = (sizeType) => {
+    if (sizeType === form.sizeType) return;
+    if (sizeType === 'free') {
+      sizedBackup.current = form.sizes;
+      set({ sizeType, sizes: [{ label: 'FREE', sku: '', stock: 1 }] });
+    } else {
+      set({ sizeType, sizes: sizedBackup.current.filter((s) => s.label !== 'FREE') });
+    }
+  };
+  const setCategory = (category) => set(editing ? { category } : { category, weightGrams: weightFor(category) });
+  const setDims = (patch) => set({ dimensionsCm: { ...form.dimensionsCm, ...patch } });
 
   /* colours */
   const setColour = (i, patch) => set({ colors: form.colors.map((c, j) => (j === i ? { ...c, ...patch } : c)) });
@@ -174,6 +227,11 @@ export default function ProductForm() {
       toast(editing ? 'Changes saved' : 'Product published');
       navigate(`${ADMIN_BASE}/products`);
     } catch (err) {
+      if (err.data?.code === 'SKU_TAKEN') {
+        // Show the clash next to the size that uses it.
+        const bySku = Object.fromEntries(form.sizes.map((s) => [(s.sku || autoSku(form.code, s.label)).toUpperCase(), s.label]));
+        setSkuErrors(Object.fromEntries(err.data.skus.map((sku) => [bySku[sku], 'Another product already uses this SKU.'])));
+      }
       setServerError(err.message);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } finally {
@@ -254,7 +312,16 @@ export default function ProductForm() {
                   placeholder="e.g. Gulmohar Silk Saree"
                 />
               </Field>
-              <Field label="Product code / SKU" error={errors.code} htmlFor="code" hint="Shown to customers and in WhatsApp enquiries.">
+              <Field
+                label="Product code"
+                error={errors.code}
+                htmlFor="code"
+                hint={
+                  codeChanged
+                    ? 'Existing size SKUs keep the old code (orders refer to them). Edit them below if needed.'
+                    : 'Shown to customers and in WhatsApp enquiries. Size SKUs are made from it.'
+                }
+              >
                 <div className="flex gap-2">
                   <Input
                     id="code"
@@ -274,7 +341,7 @@ export default function ProductForm() {
                 </div>
               </Field>
               <Field label="Category" htmlFor="category">
-                <Select id="category" value={form.category} onChange={(e) => set({ category: e.target.value })}>
+                <Select id="category" value={form.category} onChange={(e) => setCategory(e.target.value)}>
                   {CATEGORIES.map((c) => (
                     <option key={c.key} value={c.key}>
                       {c.label}
@@ -338,53 +405,76 @@ export default function ProductForm() {
           </div>
           <div className="space-y-4">
             <Section title="Sizes & Stock" hint="Set 0 for any size you don't have — customers will see it as Not Available." id="sizes">
-              <div>
-                <span className="field-label">Select sizes</span>
-                <div className="flex flex-wrap gap-2">
-                  {allSizeLabels.map((l) => (
-                    <Chip
-                      key={l}
-                      kind="size"
-                      active={form.sizes.some((s) => s.label === l)}
-                      onClick={() => toggleSize(l)}
-                      aria-pressed={form.sizes.some((s) => s.label === l)}
+              <Segmented label="Size type" value={form.sizeType} options={SIZE_TYPES} onChange={setSizeType} />
+              {form.sizeType === 'sized' && (
+                <div>
+                  <span className="field-label">Select sizes</span>
+                  <div className="flex flex-wrap gap-2">
+                    {allSizeLabels.map((l) => (
+                      <Chip
+                        key={l}
+                        kind="size"
+                        active={form.sizes.some((s) => s.label === l)}
+                        onClick={() => toggleSize(l)}
+                        aria-pressed={form.sizes.some((s) => s.label === l)}
+                      >
+                        {l}
+                      </Chip>
+                    ))}
+                  </div>
+                  <div className="flex gap-2 mt-2">
+                    <Input
+                      value={customSize}
+                      onChange={(e) => setCustomSize(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addCustomSize())}
+                      placeholder="Custom size, e.g. 32 or 34"
+                      className="flex-1 text-[13px]"
+                    />
+                    <button
+                      type="button"
+                      onClick={addCustomSize}
+                      className="shrink-0 px-3 rounded-xl border border-[#C59B6A] font-label-lg text-label-lg active:scale-95"
                     >
-                      {l}
-                    </Chip>
-                  ))}
-                </div>
-                <div className="flex gap-2 mt-2">
-                  <Input
-                    value={customSize}
-                    onChange={(e) => setCustomSize(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addCustomSize())}
-                    placeholder="Custom size, e.g. 32 or 34"
-                    className="flex-1 text-[13px]"
-                  />
-                  <button
-                    type="button"
-                    onClick={addCustomSize}
-                    className="shrink-0 px-3 rounded-xl border border-[#C59B6A] font-label-lg text-label-lg active:scale-95"
-                  >
-                    + Add
-                  </button>
-                </div>
-                {errors.sizes && <p className="font-body-sm text-[12px] text-error mt-1">{errors.sizes}</p>}
-              </div>
-              {form.sizes.length > 0 && (
-                <div className="rounded-xl border border-outline-variant/40 divide-y divide-outline-variant/20">
-                  {form.sizes.map((s) => (
-                    <div key={s.label} className="flex items-center justify-between gap-2 px-3 py-2.5">
-                      <div className="flex flex-col gap-1 min-w-0">
-                        <span className="font-title-md text-[15px] text-on-surface">{s.label}</span>
-                        <StockStateChip stock={s.stock} limit={form.lowStockThreshold} />
-                      </div>
-                      <Stepper label={s.label} value={s.stock} onChange={(v) => setSizeStock(s.label, v)} />
-                    </div>
-                  ))}
+                      + Add
+                    </button>
+                  </div>
                 </div>
               )}
+              {errors.sizes && <p className="font-body-sm text-[12px] text-error mt-1">{errors.sizes}</p>}
               {form.sizes.length > 0 && (
+                <div className="rounded-xl border border-outline-variant/40 divide-y divide-outline-variant/20">
+                  {form.sizes.map((s) => {
+                    const reserved = s.reserved || 0;
+                    return (
+                      <div key={s.label} className="px-3 py-2.5 space-y-2">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex flex-col gap-1 min-w-0">
+                            <span className="font-title-md text-[15px] text-on-surface">{sizeName(s.label)}</span>
+                            <StockStateChip stock={Math.max(0, s.stock - reserved)} limit={form.lowStockThreshold} />
+                            {reserved > 0 && (
+                              <span className="font-label-md text-label-md text-on-surface-variant">Reserved: {reserved}</span>
+                            )}
+                          </div>
+                          <Stepper label={sizeName(s.label)} value={s.stock} min={reserved} onChange={(v) => setSizeStock(s.label, v)} />
+                        </div>
+                        <label className="flex items-center gap-2">
+                          <span className="font-label-md text-label-md text-on-surface-variant shrink-0 w-8">SKU</span>
+                          <Input
+                            aria-label={`SKU for ${sizeName(s.label)}`}
+                            className="text-[13px] uppercase"
+                            value={s.sku || ''}
+                            placeholder={autoSku(form.code, s.label) || 'Made from the product code'}
+                            onChange={(e) => setSizeSku(s.label, e.target.value)}
+                            invalid={!!skuErrors[s.label]}
+                          />
+                        </label>
+                        {skuErrors[s.label] && <p className="font-body-sm text-[12px] text-error">{skuErrors[s.label]}</p>}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              {form.sizeType === 'sized' && form.sizes.length > 0 && (
                 <div className="grid grid-cols-3 gap-2">
                   <button
                     type="button"
@@ -395,14 +485,14 @@ export default function ProductForm() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => set({ sizes: form.sizes.map((s) => ({ ...s, stock: 0 })) })}
+                    onClick={() => set({ sizes: form.sizes.map((s) => ({ ...s, stock: s.reserved || 0 })) })}
                     className="py-2 rounded-xl border border-outline-variant/60 font-label-md text-label-md text-on-surface active:scale-95"
                   >
                     Set all to 0
                   </button>
                   <button
                     type="button"
-                    onClick={() => set({ sizes: form.sizes.map((s) => ({ ...s, stock: 0 })) })}
+                    onClick={() => set({ sizes: form.sizes.map((s) => ({ ...s, stock: s.reserved || 0 })) })}
                     className="py-2 rounded-xl border border-outline-variant/60 font-label-md text-label-md text-on-surface active:scale-95"
                   >
                     Mark all out of stock
@@ -435,6 +525,82 @@ export default function ProductForm() {
                   </div>
                 </div>
               )}
+            </Section>
+
+            <Section
+              title="Shipping & tax"
+              hint="Used for delivery charges and invoices. New products start from the category's usual values."
+            >
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Weight (g)" htmlFor="weight" hint="Packed weight.">
+                  <Input
+                    id="weight"
+                    type="number"
+                    inputMode="numeric"
+                    min="1"
+                    value={form.weightGrams}
+                    onChange={(e) => set({ weightGrams: e.target.value })}
+                  />
+                </Field>
+                <Field label="Max per order" htmlFor="maxqty" hint="1 to 20.">
+                  <Input
+                    id="maxqty"
+                    type="number"
+                    inputMode="numeric"
+                    min="1"
+                    max="20"
+                    value={form.maxQtyPerOrder}
+                    onChange={(e) => set({ maxQtyPerOrder: e.target.value })}
+                  />
+                </Field>
+              </div>
+              <div>
+                <span className="field-label">Package size (cm)</span>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    ['l', 'Length'],
+                    ['b', 'Breadth'],
+                    ['h', 'Height'],
+                  ].map(([k, label]) => (
+                    <Input
+                      key={k}
+                      aria-label={`${label} in cm`}
+                      placeholder={label}
+                      type="number"
+                      inputMode="numeric"
+                      min="1"
+                      value={form.dimensionsCm[k]}
+                      onChange={(e) => setDims({ [k]: e.target.value })}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="HSN code" htmlFor="hsn" error={errors.hsnCode} hint="4 to 8 digits, for GST invoices.">
+                  <Input
+                    id="hsn"
+                    inputMode="numeric"
+                    maxLength={8}
+                    value={form.hsnCode}
+                    invalid={!!errors.hsnCode}
+                    onChange={(e) => set({ hsnCode: e.target.value.replace(/\D/g, '') })}
+                  />
+                </Field>
+                <Field label="GST rate (%)" htmlFor="tax">
+                  <Input
+                    id="tax"
+                    type="number"
+                    inputMode="decimal"
+                    min="0"
+                    max="28"
+                    step="0.25"
+                    value={form.taxRatePercent}
+                    onChange={(e) => set({ taxRatePercent: e.target.value })}
+                  />
+                </Field>
+              </div>
+              <Switch checked={form.isCodAllowed} onChange={(v) => set({ isCodAllowed: v })} label="Allow Cash on Delivery" />
+              <Switch checked={form.isReturnable} onChange={(v) => set({ isReturnable: v })} label="Returnable" />
             </Section>
 
             <Section title="Colours" hint="Link a colour to another product to open it when tapped.">

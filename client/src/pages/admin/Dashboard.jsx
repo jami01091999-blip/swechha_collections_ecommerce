@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AdminHeader, AdminNav } from '../../components/admin/AdminChrome';
 import { Thumb } from '../../components/admin/bits';
@@ -6,29 +6,9 @@ import { Button, Card, PageContainer, Skeleton, StatusChip } from '../../compone
 import StockSheet from '../../components/admin/StockSheet';
 import Icon from '../../components/shared/Icon';
 import ScrollToHash from '../../components/shared/ScrollToHash';
-import { useAdminProducts, useSettings } from '../../lib/api';
+import { useAdminStats, useSettings } from '../../lib/api';
 import { ADMIN_BASE } from '../../lib/constants';
 import { formatINR } from '../../lib/format';
-import { attentionChip, isOutOfStock, stockSummary, threshold } from '../../lib/stock';
-
-export function useInventoryStats(products) {
-  return useMemo(() => {
-    const list = products || [];
-    const out = list.filter(isOutOfStock);
-    const low = list.filter((p) => !isOutOfStock(p) && stockSummary(p).low.length > 0);
-    const attention = list.filter((p) => attentionChip(p));
-    return {
-      total: list.length,
-      categories: new Set(list.map((p) => p.category)).size,
-      published: list.filter((p) => p.status === 'published').length,
-      drafts: list.filter((p) => p.status !== 'published').length,
-      out: out.length,
-      low: low.length,
-      lowLimit: Math.max(2, ...list.map(threshold)),
-      attention,
-    };
-  }, [products]);
-}
 
 function Stat({ label, icon, value, note, iconWrap, valueClass, noteClass, hover }) {
   return (
@@ -63,11 +43,12 @@ function RowSkeleton() {
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { data: products, loading, error, reload } = useAdminProducts();
+  // Counts come from one aggregation on the server; the dashboard never downloads the whole catalogue.
+  const { data, loading, error, reload } = useAdminStats();
   const { data: settings } = useSettings();
-  const stats = useInventoryStats(products);
+  const stats = { total: 0, categories: 0, published: 0, drafts: 0, ...data, out: data?.outOfStock || 0 };
   const [stockFor, setStockFor] = useState(null);
-  const recent = [...(products || [])].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3);
+  const recent = data?.recent || [];
   const live = stats.published > 0;
 
   const tip =
@@ -86,7 +67,7 @@ export default function Dashboard() {
   return (
     <>
       <ScrollToHash ready={!loading} />
-      <AdminHeader alerts={stats.attention.length} />
+      <AdminHeader />
       <PageContainer as="main" className="px-gutter-mobile space-y-5 md:space-y-7 pt-3 md:pt-6">
         {/* Live bar */}
         <div className="flex items-center justify-between bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-3 shadow-luxury-subtle">
@@ -108,7 +89,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {error && !products && (
+        {error && !data && (
           <Card className="text-center">
             <p className="font-body-sm text-body-sm text-on-surface">{error.message}</p>
             <Button variant="ghost" size="sm" onClick={reload} className="mt-2">
@@ -179,7 +160,7 @@ export default function Dashboard() {
               </Link>
             </div>
             <div className="space-y-2">
-              {loading && !products ? (
+              {loading && !data ? (
                 <RowSkeleton />
               ) : recent.length ? (
                 recent.map((p) => (
