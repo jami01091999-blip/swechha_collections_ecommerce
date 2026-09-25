@@ -1,5 +1,65 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`admin > customers see "no access" 1`] = `
+"<body>
+  <div>
+    <div
+      class="admin-root antialiased bg-[#f0eded] flex justify-center md:py-0 min-h-screen py-0 selection:bg-primary-container selection:text-white sm:py-6 text-on-surface"
+    >
+      <div
+        class="bg-background border border-outline-variant/30 flex flex-col max-w-[480px] md:border-0 md:max-w-none md:pb-16 md:rounded-none md:shadow-none min-h-screen overflow-clip pb-28 relative shadow-2xl sm:rounded-[32px] w-full"
+      >
+        <div
+          class="flex flex-1 items-center justify-center px-gutter-mobile py-16"
+        >
+          <div
+            class="admin-card flex flex-col items-center md:max-w-sm p-5 shadow-luxury text-center w-full"
+          >
+            <div
+              class="bg-secondary-container/60 border border-secondary/40 flex h-12 items-center justify-center rounded-full text-primary w-12"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-[24px]"
+              >
+                lock
+              </span>
+            </div>
+            <h1
+              class="font-headline-sm mt-3 text-headline-sm text-primary"
+            >
+              You don't have access to the admin area
+            </h1>
+            <p
+              class="font-body-sm mt-1 text-body-sm text-on-surface-variant"
+            >
+              You're signed in as 
+              <span
+                class="break-all font-semibold text-on-surface"
+              >
+                ana@example.com
+              </span>
+              . Ask the shop owner to add you to the team.
+            </p>
+            <a
+              class="active:scale-95 bg-primary-container disabled:opacity-60 font-semibold font-title-md hover:bg-[#541423] mt-4 py-3 rounded-xl shadow-luxury text-[15px] text-center text-surface-container-lowest transition-all w-full"
+              href="/"
+            >
+              Back to the shop
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      aria-live="polite"
+      class="-translate-x-1/2 bg-primary duration-300 fixed left-1/2 max-w-[90vw] opacity-0 pointer-events-none px-4 py-2 rounded-full shadow-lg text-center text-white text-xs top-14 transition-all z-[70]"
+      role="status"
+    />
+  </div>
+</body>"
+`;
+
 exports[`admin > dashboard 1`] = `
 "<body>
   <div>
@@ -636,175 +696,6 @@ exports[`admin > dashboard 1`] = `
             />
           </a>
         </nav>
-      </div>
-    </div>
-    <div
-      aria-live="polite"
-      class="-translate-x-1/2 bg-primary duration-300 fixed left-1/2 max-w-[90vw] opacity-0 pointer-events-none px-4 py-2 rounded-full shadow-lg text-center text-white text-xs top-14 transition-all z-[70]"
-      role="status"
-    />
-  </div>
-</body>"
-`;
-
-exports[`admin > gate: asks for the key 1`] = `
-"<body>
-  <div>
-    <div
-      class="admin-root antialiased bg-[#f0eded] flex justify-center md:py-0 min-h-screen py-0 selection:bg-primary-container selection:text-white sm:py-6 text-on-surface"
-    >
-      <div
-        class="bg-background border border-outline-variant/30 flex flex-col max-w-[480px] md:border-0 md:max-w-none md:pb-16 md:rounded-none md:shadow-none min-h-screen overflow-clip pb-28 relative shadow-2xl sm:rounded-[32px] w-full"
-      >
-        <div
-          class="flex flex-1 items-center justify-center px-gutter-mobile py-16"
-        >
-          <form
-            class="admin-card flex flex-col items-center md:max-w-sm p-5 shadow-luxury text-center w-full"
-          >
-            <div
-              class="bg-secondary-container/60 border border-secondary/40 flex h-12 items-center justify-center rounded-full text-primary w-12"
-            >
-              <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-[24px]"
-              >
-                lock
-              </span>
-            </div>
-            <h1
-              class="font-headline-sm mt-3 text-headline-sm text-primary"
-            >
-              Enter Admin Key
-            </h1>
-            <p
-              class="font-body-sm mt-1 text-body-sm text-on-surface-variant"
-            >
-              Asked once on this device.
-            </p>
-            <label
-              class="mt-4 relative text-left w-full"
-            >
-              <span
-                class="sr-only"
-              >
-                Admin key
-              </span>
-              <input
-                autocomplete="current-password"
-                class="field pr-11"
-                placeholder="Admin key"
-                type="password"
-                value=""
-              />
-              <button
-                aria-label="Show key"
-                class="-translate-y-1/2 absolute p-1.5 right-2 text-on-surface-variant top-1/2"
-                type="button"
-              >
-                <span
-                  aria-hidden="true"
-                  class="material-symbols-outlined text-[20px]"
-                >
-                  visibility
-                </span>
-              </button>
-            </label>
-            <button
-              class="active:scale-95 bg-primary-container disabled:opacity-60 font-semibold font-title-md hover:bg-[#541423] mt-4 py-3 rounded-xl shadow-luxury text-[15px] text-surface-container-lowest transition-all w-full"
-              type="submit"
-            >
-              Continue
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div
-      aria-live="polite"
-      class="-translate-x-1/2 bg-primary duration-300 fixed left-1/2 max-w-[90vw] opacity-0 pointer-events-none px-4 py-2 rounded-full shadow-lg text-center text-white text-xs top-14 transition-all z-[70]"
-      role="status"
-    />
-  </div>
-</body>"
-`;
-
-exports[`admin > gate: wrong key 1`] = `
-"<body>
-  <div>
-    <div
-      class="admin-root antialiased bg-[#f0eded] flex justify-center md:py-0 min-h-screen py-0 selection:bg-primary-container selection:text-white sm:py-6 text-on-surface"
-    >
-      <div
-        class="bg-background border border-outline-variant/30 flex flex-col max-w-[480px] md:border-0 md:max-w-none md:pb-16 md:rounded-none md:shadow-none min-h-screen overflow-clip pb-28 relative shadow-2xl sm:rounded-[32px] w-full"
-      >
-        <div
-          class="flex flex-1 items-center justify-center px-gutter-mobile py-16"
-        >
-          <form
-            class="admin-card flex flex-col items-center md:max-w-sm p-5 shadow-luxury text-center w-full"
-          >
-            <div
-              class="bg-secondary-container/60 border border-secondary/40 flex h-12 items-center justify-center rounded-full text-primary w-12"
-            >
-              <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-[24px]"
-              >
-                lock
-              </span>
-            </div>
-            <h1
-              class="font-headline-sm mt-3 text-headline-sm text-primary"
-            >
-              Enter Admin Key
-            </h1>
-            <p
-              class="font-body-sm mt-1 text-body-sm text-on-surface-variant"
-            >
-              Asked once on this device.
-            </p>
-            <label
-              class="mt-4 relative text-left w-full"
-            >
-              <span
-                class="sr-only"
-              >
-                Admin key
-              </span>
-              <input
-                autocomplete="current-password"
-                class="field field-error pr-11"
-                placeholder="Admin key"
-                type="password"
-                value="nope"
-              />
-              <button
-                aria-label="Show key"
-                class="-translate-y-1/2 absolute p-1.5 right-2 text-on-surface-variant top-1/2"
-                type="button"
-              >
-                <span
-                  aria-hidden="true"
-                  class="material-symbols-outlined text-[20px]"
-                >
-                  visibility
-                </span>
-              </button>
-            </label>
-            <p
-              class="font-body-sm mt-1.5 text-[12px] text-error text-left w-full"
-            >
-              Incorrect key
-            </p>
-            <button
-              class="active:scale-95 bg-primary-container disabled:opacity-60 font-semibold font-title-md hover:bg-[#541423] mt-4 py-3 rounded-xl shadow-luxury text-[15px] text-surface-container-lowest transition-all w-full"
-              type="submit"
-            >
-              Continue
-            </button>
-          </form>
-        </div>
       </div>
     </div>
     <div

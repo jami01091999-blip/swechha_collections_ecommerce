@@ -3,11 +3,13 @@ import { createBrowserRouter, Outlet, RouterProvider, ScrollRestoration } from '
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ToastProvider } from './context/Toast';
 import { queryClient } from './lib/queryClient';
+import { AuthProvider } from './lib/auth';
 import PublicLayout from './components/public/PublicLayout';
 import Home from './pages/public/Home';
 import Collection from './pages/public/Collection';
 import ProductDetail from './pages/public/ProductDetail';
 import NotFound from './pages/public/NotFound';
+import Login from './pages/public/Login';
 import { AdminShellLoading } from './components/admin/AdminLoading';
 import { ADMIN_BASE } from './lib/constants';
 
@@ -36,10 +38,12 @@ const devRoutes = UiKit
 function Root() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ToastProvider>
-        <ScrollRestoration getKey={(location) => location.pathname + location.search} />
-        <Outlet />
-      </ToastProvider>
+      <AuthProvider>
+        <ToastProvider>
+          <ScrollRestoration getKey={(location) => location.pathname + location.search} />
+          <Outlet />
+        </ToastProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
@@ -54,6 +58,7 @@ export const routes = [
           { path: '/', element: <Home /> },
           { path: '/collection', element: <Collection /> },
           { path: '/product/:slug', element: <ProductDetail /> },
+          { path: '/login', element: <Login /> },
         ],
       },
       {

@@ -135,4 +135,12 @@ export const SETTINGS = {
   updatedAt: '2025-09-01T10:00:00.000Z',
 };
 
-export const ADMIN_KEY = 'test-key';
+const person = (id, email, name, role) => ({ _id: id, email, name, phone: '', role, createdAt: '2025-09-01T10:00:00.000Z' });
+export const USERS = {
+  customer: person('64c000000000000000000001', 'ana@example.com', 'Ana Rao', 'customer'),
+  staff: person('64c000000000000000000002', 'staff@swechha.test', 'Sita Staff', 'staff'),
+  admin: person('64c000000000000000000003', 'owner@swechha.test', 'Divya Owner', 'admin'),
+};
+
+/** The code the mock API accepts. */
+export const GOOD_CODE = '123456';

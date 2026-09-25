@@ -6,7 +6,7 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { prettyDOM } from '@testing-library/dom';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { createMockApi } from './mockApi.js';
-import { ADMIN_KEY } from './fixtures.js';
+import { USERS } from './fixtures.js';
 
 let api;
 
@@ -29,11 +29,11 @@ async function settle() {
   }
 }
 
-async function renderRoute(path, { admin = false, failProducts = false, wait = true } = {}) {
+/** `user`: who is signed in (USERS.customer / staff / admin); `admin: true` is shorthand for USERS.admin. */
+async function renderRoute(path, { admin = false, user = null, failProducts = false, wait = true } = {}) {
   vi.resetModules();
-  api = createMockApi({ failProducts });
+  api = createMockApi({ failProducts, user: admin ? USERS.admin : user });
   vi.stubGlobal('fetch', api.fetch);
-  if (admin) localStorage.setItem('swechha_admin_key', ADMIN_KEY);
   const { routes } = await import('../src/App.jsx');
   const router = createMemoryRouter(routes, { initialEntries: [path] });
   const utils = render(<RouterProvider router={router} />);
@@ -118,16 +118,19 @@ describe('public site', () => {
 });
 
 describe('admin', () => {
-  it('gate: asks for the key', async () => {
-    await renderRoute('/adminDivya');
+  it('guests are sent to sign in, then back', async () => {
+    const { router } = await renderRoute('/adminDivya/products');
+    expect(router.state.location.pathname).toBe('/login');
+    expect(router.state.location.search).toBe('?next=%2FadminDivya%2Fproducts');
+  });
+  it('customers see "no access"', async () => {
+    await renderRoute('/adminDivya', { user: USERS.customer });
+    expect(screen.getByText("You don't have access to the admin area")).toBeTruthy();
     expect(snap()).toMatchSnapshot();
   });
-  it('gate: wrong key', async () => {
-    await renderRoute('/adminDivya');
-    fireEvent.change(screen.getByPlaceholderText('Admin key'), { target: { value: 'nope' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
-    await settle();
-    expect(snap()).toMatchSnapshot();
+  it('staff can open the admin', async () => {
+    await renderRoute('/adminDivya/products', { user: USERS.staff });
+    expect(screen.getByText(/Products \(4\)/)).toBeTruthy();
   });
   it('dashboard', async () => {
     await renderRoute('/adminDivya', { admin: true });
@@ -178,12 +181,14 @@ describe('admin', () => {
 });
 
 describe('api client', () => {
-  it('sends the admin key only on admin requests', async () => {
+  it('every request sends cookies and the CSRF header, never an admin key', async () => {
     await renderRoute('/adminDivya/products', { admin: true });
-    const list = api.state.calls.find((c) => c.url === '/api/products?all=1');
-    expect(list.headers['x-admin-key']).toBe(ADMIN_KEY);
-    const settings = await renderRoute('/');
-    expect(settings).toBeTruthy();
-    for (const c of api.state.calls) expect(c.headers?.['x-admin-key']).toBeUndefined();
+    expect(api.state.calls.length).toBeGreaterThanOrEqual(2);
+    for (const c of api.state.calls) {
+      expect(c.credentials).toBe('include');
+      expect(c.headers['X-Requested-With']).toBe('swechha');
+      expect(c.headers['x-admin-key']).toBeUndefined();
+    }
+    expect(localStorage.getItem('swechha_admin_key')).toBeNull();
   });
 });

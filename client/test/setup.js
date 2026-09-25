@@ -8,3 +8,14 @@ window.scrollTo = vi.fn();
 Element.prototype.scrollTo = function scrollTo() {};
 Element.prototype.scrollBy = function scrollBy() {};
 Element.prototype.scrollIntoView = function scrollIntoView() {};
+
+// React Router builds a Request on navigation; Node's Request rejects jsdom's AbortSignal, so drop the signal in tests.
+const NativeRequest = globalThis.Request;
+globalThis.Request = class TestRequest extends NativeRequest {
+  constructor(input, init) {
+    if (init?.signal) {
+      const { signal: _signal, ...rest } = init;
+      super(input, rest);
+    } else super(input, init);
+  }
+};
