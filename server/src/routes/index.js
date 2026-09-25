@@ -11,6 +11,7 @@ import * as upload from '../controllers/uploadController.js';
 import * as admin from '../controllers/adminController.js';
 import { health } from '../controllers/healthController.js';
 import { authRouter } from './auth.js';
+import { usersRouter } from './users.js';
 
 const adminWrite = [adminWriteLimiter, requireAdmin];
 const idParam = validate(productIdParams, 'params');
@@ -18,6 +19,7 @@ const idParam = validate(productIdParams, 'params');
 export const apiRouter = Router();
 
 apiRouter.use('/auth', authRouter);
+apiRouter.use('/users', usersRouter);
 
 apiRouter
   .route('/health')
