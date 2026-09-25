@@ -1,0 +1,39 @@
+# Render Blueprint: the Express API (server/). The React client is deployed separately on Vercel.
+# Secrets are `sync: false`: Render asks for them when the Blueprint is first applied, and they are
+# never stored in this file.
+services:
+  - type: web
+    name: swechha-api
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: server
+    # npm finds the workspace root and installs only the server's production dependencies
+    # from the root package-lock.json.
+    buildCommand: npm ci
+    startCommand: node src/server.js
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: APP_MODE
+        value: test
+      - key: LOG_LEVEL
+        value: info
+      - key: MONGO_DB
+        value: swechha
+      - key: CLOUDINARY_FOLDER
+        value: swechha/products
+      - key: MONGO_URI
+        sync: false
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: ADMIN_KEY
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
