@@ -43,7 +43,9 @@ const problems = [
 ];
 if (problems.length) {
   // Only variable names and rule messages are printed, never values.
-  console.error(`Invalid server environment. Fix these in server/.env (or the Render dashboard):\n${problems.map((p) => `  - ${p}`).join('\n')}`);
+  console.error(
+    `Invalid server environment. Fix these in server/.env (or the Render dashboard):\n${problems.map((p) => `  - ${p}`).join('\n')}`
+  );
   process.exit(1);
 }
 
