@@ -4,6 +4,8 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ToastProvider } from './context/Toast';
 import { queryClient } from './lib/queryClient';
 import { AuthProvider, PageSpinner, RequireAuth } from './lib/auth';
+import { WishlistSync } from './lib/wishlist';
+import Saved from './pages/public/Saved';
 import PublicLayout from './components/public/PublicLayout';
 import Home from './pages/public/Home';
 import Collection from './pages/public/Collection';
@@ -43,6 +45,7 @@ function Root() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <ToastProvider>
+          <WishlistSync />
           <ScrollRestoration getKey={(location) => location.pathname + location.search} />
           <Outlet />
         </ToastProvider>
@@ -62,6 +65,7 @@ export const routes = [
           { path: '/collection', element: <Collection /> },
           { path: '/product/:slug', element: <ProductDetail /> },
           { path: '/login', element: <Login /> },
+          { path: '/saved', element: <Saved /> },
           {
             path: '/account',
             element: (

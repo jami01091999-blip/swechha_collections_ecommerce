@@ -58,7 +58,7 @@ exports[`accounts and team > account (customer) 1`] = `
                   </span>
                   <input
                     aria-autocomplete="list"
-                    aria-controls=":rh:"
+                    aria-controls=":ri:"
                     aria-expanded="false"
                     aria-label="Search the catalogue"
                     autocomplete="off"
@@ -71,6 +71,18 @@ exports[`accounts and team > account (customer) 1`] = `
                   />
                 </form>
               </div>
+              <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
               <a
                 aria-label="My account"
                 href="/account"
@@ -141,6 +153,34 @@ exports[`accounts and team > account (customer) 1`] = `
                 ana@example.com
               </p>
             </div>
+            <a
+              class="admin-card flex gap-3 hover:border-outline-variant items-center justify-between transition-colors"
+              href="/saved"
+            >
+              <span
+                class="flex gap-3 items-center"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-[22px] text-primary"
+                >
+                  favorite
+                </span>
+                <span
+                  class="font-title-md text-[15px] text-primary"
+                >
+                  Saved designs (
+                  0
+                  )
+                </span>
+              </span>
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-outline"
+              >
+                chevron_right
+              </span>
+            </a>
             <div
               class="md:gap-5 md:grid md:grid-cols-2 md:items-start md:space-y-0 space-y-4"
             >
@@ -446,7 +486,7 @@ exports[`accounts and team > drawer when signed in 1`] = `
                   </span>
                   <input
                     aria-autocomplete="list"
-                    aria-controls=":ri:"
+                    aria-controls=":rj:"
                     aria-expanded="false"
                     aria-label="Search the catalogue"
                     autocomplete="off"
@@ -459,6 +499,18 @@ exports[`accounts and team > drawer when signed in 1`] = `
                   />
                 </form>
               </div>
+              <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
               <a
                 aria-label="My account"
                 href="/account"
@@ -479,18 +531,26 @@ exports[`accounts and team > drawer when signed in 1`] = `
           <header
             class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 flex items-center justify-between max-w-7xl md:hidden mx-auto px-gutter-mobile py-space-sm sticky top-0 w-full z-40"
           >
-            <button
-              aria-label="Open Navigation Drawer"
-              class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
-              type="button"
+            <div
+              class="flex gap-0.5 items-center"
             >
+              <button
+                aria-label="Open Navigation Drawer"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  menu
+                </span>
+              </button>
               <span
                 aria-hidden="true"
-                class="material-symbols-outlined text-2xl text-primary"
-              >
-                menu
-              </span>
-            </button>
+                class="w-10"
+              />
+            </div>
             <a
               class="flex flex-col items-center justify-center text-center"
               href="/"
@@ -501,18 +561,34 @@ exports[`accounts and team > drawer when signed in 1`] = `
                 Swechha Collections
               </span>
             </a>
-            <button
-              aria-label="Search Catalogue"
-              class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
-              type="button"
+            <div
+              class="flex gap-0.5 items-center"
             >
-              <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl text-primary"
+              <a
+                aria-label="Saved designs"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center relative rounded-full text-primary transition-colors w-10"
+                href="/saved"
               >
-                search
-              </span>
-            </button>
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  favorite
+                </span>
+              </a>
+              <button
+                aria-label="Search Catalogue"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  search
+                </span>
+              </button>
+            </div>
           </header>
           <div
             aria-label="Menu"
@@ -1647,7 +1723,7 @@ exports[`accounts and team > login: email step 1`] = `
                   </span>
                   <input
                     aria-autocomplete="list"
-                    aria-controls=":rg:"
+                    aria-controls=":rh:"
                     aria-expanded="false"
                     aria-label="Search the catalogue"
                     autocomplete="off"
@@ -1660,6 +1736,18 @@ exports[`accounts and team > login: email step 1`] = `
                   />
                 </form>
               </div>
+              <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
               <a
                 aria-label="Log in or sign up"
                 class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
@@ -11249,34 +11337,243 @@ exports[`admin > products: quick stock sheet 1`] = `
 </body>"
 `;
 
-exports[`public site > /saved stays unrouted (404) 1`] = `
+exports[`public site > /saved for a guest with nothing saved 1`] = `
 "<body>
   <div>
     <div
-      class="bg-surface flex flex-col items-center justify-center min-h-screen px-8 text-center"
+      class="antialiased bg-background flex font-body-md justify-center min-h-screen selection:bg-primary-container selection:text-white text-body-md text-on-surface"
     >
-      <span
-        aria-hidden="true"
-        class="material-symbols-outlined text-5xl text-outline"
+      <div
+        class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
-        checkroom
-      </span>
-      <h1
-        class="font-headline-sm mt-3 text-headline-sm text-primary"
-      >
-        Not found
-      </h1>
-      <p
-        class="font-body-sm mt-1 text-body-sm text-on-surface-variant"
-      >
-        This page does not exist.
-      </p>
-      <a
-        class="bg-primary-container font-label-lg mt-5 px-5 py-2.5 rounded-xl text-label-lg text-white tracking-wide"
-        href="/"
-      >
-        Back to catalogue
-      </a>
+        <header
+          class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
+        >
+          <div
+            class="flex gap-6 h-[72px] items-center justify-between max-w-6xl mx-auto px-8"
+          >
+            <a
+              class="flex flex-col shrink-0"
+              href="/"
+            >
+              <span
+                class="font-headline-sm font-medium text-headline-sm text-primary tracking-wide"
+              >
+                Swechha Collections
+              </span>
+            </a>
+            <nav
+              class="flex gap-7 items-center"
+            >
+              <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/"
+              >
+                Curation
+              </a>
+              <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/collection"
+              >
+                Lookbook
+              </a>
+            </nav>
+            <div
+              class="flex gap-2 items-center shrink-0"
+            >
+              <div
+                class="relative"
+              >
+                <form
+                  role="search"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="-translate-y-1/2 absolute left-3 material-symbols-outlined text-outline text-xl top-1/2"
+                  >
+                    search
+                  </span>
+                  <input
+                    aria-autocomplete="list"
+                    aria-controls=":rf:"
+                    aria-expanded="false"
+                    aria-label="Search the catalogue"
+                    autocomplete="off"
+                    class="bg-[#FAF6F0] border border-[#EBE5DD] focus:border-[#C59B6A] focus:ring-0 font-body-sm lg:w-60 pl-10 placeholder:text-outline/70 pr-4 py-2 rounded-full text-[13px] text-on-surface w-44"
+                    enterkeyhint="search"
+                    placeholder="Search designs"
+                    role="combobox"
+                    type="search"
+                    value=""
+                  />
+                </form>
+              </div>
+              <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
+              <a
+                aria-label="Log in or sign up"
+                class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+                href="/login"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
+              </a>
+            </div>
+          </div>
+        </header>
+        <div
+          class="flex flex-col md:pb-16 min-h-screen pb-24 w-full"
+        >
+          <header
+            class="backdrop-blur-md bg-surface/95 border-b border-outline-variant/30 flex items-center justify-between md:hidden px-margin-mobile py-2.5 sticky top-0 z-40"
+          >
+            <button
+              aria-label="Return to Catalogue"
+              class="-ml-1 active:scale-90 flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                arrow_back
+              </span>
+            </button>
+            <div
+              class="flex flex-1 flex-col items-center justify-center overflow-hidden px-2 text-center"
+            >
+              <span
+                class="font-medium font-title-md max-w-[210px] text-[14px] text-primary truncate"
+              >
+                Saved Designs
+              </span>
+              <span
+                class="-mt-0.5 font-label-md text-[10px] text-secondary tracking-widest uppercase"
+              >
+                0 saved
+              </span>
+            </div>
+            <div
+              class="flex gap-1 items-center justify-end min-w-9"
+            >
+              <span
+                class="w-9"
+              />
+            </div>
+          </header>
+          <div
+            class="hidden items-baseline justify-between md:flex md:max-w-6xl md:mx-auto md:px-8 md:w-full pb-2 pt-8"
+          >
+            <h1
+              class="font-headline-md text-headline-md text-primary"
+            >
+              Saved Designs
+            </h1>
+            <span
+              class="font-label-lg text-label-lg text-secondary"
+            >
+              0
+               saved
+            </span>
+          </div>
+          <main
+            class="flex-1 md:max-w-6xl md:mx-auto md:px-8 md:w-full pt-4 px-margin-mobile space-y-4"
+          >
+            <div
+              class="flex flex-col items-center px-6 py-16 text-center"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-4xl text-outline"
+              >
+                favorite
+              </span>
+              <p
+                class="font-headline-sm mt-2 text-[18px] text-primary"
+              >
+                Nothing saved yet
+              </p>
+              <p
+                class="font-body-sm max-w-[260px] mt-1 text-body-sm text-on-surface-variant"
+              >
+                Tap the heart on any design to keep it here for later.
+              </p>
+              <a
+                class="active:scale-95 bg-primary-container font-label-lg mt-4 px-5 py-2.5 rounded-xl text-label-lg text-white tracking-wide transition-all"
+                href="/collection"
+              >
+                Browse designs
+              </a>
+            </div>
+          </main>
+          <nav
+            class="backdrop-blur-md bg-surface/95 border-outline-variant/20 border-t bottom-0 fixed flex items-center justify-around left-0 max-w-[480px] md:hidden mx-auto pb-[max(0.25rem,env(safe-area-inset-bottom))] px-gutter-mobile py-space-xs right-0 shadow-[0_-4px_16px_rgba(107,29,47,0.06)] w-full z-40"
+          >
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                auto_awesome
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Curation
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/collection"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                menu_book
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Lookbook
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/account"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                person
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Account
+              </span>
+            </a>
+          </nav>
+        </div>
+      </div>
     </div>
     <div
       aria-live="polite"
@@ -11359,6 +11656,18 @@ exports[`public site > collection 1`] = `
                   />
                 </form>
               </div>
+              <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
               <a
                 aria-label="Log in or sign up"
                 class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
@@ -12232,6 +12541,18 @@ exports[`public site > collection: category + in stock + sort 1`] = `
                 </form>
               </div>
               <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
+              <a
                 aria-label="Log in or sign up"
                 class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
                 href="/login"
@@ -13004,6 +13325,18 @@ exports[`public site > collection: empty 1`] = `
                 </form>
               </div>
               <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
+              <a
                 aria-label="Log in or sign up"
                 class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
                 href="/login"
@@ -13664,6 +13997,18 @@ exports[`public site > home 1`] = `
                 </form>
               </div>
               <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
+              <a
                 aria-label="Log in or sign up"
                 class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
                 href="/login"
@@ -13684,18 +14029,26 @@ exports[`public site > home 1`] = `
           <header
             class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 flex items-center justify-between max-w-7xl md:hidden mx-auto px-gutter-mobile py-space-sm sticky top-0 w-full z-40"
           >
-            <button
-              aria-label="Open Navigation Drawer"
-              class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
-              type="button"
+            <div
+              class="flex gap-0.5 items-center"
             >
+              <button
+                aria-label="Open Navigation Drawer"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  menu
+                </span>
+              </button>
               <span
                 aria-hidden="true"
-                class="material-symbols-outlined text-2xl text-primary"
-              >
-                menu
-              </span>
-            </button>
+                class="w-10"
+              />
+            </div>
             <a
               class="flex flex-col items-center justify-center text-center"
               href="/"
@@ -13706,18 +14059,34 @@ exports[`public site > home 1`] = `
                 Swechha Collections
               </span>
             </a>
-            <button
-              aria-label="Search Catalogue"
-              class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
-              type="button"
+            <div
+              class="flex gap-0.5 items-center"
             >
-              <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl text-primary"
+              <a
+                aria-label="Saved designs"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center relative rounded-full text-primary transition-colors w-10"
+                href="/saved"
               >
-                search
-              </span>
-            </button>
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  favorite
+                </span>
+              </a>
+              <button
+                aria-label="Search Catalogue"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  search
+                </span>
+              </button>
+            </div>
           </header>
           <main
             class="flex flex-1 flex-col w-full"
@@ -14613,6 +14982,18 @@ exports[`public site > home: drawer open 1`] = `
                 </form>
               </div>
               <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
+              <a
                 aria-label="Log in or sign up"
                 class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
                 href="/login"
@@ -14633,18 +15014,26 @@ exports[`public site > home: drawer open 1`] = `
           <header
             class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 flex items-center justify-between max-w-7xl md:hidden mx-auto px-gutter-mobile py-space-sm sticky top-0 w-full z-40"
           >
-            <button
-              aria-label="Open Navigation Drawer"
-              class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
-              type="button"
+            <div
+              class="flex gap-0.5 items-center"
             >
+              <button
+                aria-label="Open Navigation Drawer"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  menu
+                </span>
+              </button>
               <span
                 aria-hidden="true"
-                class="material-symbols-outlined text-2xl text-primary"
-              >
-                menu
-              </span>
-            </button>
+                class="w-10"
+              />
+            </div>
             <a
               class="flex flex-col items-center justify-center text-center"
               href="/"
@@ -14655,18 +15044,34 @@ exports[`public site > home: drawer open 1`] = `
                 Swechha Collections
               </span>
             </a>
-            <button
-              aria-label="Search Catalogue"
-              class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
-              type="button"
+            <div
+              class="flex gap-0.5 items-center"
             >
-              <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl text-primary"
+              <a
+                aria-label="Saved designs"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center relative rounded-full text-primary transition-colors w-10"
+                href="/saved"
               >
-                search
-              </span>
-            </button>
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  favorite
+                </span>
+              </a>
+              <button
+                aria-label="Search Catalogue"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  search
+                </span>
+              </button>
+            </div>
           </header>
           <div
             aria-label="Menu"
@@ -15816,6 +16221,18 @@ exports[`public site > home: load error 1`] = `
                 </form>
               </div>
               <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
+              <a
                 aria-label="Log in or sign up"
                 class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
                 href="/login"
@@ -15836,18 +16253,26 @@ exports[`public site > home: load error 1`] = `
           <header
             class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 flex items-center justify-between max-w-7xl md:hidden mx-auto px-gutter-mobile py-space-sm sticky top-0 w-full z-40"
           >
-            <button
-              aria-label="Open Navigation Drawer"
-              class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
-              type="button"
+            <div
+              class="flex gap-0.5 items-center"
             >
+              <button
+                aria-label="Open Navigation Drawer"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  menu
+                </span>
+              </button>
               <span
                 aria-hidden="true"
-                class="material-symbols-outlined text-2xl text-primary"
-              >
-                menu
-              </span>
-            </button>
+                class="w-10"
+              />
+            </div>
             <a
               class="flex flex-col items-center justify-center text-center"
               href="/"
@@ -15858,18 +16283,34 @@ exports[`public site > home: load error 1`] = `
                 Swechha Collections
               </span>
             </a>
-            <button
-              aria-label="Search Catalogue"
-              class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
-              type="button"
+            <div
+              class="flex gap-0.5 items-center"
             >
-              <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl text-primary"
+              <a
+                aria-label="Saved designs"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center relative rounded-full text-primary transition-colors w-10"
+                href="/saved"
               >
-                search
-              </span>
-            </button>
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  favorite
+                </span>
+              </a>
+              <button
+                aria-label="Search Catalogue"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  search
+                </span>
+              </button>
+            </div>
           </header>
           <main
             class="flex flex-1 flex-col w-full"
@@ -16713,6 +17154,18 @@ exports[`public site > home: loading 1`] = `
                 </form>
               </div>
               <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
+              <a
                 aria-label="Log in or sign up"
                 class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
                 href="/login"
@@ -16733,18 +17186,26 @@ exports[`public site > home: loading 1`] = `
           <header
             class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 flex items-center justify-between max-w-7xl md:hidden mx-auto px-gutter-mobile py-space-sm sticky top-0 w-full z-40"
           >
-            <button
-              aria-label="Open Navigation Drawer"
-              class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
-              type="button"
+            <div
+              class="flex gap-0.5 items-center"
             >
+              <button
+                aria-label="Open Navigation Drawer"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  menu
+                </span>
+              </button>
               <span
                 aria-hidden="true"
-                class="material-symbols-outlined text-2xl text-primary"
-              >
-                menu
-              </span>
-            </button>
+                class="w-10"
+              />
+            </div>
             <a
               class="flex flex-col items-center justify-center text-center"
               href="/"
@@ -16755,18 +17216,34 @@ exports[`public site > home: loading 1`] = `
                 Swechha Collections
               </span>
             </a>
-            <button
-              aria-label="Search Catalogue"
-              class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
-              type="button"
+            <div
+              class="flex gap-0.5 items-center"
             >
-              <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl text-primary"
+              <a
+                aria-label="Saved designs"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center relative rounded-full text-primary transition-colors w-10"
+                href="/saved"
               >
-                search
-              </span>
-            </button>
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  favorite
+                </span>
+              </a>
+              <button
+                aria-label="Search Catalogue"
+                class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  search
+                </span>
+              </button>
+            </div>
           </header>
           <main
             class="flex flex-1 flex-col w-full"
@@ -17518,6 +17995,18 @@ exports[`public site > product: draft is not found for customers 1`] = `
                 </form>
               </div>
               <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
+              <a
                 aria-label="Log in or sign up"
                 class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
                 href="/login"
@@ -17641,6 +18130,18 @@ exports[`public site > product: free size saree 1`] = `
                 </form>
               </div>
               <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
+              <a
                 aria-label="Log in or sign up"
                 class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
                 href="/login"
@@ -17690,6 +18191,19 @@ exports[`public site > product: free size saree 1`] = `
             <div
               class="flex gap-1 items-center justify-end min-w-9"
             >
+              <button
+                aria-label="Save Gulmohar Silk Saree"
+                aria-pressed="false"
+                class="active:scale-90 flex h-9 hover:bg-surface-container hover:text-primary items-center justify-center rounded-full text-on-surface transition-colors w-9"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-xl"
+                >
+                  favorite
+                </span>
+              </button>
               <button
                 aria-label="Share"
                 class="active:scale-90 flex h-9 hover:bg-surface-container hover:text-primary items-center justify-center rounded-full text-on-surface transition-colors w-9"
@@ -17843,6 +18357,19 @@ exports[`public site > product: free size saree 1`] = `
                     Enquire on WhatsApp
                   </span>
                 </a>
+                <button
+                  aria-label="Save Gulmohar Silk Saree"
+                  aria-pressed="false"
+                  class="border border-[#C59B6A] flex h-[52px] hover:bg-surface-container-low items-center justify-center rounded-xl text-on-surface transition-colors w-[52px]"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-2xl"
+                  >
+                    favorite
+                  </span>
+                </button>
                 <button
                   aria-label="Share"
                   class="border border-[#C59B6A] flex h-[52px] hover:bg-surface-container-low items-center justify-center rounded-xl text-on-surface transition-colors w-[52px]"
@@ -18061,6 +18588,18 @@ exports[`public site > product: out of stock 1`] = `
                 </form>
               </div>
               <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
+              <a
                 aria-label="Log in or sign up"
                 class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
                 href="/login"
@@ -18110,6 +18649,19 @@ exports[`public site > product: out of stock 1`] = `
             <div
               class="flex gap-1 items-center justify-end min-w-9"
             >
+              <button
+                aria-label="Save Chandrika Velvet Lehenga"
+                aria-pressed="false"
+                class="active:scale-90 flex h-9 hover:bg-surface-container hover:text-primary items-center justify-center rounded-full text-on-surface transition-colors w-9"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-xl"
+                >
+                  favorite
+                </span>
+              </button>
               <button
                 aria-label="Share"
                 class="active:scale-90 flex h-9 hover:bg-surface-container hover:text-primary items-center justify-center rounded-full text-on-surface transition-colors w-9"
@@ -18344,6 +18896,19 @@ exports[`public site > product: out of stock 1`] = `
                   </span>
                 </a>
                 <button
+                  aria-label="Save Chandrika Velvet Lehenga"
+                  aria-pressed="false"
+                  class="border border-[#C59B6A] flex h-[52px] hover:bg-surface-container-low items-center justify-center rounded-xl text-on-surface transition-colors w-[52px]"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-2xl"
+                  >
+                    favorite
+                  </span>
+                </button>
+                <button
                   aria-label="Share"
                   class="border border-[#C59B6A] flex h-[52px] hover:bg-surface-container-low items-center justify-center rounded-xl text-on-surface transition-colors w-[52px]"
                   type="button"
@@ -18561,6 +19126,18 @@ exports[`public site > product: sized, with size picked 1`] = `
                 </form>
               </div>
               <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
+              <a
                 aria-label="Log in or sign up"
                 class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
                 href="/login"
@@ -18610,6 +19187,19 @@ exports[`public site > product: sized, with size picked 1`] = `
             <div
               class="flex gap-1 items-center justify-end min-w-9"
             >
+              <button
+                aria-label="Save Noor Kurta Set"
+                aria-pressed="false"
+                class="active:scale-90 flex h-9 hover:bg-surface-container hover:text-primary items-center justify-center rounded-full text-on-surface transition-colors w-9"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-xl"
+                >
+                  favorite
+                </span>
+              </button>
               <button
                 aria-label="Share"
                 class="active:scale-90 flex h-9 hover:bg-surface-container hover:text-primary items-center justify-center rounded-full text-on-surface transition-colors w-9"
@@ -19089,6 +19679,19 @@ exports[`public site > product: sized, with size picked 1`] = `
                   </span>
                 </a>
                 <button
+                  aria-label="Save Noor Kurta Set"
+                  aria-pressed="false"
+                  class="border border-[#C59B6A] flex h-[52px] hover:bg-surface-container-low items-center justify-center rounded-xl text-on-surface transition-colors w-[52px]"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-2xl"
+                  >
+                    favorite
+                  </span>
+                </button>
+                <button
                   aria-label="Share"
                   class="border border-[#C59B6A] flex h-[52px] hover:bg-surface-container-low items-center justify-center rounded-xl text-on-surface transition-colors w-[52px]"
                   type="button"
@@ -19308,6 +19911,18 @@ exports[`public site > product: zoom viewer 1`] = `
                 </form>
               </div>
               <a
+                aria-label="Saved designs"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/saved"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  favorite
+                </span>
+              </a>
+              <a
                 aria-label="Log in or sign up"
                 class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
                 href="/login"
@@ -19357,6 +19972,19 @@ exports[`public site > product: zoom viewer 1`] = `
             <div
               class="flex gap-1 items-center justify-end min-w-9"
             >
+              <button
+                aria-label="Save Noor Kurta Set"
+                aria-pressed="false"
+                class="active:scale-90 flex h-9 hover:bg-surface-container hover:text-primary items-center justify-center rounded-full text-on-surface transition-colors w-9"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-xl"
+                >
+                  favorite
+                </span>
+              </button>
               <button
                 aria-label="Share"
                 class="active:scale-90 flex h-9 hover:bg-surface-container hover:text-primary items-center justify-center rounded-full text-on-surface transition-colors w-9"
@@ -19835,6 +20463,19 @@ exports[`public site > product: zoom viewer 1`] = `
                     Enquire on WhatsApp
                   </span>
                 </a>
+                <button
+                  aria-label="Save Noor Kurta Set"
+                  aria-pressed="false"
+                  class="border border-[#C59B6A] flex h-[52px] hover:bg-surface-container-low items-center justify-center rounded-xl text-on-surface transition-colors w-[52px]"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-2xl"
+                  >
+                    favorite
+                  </span>
+                </button>
                 <button
                   aria-label="Share"
                   class="border border-[#C59B6A] flex h-[52px] hover:bg-surface-container-low items-center justify-center rounded-xl text-on-surface transition-colors w-[52px]"

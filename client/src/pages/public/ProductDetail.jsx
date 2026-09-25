@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SubHeader } from '../../components/public/Header';
+import SaveButton from '../../components/shared/SaveButton';
 import { MiniCard } from '../../components/public/ProductCards';
 import Img from '../../components/shared/Img';
 import Icon from '../../components/shared/Icon';
@@ -146,13 +147,19 @@ function ProductView({ p }) {
         title={p.name}
         subtitle={p.category}
         right={
-          <IconButton
-            icon="share"
-            label="Share"
-            onClick={share}
-            className="text-on-surface hover:text-primary hover:bg-surface-container transition-colors active:scale-90"
-            iconClassName="text-xl"
-          />
+          <>
+            <SaveButton
+              product={p}
+              className="text-on-surface hover:text-primary hover:bg-surface-container transition-colors active:scale-90"
+            />
+            <IconButton
+              icon="share"
+              label="Share"
+              onClick={share}
+              className="text-on-surface hover:text-primary hover:bg-surface-container transition-colors active:scale-90"
+              iconClassName="text-xl"
+            />
+          </>
         }
       />
 
@@ -359,6 +366,12 @@ function ProductView({ p }) {
               <Icon name="chat" className="text-xl" />
               <span>Enquire on WhatsApp</span>
             </Button>
+            <SaveButton
+              product={p}
+              boxed
+              className="w-[52px] h-[52px] rounded-xl border border-[#C59B6A] text-on-surface flex items-center justify-center hover:bg-surface-container-low transition-colors"
+              iconClassName="text-2xl"
+            />
             <button
               type="button"
               aria-label="Share"

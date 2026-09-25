@@ -111,7 +111,7 @@ describe('public site', () => {
     await renderRoute('/no-such-page');
     expect(snap()).toMatchSnapshot();
   });
-  it('/saved stays unrouted (404)', async () => {
+  it('/saved for a guest with nothing saved', async () => {
     await renderRoute('/saved');
     expect(snap()).toMatchSnapshot();
   });

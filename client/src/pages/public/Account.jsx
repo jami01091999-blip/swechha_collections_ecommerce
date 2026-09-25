@@ -7,6 +7,7 @@ import Icon from '../../components/shared/Icon';
 import { Button, Card, ConfirmSheet, EmptyState, Field, Input, PageContainer, Skeleton, ToneChip } from '../../components/ui';
 import { deleteAddress, logout, logoutAll, makeDefaultAddress, updateMe, useAddresses } from '../../lib/api';
 import { isStaff, useAuth } from '../../lib/auth';
+import { useSaved } from '../../lib/wishlist';
 import { ADMIN_BASE } from '../../lib/constants';
 import { normalizePhone, profileErrors } from '../../lib/validation';
 import { useToast } from '../../context/Toast';
@@ -209,6 +210,7 @@ export default function Account() {
   const navigate = useNavigate();
   const toast = useToast();
   const [confirmAll, setConfirmAll] = useState(false);
+  const { count: savedCount } = useSaved();
   const [busy, setBusy] = useState(false);
 
   const signOut = async () => {
@@ -237,6 +239,14 @@ export default function Account() {
           <h1 className="font-headline-md text-[24px] md:text-headline-md text-primary">Hello, {user.name || 'there'}</h1>
           <p className="font-body-sm text-body-sm text-on-surface-variant break-all">{user.email}</p>
         </div>
+
+        <Card as={Link} to="/saved" className="flex items-center justify-between gap-3 hover:border-outline-variant transition-colors">
+          <span className="flex items-center gap-3">
+            <Icon name="favorite" className="text-[22px] text-primary" />
+            <span className="font-title-md text-[15px] text-primary">Saved designs ({savedCount})</span>
+          </span>
+          <Icon name="chevron_right" className="text-outline" />
+        </Card>
 
         {isStaff(user) && (
           <Card className="flex items-center justify-between gap-3">

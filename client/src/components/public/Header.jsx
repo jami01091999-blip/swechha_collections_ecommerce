@@ -3,31 +3,48 @@ import Icon from '../shared/Icon';
 import { Avatar, IconButton, initials } from '../ui';
 import { useAuth } from '../../lib/auth';
 import SearchBox from '../catalog/SearchBox';
+import { SavedCountBadge } from '../shared/SaveButton';
+import { useSaved } from '../../lib/wishlist';
 
 /** Sticky top app bar — Stitch home header. */
 export default function Header({ onMenu }) {
   const navigate = useNavigate();
+  const { count } = useSaved();
   return (
     <header className="md:hidden flex justify-between items-center w-full px-gutter-mobile py-space-sm max-w-7xl mx-auto sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant/20">
-      <IconButton
-        size="lg"
-        icon="menu"
-        label="Open Navigation Drawer"
-        onClick={onMenu}
-        className="text-primary hover:bg-surface-container-high transition-colors duration-200 active:scale-95"
-        iconClassName="text-primary text-2xl"
-      />
+      {/* Left group is as wide as the right one so the name stays centred. */}
+      <div className="flex items-center gap-0.5">
+        <IconButton
+          size="lg"
+          icon="menu"
+          label="Open Navigation Drawer"
+          onClick={onMenu}
+          className="text-primary hover:bg-surface-container-high transition-colors duration-200 active:scale-95"
+          iconClassName="text-primary text-2xl"
+        />
+        <span className="w-10" aria-hidden="true" />
+      </div>
       <Link to="/" className="flex flex-col items-center justify-center text-center">
         <span className="font-headline-sm text-headline-sm font-medium tracking-wide text-primary">Swechha Collections</span>
       </Link>
-      <IconButton
-        size="lg"
-        icon="search"
-        label="Search Catalogue"
-        onClick={() => navigate('/collection?search=1')}
-        className="text-primary hover:bg-surface-container-high transition-colors duration-200 active:scale-95"
-        iconClassName="text-primary text-2xl"
-      />
+      <div className="flex items-center gap-0.5">
+        <Link
+          to="/saved"
+          aria-label={count ? `Saved designs (${count})` : 'Saved designs'}
+          className="relative w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-surface-container-high transition-colors duration-200 active:scale-95"
+        >
+          <Icon name="favorite" className="text-primary text-2xl" />
+          <SavedCountBadge count={count} />
+        </Link>
+        <IconButton
+          size="lg"
+          icon="search"
+          label="Search Catalogue"
+          onClick={() => navigate('/collection?search=1')}
+          className="text-primary hover:bg-surface-container-high transition-colors duration-200 active:scale-95"
+          iconClassName="text-primary text-2xl"
+        />
+      </div>
     </header>
   );
 }
@@ -65,6 +82,7 @@ export function DesktopHeader() {
   const navigate = useNavigate();
   const q = new URLSearchParams(search).get('q') || '';
   const { user } = useAuth();
+  const { count } = useSaved();
   return (
     <header className="hidden md:block sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant/20">
       <div className="max-w-6xl mx-auto px-8 h-[72px] flex items-center justify-between gap-6">
@@ -96,6 +114,14 @@ export function DesktopHeader() {
             dropdownClassName="right-0 w-80"
             inputClassName="w-44 lg:w-60 rounded-full border border-[#EBE5DD] bg-[#FAF6F0] pl-10 pr-4 py-2 font-body-sm text-[13px] text-on-surface placeholder:text-outline/70 focus:border-[#C59B6A] focus:ring-0"
           />
+          <Link
+            to="/saved"
+            aria-label={count ? `Saved designs (${count})` : 'Saved designs'}
+            className="relative w-9 h-9 rounded-full flex items-center justify-center text-primary hover:bg-surface-container transition-colors"
+          >
+            <Icon name="favorite" className="text-2xl" />
+            <SavedCountBadge count={count} />
+          </Link>
           {user ? (
             <Link to="/account" aria-label="My account" title={user.email}>
               <Avatar>{initials(user, 1)}</Avatar>
