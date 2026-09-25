@@ -5,13 +5,11 @@ import { ToastProvider } from './context/Toast';
 import { queryClient } from './lib/queryClient';
 import { AuthProvider, PageSpinner, RequireAuth } from './lib/auth';
 import { WishlistSync } from './lib/wishlist';
-import Saved from './pages/public/Saved';
 import PublicLayout from './components/public/PublicLayout';
 import Home from './pages/public/Home';
 import Collection from './pages/public/Collection';
 import ProductDetail from './pages/public/ProductDetail';
 import NotFound from './pages/public/NotFound';
-import Login from './pages/public/Login';
 import { AdminShellLoading } from './components/admin/AdminLoading';
 import { ADMIN_BASE } from './lib/constants';
 
@@ -24,6 +22,9 @@ const Lookbook = lazy(() => import('./pages/admin/Lookbook'));
 const Team = lazy(() => import('./pages/admin/Team'));
 // Only signed-in customers need the account page, so it is split out too.
 const Account = lazy(() => import('./pages/public/Account'));
+const Login = lazy(() => import('./pages/public/Login'));
+const Saved = lazy(() => import('./pages/public/Saved'));
+const page = (el) => <Suspense fallback={<PageSpinner />}>{el}</Suspense>;
 
 // UI kit gallery, dev server only: import.meta.env.DEV is false in `vite build`, so this import is dropped.
 const UiKit = import.meta.env.DEV ? lazy(() => import('./dev/UiKit')) : null;
@@ -64,8 +65,8 @@ export const routes = [
           { path: '/', element: <Home /> },
           { path: '/collection', element: <Collection /> },
           { path: '/product/:slug', element: <ProductDetail /> },
-          { path: '/login', element: <Login /> },
-          { path: '/saved', element: <Saved /> },
+          { path: '/login', element: page(<Login />) },
+          { path: '/saved', element: page(<Saved />) },
           {
             path: '/account',
             element: (
