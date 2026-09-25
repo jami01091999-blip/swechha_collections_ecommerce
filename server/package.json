@@ -15,7 +15,8 @@
     "seed": "node src/scripts/seed.js",
     "seed:reset": "node src/scripts/seed.js --reset",
     "db:indexes": "node src/scripts/syncIndexes.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "migrate:002": "node src/scripts/migrations/002-sizes-sku.js"
   },
   "dependencies": {
     "compression": "^1.8.2",

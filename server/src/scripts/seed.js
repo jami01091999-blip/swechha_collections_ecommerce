@@ -3,7 +3,8 @@
 import { connectDb, disconnectDb } from '../db/mongoose.js';
 import { Product } from '../models/Product.js';
 import { Setting } from '../models/Setting.js';
-import { PRODUCT_DEFAULTS } from '../validators/product.js';
+import { PRODUCT_DEFAULTS, commerceDefaults } from '../validators/product.js';
+import { shapeProduct } from '../services/productShape.js';
 import { DEFAULT_SETTINGS } from '../validators/settings.js';
 import { SEED_PRODUCTS } from './seed-data.js';
 
@@ -19,9 +20,10 @@ try {
   const base = Date.now();
   for (const [i, p] of SEED_PRODUCTS.entries()) {
     const at = new Date(base - i * 60_000);
+    const doc = { ...PRODUCT_DEFAULTS, ...commerceDefaults(p.category), ...p, status: 'published', displayOrder: 0 };
     const r = await Product.updateOne(
       { code: p.code },
-      { $setOnInsert: { ...PRODUCT_DEFAULTS, ...p, status: 'published', displayOrder: 0, createdAt: at, updatedAt: at } },
+      { $setOnInsert: { ...doc, ...shapeProduct(doc), createdAt: at, updatedAt: at } },
       { upsert: true, timestamps: false }
     );
     if (r.upsertedCount) added++;
