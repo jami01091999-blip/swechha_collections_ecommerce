@@ -5,6 +5,14 @@ import { z } from 'zod';
 export const SORTS = ['recommended', 'newest', 'price_asc', 'price_desc', 'discount'];
 export const PAGE_LIMIT = { default: 24, max: 48 };
 
+/** Whole number clamped into [min, max]; missing or not a number → fallback. */
+const clamped = (min, max, fallback) =>
+  z.coerce
+    .number()
+    .catch(fallback)
+    .default(fallback)
+    .transform((n) => (Number.isFinite(n) ? Math.min(max, Math.max(min, Math.trunc(n))) : fallback));
+
 const optInt = (min, max) => z.coerce.number().int().min(min).max(max).optional().catch(undefined);
 
 const text = (max) =>
@@ -45,8 +53,8 @@ export const productListQuery = z.object({
     .catch(false),
   filter: z.enum(['new', 'featured']).optional().catch(undefined),
   minDiscount: optInt(1, 95),
-  page: z.coerce.number().int().min(1).max(10_000).catch(1).default(1),
-  limit: z.coerce.number().int().min(1).max(PAGE_LIMIT.max).catch(PAGE_LIMIT.default).default(PAGE_LIMIT.default),
+  page: clamped(1, 10_000, 1),
+  limit: clamped(1, PAGE_LIMIT.max, PAGE_LIMIT.default),
 });
 
 export const suggestQuery = z.object({ q: text(60) });
@@ -59,8 +67,8 @@ export const adminListQuery = z.object({
   status: z.enum(['published', 'draft']).optional().catch(undefined),
   stock: z.enum(['in', 'low', 'out', 'attention']).optional().catch(undefined),
   sort: z.enum(ADMIN_SORTS).optional().catch(undefined),
-  page: z.coerce.number().int().min(1).max(10_000).catch(1).default(1),
-  limit: z.coerce.number().int().min(1).max(100).catch(24).default(24),
+  page: clamped(1, 10_000, 1),
+  limit: clamped(1, 100, 24),
 });
 
 export const stockBody = z.object({

@@ -198,7 +198,9 @@ describe('GET /api/products', () => {
     const p2 = await list('?limit=2&page=2');
     expect(p2.body).toMatchObject({ page: 2, limit: 2, total: 5, totalPages: 3 });
     expect(names(p2)).toEqual(['Noor Night Dress', 'Kanjivaram Silk Saree']);
-    expect((await list('?limit=500')).body.limit).toBe(24);
+    expect((await list('?limit=500')).body.limit).toBe(48);
+    expect((await list('?limit=abc')).body.limit).toBe(24);
+    expect((await list('?page=-3')).body.page).toBe(1);
     expect((await list('?limit=48')).body.limit).toBe(48);
     expect((await list('?page=0')).body.page).toBe(1);
     expect((await list('?page=99')).body.items).toEqual([]);
