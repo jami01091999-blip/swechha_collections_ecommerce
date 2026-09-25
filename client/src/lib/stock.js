@@ -2,11 +2,21 @@
 
 export const threshold = (p) => (p?.lowStockThreshold > 0 ? p.lowStockThreshold : 2);
 
-/** Rows to display: one "Free Size" row, or one row per size. */
+/**
+ * Units a customer can still buy for one size: stock − reserved (reserved = held by checkouts).
+ * The public API sends `available` directly; admin data has stock and reserved.
+ */
+export const availableOf = (s) =>
+  s?.available !== undefined ? Number(s.available) || 0 : Math.max(0, (Number(s?.stock) || 0) - (Number(s?.reserved) || 0));
+
+/** Rows to display, with `stock` = available units: one "Free Size" row, or one row per size. */
 export function sizeRows(p) {
   if (!p) return [];
-  if (p.sizeType === 'sized') return p.sizes || [];
-  return [{ label: 'Free Size', stock: Number(p.freeSizeStock) || 0 }];
+  if (p.sizeType === 'sized')
+    return (p.sizes || []).filter((s) => s.label !== 'FREE').map((s) => ({ label: s.label, stock: availableOf(s) }));
+  const free = (p.sizes || []).find((s) => s.label === 'FREE');
+  // Products saved before Phase 2 still have freeSizeStock instead of a FREE row.
+  return [{ label: 'Free Size', stock: free ? availableOf(free) : Number(p.freeSizeStock) || 0 }];
 }
 
 export function sizeState(stock, limit) {

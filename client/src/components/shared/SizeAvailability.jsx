@@ -1,4 +1,4 @@
-import { sizeState, stockSummary, threshold } from '../../lib/stock';
+import { sizeRows, sizeState, stockSummary, threshold } from '../../lib/stock';
 
 const PILL = 'min-w-10 px-2 h-10 rounded-xl font-label-md flex items-center justify-center transition-all';
 const PILL_IDLE = `${PILL} border border-outline-variant/40 bg-surface-container-lowest text-on-surface font-medium hover:border-primary active:scale-95`;
@@ -29,7 +29,7 @@ export function SizePills({ product, selected, onSelect }) {
   return (
     <>
       <div className="flex flex-wrap items-start gap-2 pt-1">
-        {(product.sizes || []).map((s) => {
+        {sizeRows(product).map((s) => {
           const state = sizeState(s.stock, limit);
           return (
             <div key={s.label} className="flex flex-col items-center">

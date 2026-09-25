@@ -1,7 +1,49 @@
 import { z } from 'zod';
 import { HttpError } from '../utils/HttpError.js';
 
-export const CATEGORIES = ['Sarees', 'Lehengas', 'Kurta Sets', 'Blouses', 'Dupattas', 'Skirts'];
+// Keep in step with client/src/lib/constants.js CATEGORIES.
+export const CATEGORIES = [
+  'Sarees',
+  'Lehengas',
+  'Kurti',
+  'Leggings',
+  'Tops',
+  'Co-Ord sets',
+  'Dresses(3-pcs)',
+  'Frocks',
+  'Night dresses',
+  'Bamboo night dresses',
+];
+
+/** Package defaults per category (grams / cm); editable per product. */
+export const CATEGORY_DEFAULTS = {
+  Sarees: { weightGrams: 700 },
+  Lehengas: { weightGrams: 1500 },
+  Kurti: { weightGrams: 400 },
+  Leggings: { weightGrams: 250 },
+  Tops: { weightGrams: 250 },
+  'Co-Ord sets': { weightGrams: 500 },
+  'Dresses(3-pcs)': { weightGrams: 600 },
+  Frocks: { weightGrams: 400 },
+  'Night dresses': { weightGrams: 350 },
+  'Bamboo night dresses': { weightGrams: 350 },
+};
+export const DEFAULT_WEIGHT_GRAMS = 500;
+export const DEFAULT_DIMENSIONS_CM = { l: 30, b: 25, h: 5 };
+export const DEFAULT_TAX_RATE_PERCENT = 5;
+
+/** Shipping/tax defaults for a new product in this category. */
+export function commerceDefaults(category, taxRatePercent = DEFAULT_TAX_RATE_PERCENT) {
+  return {
+    weightGrams: CATEGORY_DEFAULTS[category]?.weightGrams ?? DEFAULT_WEIGHT_GRAMS,
+    dimensionsCm: { ...DEFAULT_DIMENSIONS_CM },
+    hsnCode: '',
+    taxRatePercent,
+    isCodAllowed: true,
+    isReturnable: true,
+    maxQtyPerOrder: 5,
+  };
+}
 export const BLOUSE_PIECE_OPTIONS = ['Included (Unstitched)', 'Included (Stitched)', 'Not included'];
 
 const str = (v, max = 300) => (typeof v === 'string' ? v.trim().slice(0, max) : v == null ? '' : String(v).trim().slice(0, max));
@@ -11,6 +53,10 @@ const int = (v, { min = 0, max = 10_000_000 } = {}) => {
   return Math.min(max, Math.max(min, n));
 };
 const bool = (v) => v === true || v === 'true';
+const num = (v, { min = 0, max = 100 } = {}) => {
+  const n = Math.round(Number(v) * 100) / 100;
+  return Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : min;
+};
 const strList = (v, maxItems = 12, maxLen = 200) =>
   (Array.isArray(v) ? v : typeof v === 'string' ? v.split('\n') : [])
     .map((s) => str(s, maxLen))
@@ -40,11 +86,17 @@ const FIELD_SANITIZERS = {
       .filter((c) => c.name)
       .slice(0, 12),
   sizeType: (v) => (v === 'sized' ? 'sized' : 'free'),
+  // Legacy input (before Phase 2): still accepted and turned into the FREE size row; never stored.
   freeSizeStock: (v) => int(v, { max: 100000 }),
+  // `reserved` is never accepted from a request: checkout manages it.
   sizes: (v) => {
     const seen = new Set();
     return (Array.isArray(v) ? v : [])
-      .map((s) => ({ label: str(s?.label, 12).toUpperCase(), stock: int(s?.stock, { max: 100000 }) }))
+      .map((s) => ({
+        label: str(s?.label, 12).toUpperCase(),
+        sku: str(s?.sku, 60).toUpperCase().replace(/\s+/g, '-'),
+        stock: int(s?.stock, { max: 100000 }),
+      }))
       .filter((s) => s.label && !seen.has(s.label) && seen.add(s.label))
       .slice(0, 20);
   },
@@ -63,6 +115,17 @@ const FIELD_SANITIZERS = {
   isNewArrival: bool,
   isFeatured: bool,
   displayOrder: (v) => int(v, { max: 9999 }),
+  weightGrams: (v) => int(v, { min: 1, max: 50000 }),
+  dimensionsCm: (v) => ({
+    l: int(v?.l, { min: 1, max: 500 }),
+    b: int(v?.b, { min: 1, max: 500 }),
+    h: int(v?.h, { min: 1, max: 500 }),
+  }),
+  hsnCode: (v) => str(v, 8).replace(/\s/g, ''),
+  taxRatePercent: (v) => num(v, { min: 0, max: 28 }),
+  isCodAllowed: bool,
+  isReturnable: bool,
+  maxQtyPerOrder: (v) => int(v, { min: 1, max: 20 }),
 };
 
 /** Whitelist + coerce fields. Only keys present in the body are returned (defaults fill the rest on create). */
@@ -80,7 +143,6 @@ export const PRODUCT_DEFAULTS = {
   images: [],
   colors: [],
   sizeType: 'free',
-  freeSizeStock: 0,
   sizes: [],
   lowStockThreshold: 2,
   sareeDetails: { sareeLength: '', blousePiece: '', blouseLength: '', blouseFabric: '' },
@@ -105,6 +167,13 @@ export function validateProduct(p) {
   if (p.mrp && p.mrp < p.price) problems.push('MRP cannot be lower than the selling price.');
   if (p.sizeType === 'sized' && (!p.sizes || p.sizes.length === 0)) problems.push('Add at least one size, or switch to Free Size.');
   if (p.status === 'published' && (!p.images || p.images.length === 0)) problems.push('Add at least one photo before publishing.');
+  if (p.hsnCode && !/^\d{4,8}$/.test(p.hsnCode)) problems.push('HSN code has 4 to 8 digits.');
+  const skus = (p.sizes || []).map((s) => s.sku).filter(Boolean);
+  if (skus.some((s) => !/^[A-Z0-9][A-Z0-9-]{0,59}$/.test(s))) problems.push('SKUs can use letters, numbers and dashes.');
+  if (new Set(skus).size !== skus.length) problems.push('Each size needs its own SKU.');
+  const underReserved = (p.sizes || []).filter((s) => s.stock < (s.reserved || 0));
+  for (const s of underReserved)
+    problems.push(`${s.label === 'FREE' ? 'Free Size' : s.label}: stock can't be below the ${s.reserved} reserved for orders.`);
   if (problems.length) throw new HttpError(400, problems.join(' '));
 }
 

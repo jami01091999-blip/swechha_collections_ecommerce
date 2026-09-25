@@ -18,6 +18,8 @@ export const DEFAULT_SETTINGS = {
   email: 'concierge@swechhacollections.com',
   locations: 'Jubilee Hills, Hyderabad • Mehrauli, New Delhi',
   instagram: '',
+  // GST rate applied to new products unless changed on the product (admin → Lookbook → Boutique details)
+  defaultTaxRatePercent: 5,
 };
 
 const str = (v, max = 300) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
@@ -38,6 +40,9 @@ export function sanitizeSettings(body) {
   const whatsapp = str(body.whatsapp, 20).replace(/\D/g, '');
   if (whatsapp && whatsapp.length < 10) throw new HttpError(400, 'WhatsApp number needs the country code, e.g. 919876543210.');
   const instagram = str(body.instagram, 300);
+  const missingRate = body.defaultTaxRatePercent === undefined || body.defaultTaxRatePercent === '';
+  const rate = missingRate ? DEFAULT_SETTINGS.defaultTaxRatePercent : Number(body.defaultTaxRatePercent);
+  if (!Number.isFinite(rate) || rate < 0 || rate > 28) throw new HttpError(400, 'Tax rate must be between 0 and 28%.');
   return {
     collectionName: str(body.collectionName, 80),
     banners,
@@ -45,5 +50,6 @@ export function sanitizeSettings(body) {
     email: str(body.email, 120),
     locations: str(body.locations, 200),
     instagram: /^https?:\/\//i.test(instagram) || !instagram ? instagram : `https://instagram.com/${instagram.replace(/^@/, '')}`,
+    defaultTaxRatePercent: Math.round(rate * 100) / 100,
   };
 }

@@ -98,6 +98,7 @@ describe('POST /api/products', () => {
       validProduct({
         code: ' sc-2025-001 ',
         images: [PHOTO, { url: 'http://insecure.example/x.jpg' }],
+        sizeType: 'sized',
         sizes: [
           { label: 'm', stock: '3' },
           { label: 'M', stock: 9 },
@@ -114,7 +115,15 @@ describe('POST /api/products', () => {
     expect(p.slug).toBe('gulmohar-silk-saree');
     expect(p.code).toBe('SC-2025-001');
     expect(p.images).toEqual([PHOTO]);
-    expect(p.sizes).toEqual([{ label: 'M', stock: 3 }]);
+    expect(p.sizes).toEqual([{ label: 'M', sku: 'SC-2025-001-M', stock: 3, reserved: 0 }]);
+    expect(p).toMatchObject({ totalStock: 3, inStock: true, availableSizes: ['M'], discountPercent: 40 });
+    expect(p).toMatchObject({
+      weightGrams: 700,
+      dimensionsCm: { l: 30, b: 25, h: 5 },
+      taxRatePercent: 5,
+      isCodAllowed: true,
+      maxQtyPerOrder: 5,
+    });
     expect(p.colors).toEqual([{ name: 'Ruby', hex: '#6b1d2f', productSlug: '' }]);
     expect(p.isFeatured).toBe(true);
     expect(p.lowStockThreshold).toBe(2);

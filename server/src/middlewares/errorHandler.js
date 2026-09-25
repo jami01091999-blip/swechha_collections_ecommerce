@@ -3,6 +3,7 @@ const GENERIC = 'The server could not complete the request. Try again in a momen
 const DUPLICATE_MESSAGES = {
   code: 'Another product already uses this product code.',
   email: 'An account with this email already exists.',
+  'sizes.sku': 'Another product already uses one of these SKUs.',
 };
 
 // eslint-disable-next-line no-unused-vars

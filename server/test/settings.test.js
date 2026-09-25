@@ -65,6 +65,7 @@ describe('/api/settings', () => {
       email: '',
       locations: '',
       instagram: 'https://instagram.com/swechha.collections',
+      defaultTaxRatePercent: 5,
     });
 
     const doc = await ctx.Setting.collection.findOne({ _id: 'site' });

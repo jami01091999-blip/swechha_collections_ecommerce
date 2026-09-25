@@ -17,6 +17,7 @@ const settingSchema = new Schema(
     email: String,
     locations: String,
     instagram: String,
+    defaultTaxRatePercent: Number,
   },
   { collection: 'settings', versionKey: false, timestamps: { createdAt: false, updatedAt: true } }
 );
