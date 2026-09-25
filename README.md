@@ -11,15 +11,15 @@ Browser → Vercel (client/, React)  ──/api/* rewrite──▶  Render (serv
                                                                      ↘ Cloudinary (photos)
 ```
 
-| Layer            | Used here                                                                                                                                  |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Frontend         | React 18 + Vite, React Router, TanStack Query (`client/`)                                                                                  |
-| Styling          | Tailwind CSS with the exact Stitch "Regal Modernity" tokens (`client/tailwind.config.js`) and a shared UI kit (`client/src/components/ui`) |
-| API              | Express + Mongoose (`server/`), documented in [`docs/API.md`](docs/API.md)                                                                 |
-| Database         | MongoDB Atlas (database: `swechha`)                                                                                                        |
-| Images           | Cloudinary, signed direct upload from the browser                                                                                          |
-| Admin protection | One admin key (`ADMIN_KEY`), asked once per device (Phase 1 replaces it with email-OTP login)                                              |
-| Deploy           | Client → Vercel, API → Render (`render.yaml`)                                                                                              |
+| Layer    | Used here                                                                                                                                  |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Frontend | React 18 + Vite, React Router, TanStack Query (`client/`)                                                                                  |
+| Styling  | Tailwind CSS with the exact Stitch "Regal Modernity" tokens (`client/tailwind.config.js`) and a shared UI kit (`client/src/components/ui`) |
+| API      | Express + Mongoose (`server/`), documented in [`docs/API.md`](docs/API.md)                                                                 |
+| Database | MongoDB Atlas (database: `swechha`)                                                                                                        |
+| Images   | Cloudinary, signed direct upload from the browser                                                                                          |
+| Sign-in  | Email + 6-digit code for everyone; admin access by role (`ADMIN_EMAILS`, Team screen)                                                      |
+| Deploy   | Client → Vercel, API → Render (`render.yaml`)                                                                                              |
 
 ## Pages
 
@@ -42,7 +42,7 @@ Needs Node 20 or newer.
 
 ```bash
 npm install
-cp server/.env.example server/.env   # then fill in MONGO_URI, ADMIN_KEY, Cloudinary keys
+cp server/.env.example server/.env   # then fill in MONGO_URI, JWT_ACCESS_SECRET, OTP_SECRET, ADMIN_EMAILS, SMTP_*, Cloudinary
 npm run seed                         # optional: 8 sample products + default settings
 npm run dev                          # site: http://localhost:5173   admin: /adminDivya   API: http://localhost:4000/api/health
 ```
@@ -60,8 +60,8 @@ gallery at `http://localhost:5173/__ui`. See [`CLAUDE.md`](CLAUDE.md) for the fo
 
 ## Notes
 
-- **Admin key:** `/adminDivya` asks for `ADMIN_KEY` once per device, then remembers it. To change it, update the
-  environment variable on Render; each device will be asked again.
+- **Admin access:** sign in at `/login` with an email listed in `ADMIN_EMAILS` (it becomes an admin), then add staff
+  from `/adminDivya/team`. In test mode the sign-in code is also printed in the API terminal.
 - **Sample photos** in the seed come from the Stitch export (Google-hosted). Replace them with your own through Edit
   Product — they may stop loading in future.
 - **Stock rules** (`client/src/lib/stock.js`): 0 = Not available; at or below the product's low-stock limit (default 2) = "Only N left".

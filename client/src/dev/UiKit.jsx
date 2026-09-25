@@ -2,6 +2,8 @@
 // import.meta.env.DEV is true, and tailwind.config.js does not scan this folder for production CSS.
 import { useState } from 'react';
 import Icon from '../components/shared/Icon';
+import { CodeStep, EmailStep, NameStep } from '../pages/public/Login';
+import { NoAdminAccess } from '../components/admin/AdminGuard';
 import {
   Button,
   Card,
@@ -26,6 +28,8 @@ import {
   Switch,
   Textarea,
   ToneChip,
+  Avatar,
+  initials,
 } from '../components/ui';
 
 function Block({ title, children }) {
@@ -48,6 +52,7 @@ export default function UiKit() {
   const [done, setDone] = useState('');
   const [sheet, setSheet] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  const [loginEmail, setLoginEmail] = useState('ana@example.com');
 
   return (
     <div className="admin-root bg-background text-on-surface min-h-screen pb-16">
@@ -146,6 +151,38 @@ export default function UiKit() {
           />
           <Switch checked={on} onChange={setOn} label="Mark as New Arrival" hint="Shows in New Arrivals with a “New” badge." />
           <Stepper label="M" value={qty} onChange={setQty} />
+        </Block>
+
+        <Block title="Sign-in screens (/login)">
+          <p className="font-body-sm text-[12px] text-on-surface-variant">Buttons here call the real API on the dev server.</p>
+          <div className="space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-4">
+            <EmailStep email={loginEmail} setEmail={setLoginEmail} onSent={() => {}} />
+            <EmailStep email="nope" setEmail={() => {}} onSent={() => {}} initialError="Enter a valid email address." />
+            <CodeStep email={loginEmail} resendIn={42} onChangeEmail={() => {}} onVerified={() => {}} />
+            <CodeStep
+              email={loginEmail}
+              resendIn={0}
+              onChangeEmail={() => {}}
+              onVerified={() => {}}
+              initialError="That code isn't right. 3 tries left."
+            />
+            <CodeStep
+              email={loginEmail}
+              resendIn={0}
+              onChangeEmail={() => {}}
+              onVerified={() => {}}
+              initialError="Too many wrong tries. Ask for a new code."
+            />
+            <NameStep onDone={() => {}} />
+          </div>
+        </Block>
+
+        <Block title="Avatar · no admin access">
+          <Row>
+            <Avatar>{initials({ name: 'Divya Rao' })}</Avatar>
+            <Avatar>{initials({ email: 'ana@example.com' })}</Avatar>
+          </Row>
+          <NoAdminAccess email="ana@example.com" />
         </Block>
 
         <Block title="OtpInput">

@@ -24,7 +24,11 @@ client/                    Vite app (Vercel project root)
   src/components/admin/    admin pieces (chrome, gate, image manager, form sections)
   src/components/shared/   Icon, Img, size availability
   src/pages/public|admin/  screens
-  src/lib/api.js           fetch wrapper + TanStack Query hooks (useProducts, useSettings, useProduct, useAdmin*) + mutations
+  src/lib/api.js           fetch wrapper (cookies, CSRF header, one shared refresh) + TanStack Query hooks + mutations
+  src/lib/auth.jsx         useMe / AuthProvider / useAuth, RequireAuth, safeNext, isStaff / isAdmin
+  src/lib/india.js         Indian states + phone/PIN rules (copy of the server list; a test keeps them equal)
+  src/lib/validation.js    address/profile messages (same words as the server)
+  src/pages/public/Login.jsx, Account.jsx   sign-in (email → code → name) and the account area
   src/lib/stock.js         ALL stock rules (in stock / low / out, "Only N left")
   src/lib/format.js        formatINR, discountPercent, Cloudinary URLs, WhatsApp links
   src/lib/constants.js     categories, sizes, ADMIN_BASE, DESK (laptop width)
@@ -36,10 +40,11 @@ server/
   src/app.js               builds the Express app (exported for tests)
   src/config/env.js        dotenv + zod validation (fails fast, lists every missing var)
   src/db/mongoose.js       single connection (pool 10, autoIndex off in production)
-  src/models/              Product, Setting (schemas mirror existing documents: no __v, no subdoc _id)
+  src/models/              Product, Setting (mirror existing documents: no __v, no subdoc _id), User (+ addresses), OtpCode, Session
   src/routes/ → controllers/ → services/     request flow
   src/validators/          sanitising + validation rules and user-facing messages
-  src/middlewares/         requestId, adminKey, validate(zod), rateLimit, notFound, errorHandler
+  src/middlewares/         requestId, auth (requireAuth / optionalAuth / requireRole), csrf, validate(zod), rateLimit, notFound, errorHandler
+  src/services/            productService, settingsService, otpService, tokenService, userService, teamService
   src/integrations/        cloudinary.js
   src/scripts/             seed.js, syncIndexes.js, seed data
   test/                    API tests (in-memory MongoDB)
@@ -68,17 +73,20 @@ Single workspace: `npm run <script> -w client` or `-w server`. The first server 
 
 Server (`server/.env`, never committed; template in `server/.env.example`; set on Render in production):
 
-| Var                                                                                         | Notes                                                                                          |
-| ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `NODE_ENV`                                                                                  | `development` / `test` / `production`                                                          |
-| `PORT`                                                                                      | default 4000 (Render sets its own)                                                             |
-| `APP_MODE`                                                                                  | `test` until the Phase 8 go-live switch, then `live`                                           |
-| `MONGO_URI`, `MONGO_DB`                                                                     | Atlas connection, database `swechha`                                                           |
-| `CLIENT_ORIGIN`                                                                             | comma-separated browser origins allowed by CORS (required in production)                       |
-| `ADMIN_KEY`                                                                                 | protects admin writes via `x-admin-key` (required in production; replaced by roles in Phase 1) |
-| `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, `CLOUDINARY_FOLDER` | photo upload; without them upload-signature returns 503                                        |
-| `LOG_LEVEL`                                                                                 | pino level                                                                                     |
-| `TRUST_PROXY`                                                                               | optional, proxies in front of the API (default 1)                                              |
+| Var                                                                                         | Notes                                                                     |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `NODE_ENV`                                                                                  | `development` / `test` / `production`                                     |
+| `PORT`                                                                                      | default 4000 (Render sets its own)                                        |
+| `APP_MODE`                                                                                  | `test` until the Phase 8 go-live switch, then `live`                      |
+| `MONGO_URI`, `MONGO_DB`                                                                     | Atlas connection, database `swechha`                                      |
+| `CLIENT_ORIGIN`                                                                             | comma-separated browser origins allowed by CORS (required in production)  |
+| `JWT_ACCESS_SECRET`, `OTP_SECRET`                                                           | two different random strings, ≥32 characters (required)                   |
+| `ADMIN_EMAILS`                                                                              | comma-separated emails that become admin on every sign-in                 |
+| `ACCESS_TOKEN_MINUTES`, `REFRESH_TOKEN_DAYS`                                                | 15 and 30 by default                                                      |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`                             | Gmail App Password SMTP for sign-in codes (required when `APP_MODE=live`) |
+| `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, `CLOUDINARY_FOLDER` | photo upload; without them upload-signature returns 503                   |
+| `LOG_LEVEL`                                                                                 | pino level                                                                |
+| `TRUST_PROXY`                                                                               | optional, proxies in front of the API (default 1)                         |
 
 Client (`client/.env.example`): only `VITE_*` vars, all public. `VITE_APP_MODE=test`.
 Never print secret values, never commit `.env` files, never log request bodies of admin routes.
@@ -98,8 +106,23 @@ Never print secret values, never commit `.env` files, never log request bodies o
 - Prices are always shown with `formatINR` (and `PriceBlock` where it fits). Stock wording and thresholds come only from
   `client/src/lib/stock.js` — never re-implement "Only N left" / out-of-stock logic.
 - Never trust prices, totals or stock sent by the client; the server recomputes from the database.
-- Admin screens live under `/adminDivya` (`ADMIN_BASE`), are lazy-loaded, and wrap in `AdminLayout`.
+- Admin screens live under `/adminDivya` (`ADMIN_BASE`), are lazy-loaded, and wrap in `AdminLayout` (which runs `AdminGuard`).
+- Phone bottom bar is Curation · Lookbook · Account: don't add a fourth tab without a design decision.
 - Tailwind scans every word in `src/`, including comments: a comment containing e.g. "ring" or "outline" adds CSS.
+
+## Auth conventions
+
+- Customers, staff and admins all sign in with email + a 6-digit code (`/login`); there are no passwords and no admin key.
+- Server: protect routes with `requireAuth` and `requireRole('admin', 'staff')` / `requireRole('admin')`
+  (`middlewares/auth.js`); use `optionalAuth` on public routes that vary for signed-in users.
+  **Take the user id from `req.user` only — never from the body, query or URL.** User JSON goes through `publicUser()`.
+- Staff: catalogue (products, stock, photos). Admin: also lookbook settings and `/api/admin/team`.
+- Client: every request goes through `api()` in `lib/api.js`, which sends `credentials: 'include'` and
+  `X-Requested-With: swechha` (the API rejects writes without it) and handles `TOKEN_EXPIRED` by refreshing once.
+  Read the user with `useAuth()`; wrap signed-in pages in `RequireAuth`; build redirects with `safeNext()`.
+- Never store tokens in JavaScript/localStorage; they are httpOnly cookies. Never log tokens or codes
+  (the only exception is the `APP_MODE=test` OTP log line).
+- New per-user queries must use a key under `['me', …]` or `['admin', …]` so sign-in/out clears them.
 
 ## API conventions
 

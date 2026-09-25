@@ -3,17 +3,17 @@
 Each phase ships on its own, keeps the Stitch design (see design rules in `CLAUDE.md`), and ends with passing
 `npm run lint && npm test && npm run build`. Payments and couriers stay in test mode until Phase 8.
 
-| #   | Phase                   | Goal                                                                                  |
-| --- | ----------------------- | ------------------------------------------------------------------------------------- |
-| 0   | Foundation              | Monorepo, Express API, shared UI kit, tests, deploy setup. No new features. **Done.** |
-| 1   | Email-OTP login & roles | Customers and staff sign in with a 6-digit email code; roles replace the admin key.   |
-| 2   | Catalogue upgrade       | SKU per size, server pagination and search, wishlist synced to the account.           |
-| 3   | Cart & Buy Now          | Cart (guest and signed-in, merged on login) and a one-tap Buy Now path.               |
-| 4   | Checkout + COD + Orders | Address book, checkout, cash on delivery, order records and customer order pages.     |
-| 5   | Razorpay (test mode)    | Online payments with signature verification and webhooks.                             |
-| 6   | Delivery                | Mock courier first; Shiprocket adapter behind `SHIPPING_PROVIDER`; tracking.          |
-| 7   | Admin commerce          | Orders dashboard, fulfilment, refunds/cancellations, stock movements, reports.        |
-| 8   | Go-live switch          | `APP_MODE=live`: live payment and courier keys, final checks, launch.                 |
+| #   | Phase                   | Goal                                                                                          |
+| --- | ----------------------- | --------------------------------------------------------------------------------------------- |
+| 0   | Foundation              | Monorepo, Express API, shared UI kit, tests, deploy setup. No new features. **Done.**         |
+| 1   | Email-OTP login & roles | Customers and staff sign in with a 6-digit email code; roles replace the admin key. **Done.** |
+| 2   | Catalogue upgrade       | SKU per size, server pagination and search, wishlist synced to the account.                   |
+| 3   | Cart & Buy Now          | Cart (guest and signed-in, merged on login) and a one-tap Buy Now path.                       |
+| 4   | Checkout + COD + Orders | Checkout with saved addresses, cash on delivery, order records and customer order pages.      |
+| 5   | Razorpay (test mode)    | Online payments with signature verification and webhooks.                                     |
+| 6   | Delivery                | Mock courier first; Shiprocket adapter behind `SHIPPING_PROVIDER`; tracking.                  |
+| 7   | Admin commerce          | Orders dashboard, fulfilment, refunds/cancellations, stock movements, reports.                |
+| 8   | Go-live switch          | `APP_MODE=live`: live payment and courier keys, final checks, launch.                         |
 
 ## 0 — Foundation (done)
 
@@ -24,14 +24,16 @@ Each phase ships on its own, keeps the Stitch design (see design rules in `CLAUD
 - UI kit in `client/src/components/ui/` (incl. `OtpInput` for Phase 1) and a dev-only `/__ui` gallery.
 - Tests: API (supertest + in-memory MongoDB) and DOM snapshots of every route; ESLint + Prettier.
 
-## 1 — Email-OTP login & roles
+## 1 — Email-OTP login & roles (done)
 
-- `User` model (email, name, phone, roles: `customer` / `staff` / `owner`), `OtpCode` with TTL index, hashed codes,
-  attempt limits and resend cool-down; email via a transactional provider (test inbox in `APP_MODE=test`).
-- Session: httpOnly, `Secure`, `SameSite=Lax` cookie (works through the Vercel rewrite because the API is same-origin).
-- Screens: sign in (email → `OtpInput`), account basics, sign out. `/adminDivya` requires `staff`/`owner`;
-  remove `x-admin-key` once the owner account exists.
-- Rate limits on OTP send/verify; audit log of admin sign-ins.
+- `User` (roles `customer` / `staff` / `admin`, up to 10 Indian addresses), `OtpCode` (hashed, 10 min, 5 tries,
+  cool-down and hourly limits), `Session` (rotating refresh tokens with reuse detection).
+- httpOnly cookies (`sw_at` access JWT, `sw_rt` refresh), CSRF header + Origin check, `/api/auth/*`, `/api/users/me*`.
+- Branded OTP email over Gmail SMTP (Nodemailer); test mode also logs the code.
+- `/login` (email → code → optional name), `/account` (details, empty "My orders", addresses, log out everywhere).
+- Navigation: Account tab, drawer sign-in card, laptop header avatar; Atelier consultations via WhatsApp in the drawer.
+- `/adminDivya` by role (guests → sign in, customers → no access); `ADMIN_EMAILS` become admins; Team screen.
+- Not done here: an audit log of admin sign-ins (moved to Phase 7).
 
 ## 2 — Catalogue upgrade
 
