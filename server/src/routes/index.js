@@ -14,6 +14,7 @@ import * as team from '../controllers/teamController.js';
 import { health } from '../controllers/healthController.js';
 import { authRouter } from './auth.js';
 import { usersRouter } from './users.js';
+import { wishlistRouter } from './wishlist.js';
 
 // Catalogue writes: staff and admins. Settings and team: admins only.
 const staffWrite = [adminWriteLimiter, requireAuth, requireRole('admin', 'staff')];
@@ -24,6 +25,7 @@ export const apiRouter = Router();
 
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/users', usersRouter);
+apiRouter.use('/wishlist', wishlistRouter);
 
 apiRouter
   .route('/health')
