@@ -11,7 +11,17 @@ afterEach(() => {
 });
 
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
-const tick = (ms = 20) => act(() => new Promise((r) => setTimeout(r, ms)));
+let current;
+/** Waits until the mock API is idle and the page stops changing. */
+async function tick() {
+  let last = '';
+  for (let stable = 0, i = 0; stable < 3 && i < 300; i++) {
+    await act(() => new Promise((r) => setTimeout(r, 15)));
+    const html = document.body.innerHTML;
+    stable = (current?.state.pending ?? 0) === 0 && html === last ? stable + 1 : 0;
+    last = html;
+  }
+}
 
 describe('safeNext', () => {
   it('allows same-site paths only', async () => {
@@ -80,11 +90,12 @@ describe('api() and expired sessions', () => {
 async function renderAt(path, user = null) {
   vi.resetModules();
   const mock = createMockApi({ user });
+  current = mock;
   vi.stubGlobal('fetch', mock.fetch);
   const { routes } = await import('../src/App.jsx');
   const router = createMemoryRouter(routes, { initialEntries: [path] });
   render(<RouterProvider router={router} />);
-  await tick(60);
+  await tick();
   return { router, mock };
 }
 
@@ -94,15 +105,15 @@ describe('/login', () => {
     expect(screen.getByText('Sign in or create an account')).toBeTruthy();
     fireEvent.change(screen.getByPlaceholderText('you@example.com'), { target: { value: 'new@example.com' } });
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
-    await tick(60);
+    await tick();
     expect(screen.getByText('Enter the code')).toBeTruthy();
     expect(screen.getByText(/You can resend in 1:00|You can resend in 0:5/)).toBeTruthy();
     // SMS/email autofill drops the whole code into the first box; the form submits by itself.
     fireEvent.change(screen.getAllByRole('textbox')[0], { target: { value: GOOD_CODE } });
-    await tick(80);
+    await tick();
     expect(screen.getByText('What should we call you?')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
-    await tick(40);
+    await tick();
     expect(router.state.location.pathname).toBe('/collection');
   });
 
@@ -110,9 +121,9 @@ describe('/login', () => {
     await renderAt('/login');
     fireEvent.change(screen.getByPlaceholderText('you@example.com'), { target: { value: 'ana@example.com' } });
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
-    await tick(60);
+    await tick();
     fireEvent.change(screen.getAllByRole('textbox')[0], { target: { value: '000000' } });
-    await tick(80);
+    await tick();
     expect(screen.getByRole('alert').textContent).toBe("That code isn't right. 4 tries left.");
     expect(screen.getAllByRole('textbox')[0].value).toBe('');
   });
@@ -121,9 +132,9 @@ describe('/login', () => {
     const { router } = await renderAt('/login?next=%2Fcollection');
     fireEvent.change(screen.getByPlaceholderText('you@example.com'), { target: { value: USERS.customer.email } });
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
-    await tick(60);
+    await tick();
     fireEvent.change(screen.getAllByRole('textbox')[0], { target: { value: GOOD_CODE } });
-    await tick(80);
+    await tick();
     expect(router.state.location.pathname).toBe('/collection');
   });
 
@@ -139,7 +150,7 @@ describe('/login', () => {
     await renderAt('/login');
     fireEvent.change(screen.getByPlaceholderText('you@example.com'), { target: { value: 'nope' } });
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
-    await tick(60);
+    await tick();
     expect(screen.getByRole('alert').textContent).toBe('Enter a valid email address.');
   });
 });

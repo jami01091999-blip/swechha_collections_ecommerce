@@ -38,9 +38,25 @@ export function createMockApi({ failProducts = false, user = null } = {}) {
       state.user = { ...state.user, ...data };
       return json(200, { user: state.user });
     }
-    if (path === '/api/users/me/addresses') {
+    if (path === '/api/auth/logout-all') {
+      state.user = null;
+      return json(200, { ok: true });
+    }
+    if (path.startsWith('/api/users/me/addresses')) {
       if (!state.user) return needStaff();
-      return json(200, { addresses: state.addresses });
+      const list = () => json(method === 'POST' && path.endsWith('/addresses') ? 201 : 200, { addresses: state.addresses });
+      const id = path.split('/')[5];
+      if (method === 'POST' && !id) {
+        const address = { ...data, _id: `a${state.addresses.length + 1}`, isDefault: data.isDefault || state.addresses.length === 0 };
+        if (address.isDefault) state.addresses = state.addresses.map((a) => ({ ...a, isDefault: false }));
+        state.addresses = [...state.addresses, address].sort((a, b) => b.isDefault - a.isDefault);
+        return list();
+      }
+      if (method === 'DELETE') state.addresses = state.addresses.filter((a) => a._id !== id);
+      if (method === 'PATCH') state.addresses = state.addresses.map((a) => (a._id === id ? { ...a, ...data } : a));
+      if (method === 'POST' && path.endsWith('/default'))
+        state.addresses = state.addresses.map((a) => ({ ...a, isDefault: a._id === id })).sort((a, b) => b.isDefault - a.isDefault);
+      return list();
     }
     if (path === '/api/admin/team') return state.user?.role === 'admin' ? json(200, { team: state.team }) : needStaff();
     if (path === '/api/settings') return json(200, SETTINGS);
