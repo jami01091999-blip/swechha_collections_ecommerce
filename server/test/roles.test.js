@@ -20,7 +20,8 @@ let n = 0;
 
 /** Each case returns a fresh request for an agent (or plain supertest for guests). */
 const STAFF_ENDPOINTS = [
-  ['GET /api/products?all=1', (a) => a.get('/api/products?all=1'), 200],
+  ['GET /api/admin/products', (a) => a.get('/api/admin/products'), 200],
+  ['GET /api/admin/stats', (a) => a.get('/api/admin/stats'), 200],
   [
     'POST /api/products',
     (a) =>
@@ -119,7 +120,7 @@ describe('team', () => {
     await who.admin.agent.patch(`/api/admin/team/${added._id}`).set(XRW).send({ role: 'admin' }).expect(200);
     expect((await helper.agent.get('/api/admin/team')).status).toBe(200);
     await who.admin.agent.delete(`/api/admin/team/${added._id}`).set(XRW).expect(200);
-    expect((await helper.agent.get('/api/products?all=1')).status).toBe(403);
+    expect((await helper.agent.get('/api/admin/products')).status).toBe(403);
   });
 
   it('cannot remove or re-role yourself', async () => {

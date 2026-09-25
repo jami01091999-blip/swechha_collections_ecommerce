@@ -7,17 +7,8 @@ import { shapeProduct } from './productShape.js';
 import { getSettings } from './settingsService.js';
 import { destroyImages } from '../integrations/cloudinary.js';
 
-const SORT = { displayOrder: 1, createdAt: -1 };
-
 // Accepts a Mongo _id (admin screens) or a slug (public URLs).
 const byIdOrSlug = (id) => (/^[a-f0-9]{24}$/i.test(id) ? { _id: new mongoose.Types.ObjectId(id) } : { slug: String(id) });
-
-export function listProducts({ includeDrafts }) {
-  return Product.find(includeDrafts ? {} : { status: 'published' })
-    .sort(SORT)
-    .limit(500)
-    .lean();
-}
 
 export async function findProductOr404(id) {
   const doc = await Product.findOne(byIdOrSlug(id)).lean();

@@ -19,13 +19,13 @@ beforeEach(() => ctx.Product.deleteMany({}));
 const create = (body) => staff.post('/api/products').set(XRW).send(body);
 
 describe('GET /api/products', () => {
-  it('returns published products only, as a plain array, with public cache headers', async () => {
+  it('returns published products only, paginated, with public cache headers', async () => {
     await create(validProduct({ code: 'A1', name: 'Live one' }));
     await create(validProduct({ code: 'A2', name: 'Hidden one', status: 'draft', images: [] }));
     const res = await request(app).get('/api/products');
     expect(res.status).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
-    expect(res.body.map((p) => p.name)).toEqual(['Live one']);
+    expect(res.body.items.map((p) => p.name)).toEqual(['Live one']);
+    expect(res.body.total).toBe(1);
     expect(res.headers['cache-control']).toBe('public, s-maxage=30, stale-while-revalidate=300');
   });
 
@@ -34,27 +34,27 @@ describe('GET /api/products', () => {
     await create(validProduct({ code: 'S2', name: 'Second' }));
     await create(validProduct({ code: 'S3', name: 'Third' }));
     const res = await request(app).get('/api/products');
-    expect(res.body.map((p) => p.name)).toEqual(['Third', 'Second', 'First']);
+    expect(res.body.items.map((p) => p.name)).toEqual(['Third', 'Second', 'First']);
   });
 
-  it('?all=1 when signed out → 401', async () => {
-    const res = await request(app).get('/api/products?all=1');
+  it('admin list when signed out → 401', async () => {
+    const res = await request(app).get('/api/admin/products');
     expect(res.status).toBe(401);
     expect(res.body.error).toBe('Please sign in to continue.');
   });
 
-  it('?all=1 as a customer → 403', async () => {
-    const res = await customer.get('/api/products?all=1');
+  it('admin list as a customer → 403', async () => {
+    const res = await customer.get('/api/admin/products');
     expect(res.status).toBe(403);
     expect(res.body.error).toBe("You don't have access to this.");
   });
 
-  it('?all=1 as staff includes drafts and is not cached', async () => {
+  it('admin list as staff includes drafts and is not cached', async () => {
     await create(validProduct({ code: 'B1' }));
     await create(validProduct({ code: 'B2', status: 'draft', images: [] }));
-    const res = await staff.get('/api/products?all=1').set(XRW);
+    const res = await staff.get('/api/admin/products');
     expect(res.status).toBe(200);
-    expect(res.body).toHaveLength(2);
+    expect(res.body.items).toHaveLength(2);
     expect(res.headers['cache-control']).toBe('no-store');
   });
 });
@@ -167,9 +167,10 @@ describe('/api/products/:idOrSlug', () => {
     expect(res.headers['cache-control']).toBe('public, s-maxage=30, stale-while-revalidate=300');
   });
 
-  it('staff can read a draft; public and customers get 404', async () => {
+  it('staff read drafts through the admin API; the public route never shows them', async () => {
     const { body } = await create(validProduct({ status: 'draft', images: [] }));
-    const admin = await staff.get(`/api/products/${body._id}`).set(XRW);
+    expect((await staff.get(`/api/products/${body._id}`)).status).toBe(404);
+    const admin = await staff.get(`/api/admin/products/${body._id}`);
     expect(admin.status).toBe(200);
     expect(admin.headers['cache-control']).toBe('no-store');
     for (const id of [body._id, body.slug]) {
@@ -233,7 +234,7 @@ describe('/api/products/:idOrSlug', () => {
     const del = await staff.delete(`/api/products/${body._id}`).set(XRW);
     expect(del.status).toBe(200);
     expect(del.body).toEqual({ deleted: true });
-    expect((await staff.get(`/api/products/${body._id}`).set(XRW)).status).toBe(404);
+    expect((await staff.get(`/api/admin/products/${body._id}`)).status).toBe(404);
     expect((await staff.delete(`/api/products/${body._id}`).set(XRW)).status).toBe(404);
   });
 

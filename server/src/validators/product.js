@@ -179,4 +179,3 @@ export function validateProduct(p) {
 
 /** Route params / query shapes (bodies keep the field sanitisers above). */
 export const productIdParams = z.object({ id: z.string().min(1).max(200) });
-export const productListQuery = z.object({ all: z.string().optional() }).passthrough();
