@@ -4,6 +4,7 @@ import Icon from '../shared/Icon';
 const TABS = [
   { to: '/', label: 'Curation', icon: 'auto_awesome', match: (p, h) => p === '/' && h !== '#atelier' },
   { to: '/collection', label: 'Lookbook', icon: 'menu_book', match: (p) => p.startsWith('/collection') },
+  { to: '/account', label: 'Account', icon: 'person', match: (p) => p.startsWith('/account') || p.startsWith('/login') },
 ];
 
 /** Bottom navigation bar — Stitch home nav. */

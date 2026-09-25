@@ -17,4 +17,5 @@ export { default as SectionHeader } from './SectionHeader';
 export { default as PageContainer } from './PageContainer';
 export { default as Spinner } from './Spinner';
 export { default as OtpInput } from './OtpInput';
+export { default as Avatar, initials } from './Avatar';
 export { cx } from './cx';

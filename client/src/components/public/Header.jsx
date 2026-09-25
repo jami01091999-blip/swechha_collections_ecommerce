@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Icon from '../shared/Icon';
-import { IconButton } from '../ui';
+import { Avatar, IconButton, initials } from '../ui';
+import { useAuth } from '../../lib/auth';
 
 /** Sticky top app bar — Stitch home header. */
 export default function Header({ onMenu }) {
@@ -63,6 +64,7 @@ export function DesktopHeader() {
   const { pathname, hash, search } = useLocation();
   const navigate = useNavigate();
   const [q, setQ] = useState(() => new URLSearchParams(search).get('q') || '');
+  const { user } = useAuth();
   return (
     <header className="hidden md:block sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant/20">
       <div className="max-w-6xl mx-auto px-8 h-[72px] flex items-center justify-between gap-6">
@@ -105,6 +107,19 @@ export function DesktopHeader() {
               className="w-44 lg:w-60 rounded-full border border-[#EBE5DD] bg-[#FAF6F0] pl-10 pr-4 py-2 font-body-sm text-[13px] text-on-surface placeholder:text-outline/70 focus:border-[#C59B6A] focus:ring-0"
             />
           </form>
+          {user ? (
+            <Link to="/account" aria-label="My account" title={user.email}>
+              <Avatar>{initials(user, 1)}</Avatar>
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              aria-label="Log in or sign up"
+              className="w-9 h-9 rounded-full flex items-center justify-center text-primary hover:bg-surface-container transition-colors"
+            >
+              <Icon name="person" className="text-2xl" />
+            </Link>
+          )}
         </div>
       </div>
     </header>

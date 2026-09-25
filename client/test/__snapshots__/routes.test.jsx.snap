@@ -1,5 +1,2261 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`accounts and team > account (customer) 1`] = `
+"<body>
+  <div>
+    <div
+      class="antialiased bg-background flex font-body-md justify-center min-h-screen selection:bg-primary-container selection:text-white text-body-md text-on-surface"
+    >
+      <div
+        class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
+      >
+        <header
+          class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
+        >
+          <div
+            class="flex gap-6 h-[72px] items-center justify-between max-w-6xl mx-auto px-8"
+          >
+            <a
+              class="flex flex-col shrink-0"
+              href="/"
+            >
+              <span
+                class="font-headline-sm font-medium text-headline-sm text-primary tracking-wide"
+              >
+                Swechha Collections
+              </span>
+            </a>
+            <nav
+              class="flex gap-7 items-center"
+            >
+              <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/"
+              >
+                Curation
+              </a>
+              <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/collection"
+              >
+                Lookbook
+              </a>
+            </nav>
+            <div
+              class="flex gap-2 items-center shrink-0"
+            >
+              <form
+                class="relative"
+                role="search"
+              >
+                <span
+                  aria-hidden="true"
+                  class="-translate-y-1/2 absolute left-3 material-symbols-outlined text-outline text-xl top-1/2"
+                >
+                  search
+                </span>
+                <input
+                  aria-label="Search the catalogue"
+                  class="bg-[#FAF6F0] border border-[#EBE5DD] focus:border-[#C59B6A] focus:ring-0 font-body-sm lg:w-60 pl-10 placeholder:text-outline/70 pr-4 py-2 rounded-full text-[13px] text-on-surface w-44"
+                  placeholder="Search designs"
+                  type="search"
+                  value=""
+                />
+              </form>
+              <a
+                aria-label="My account"
+                href="/account"
+                title="ana@example.com"
+              >
+                <span
+                  class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle text-primary text-title-md w-9"
+                >
+                  A
+                </span>
+              </a>
+            </div>
+          </div>
+        </header>
+        <div
+          class="flex flex-col md:pb-16 min-h-screen pb-24 w-full"
+        >
+          <header
+            class="backdrop-blur-md bg-surface/95 border-b border-outline-variant/30 flex items-center justify-between md:hidden px-margin-mobile py-2.5 sticky top-0 z-40"
+          >
+            <button
+              aria-label="Return to Catalogue"
+              class="-ml-1 active:scale-90 flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                arrow_back
+              </span>
+            </button>
+            <div
+              class="flex flex-1 flex-col items-center justify-center overflow-hidden px-2 text-center"
+            >
+              <span
+                class="font-medium font-title-md max-w-[210px] text-[14px] text-primary truncate"
+              >
+                My account
+              </span>
+              <span
+                class="-mt-0.5 font-label-md text-[10px] text-secondary tracking-widest uppercase"
+              >
+                ana@example.com
+              </span>
+            </div>
+            <div
+              class="flex gap-1 items-center justify-end min-w-9"
+            >
+              <span
+                class="w-9"
+              />
+            </div>
+          </header>
+          <main
+            class="flex-1 md:max-w-6xl md:mx-auto md:pt-8 md:px-8 md:w-full pt-4 px-margin-mobile space-y-4"
+          >
+            <div>
+              <h1
+                class="font-headline-md md:text-headline-md text-[24px] text-primary"
+              >
+                Hello, 
+                Ana Rao
+              </h1>
+              <p
+                class="break-all font-body-sm text-body-sm text-on-surface-variant"
+              >
+                ana@example.com
+              </p>
+            </div>
+            <div
+              class="md:gap-5 md:grid md:grid-cols-2 md:items-start md:space-y-0 space-y-4"
+            >
+              <div
+                class="space-y-4"
+              >
+                <section
+                  class="admin-card"
+                >
+                  <div
+                    class="flex gap-2 items-center justify-between mb-3"
+                  >
+                    <h2
+                      class="font-headline-sm leading-tight text-[18px] text-primary"
+                    >
+                      Your details
+                    </h2>
+                  </div>
+                  <form
+                    class="space-y-3"
+                    novalidate=""
+                  >
+                    <div>
+                      <label
+                        class="field-label"
+                        for="me-name"
+                      >
+                        Name
+                      </label>
+                      <input
+                        autocomplete="name"
+                        class="field"
+                        id="me-name"
+                        maxlength="60"
+                        value="Ana Rao"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        class="field-label"
+                        for="me-phone"
+                      >
+                        Mobile number
+                      </label>
+                      <input
+                        autocomplete="tel-national"
+                        class="field"
+                        id="me-phone"
+                        inputmode="tel"
+                        maxlength="16"
+                        type="tel"
+                        value=""
+                      />
+                      <p
+                        class="font-body-sm mt-1 text-[11px] text-on-surface-variant"
+                      >
+                        Optional. 10 digits.
+                      </p>
+                    </div>
+                    <div>
+                      <label
+                        class="field-label"
+                        for="me-email"
+                      >
+                        Email
+                      </label>
+                      <input
+                        class="field"
+                        disabled=""
+                        id="me-email"
+                        readonly=""
+                        value="ana@example.com"
+                      />
+                      <p
+                        class="font-body-sm mt-1 text-[11px] text-on-surface-variant"
+                      >
+                        You sign in with this email. It can't be changed.
+                      </p>
+                    </div>
+                    <button
+                      class="active:scale-95 bg-primary-container disabled:opacity-60 font-semibold font-title-md hover:bg-[#541423] md:px-8 md:w-auto py-3 rounded-xl shadow-luxury text-[15px] text-surface-container-lowest transition-all w-full"
+                      disabled=""
+                      type="submit"
+                    >
+                      Save details
+                    </button>
+                  </form>
+                </section>
+                <section
+                  class="admin-card"
+                >
+                  <div
+                    class="flex gap-2 items-center justify-between mb-3"
+                  >
+                    <h2
+                      class="font-headline-sm leading-tight text-[18px] text-primary"
+                    >
+                      My orders
+                    </h2>
+                  </div>
+                  <div
+                    class="flex flex-col items-center px-6 py-16 text-center"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="material-symbols-outlined text-4xl text-outline"
+                    >
+                      receipt_long
+                    </span>
+                    <p
+                      class="font-headline-sm mt-2 text-[18px] text-primary"
+                    >
+                      No orders yet
+                    </p>
+                    <p
+                      class="font-body-sm mt-1 text-body-sm text-on-surface-variant"
+                    >
+                      Your orders will appear here.
+                    </p>
+                  </div>
+                </section>
+              </div>
+              <section
+                class="admin-card"
+              >
+                <div
+                  class="flex gap-2 items-center justify-between mb-3"
+                >
+                  <h2
+                    class="font-headline-sm leading-tight text-[18px] text-primary"
+                  >
+                    Saved addresses
+                  </h2>
+                </div>
+                <div
+                  class="py-4 text-center"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-4xl text-outline"
+                  >
+                    home_pin
+                  </span>
+                  <p
+                    class="font-title-md mt-1 text-[15px] text-primary"
+                  >
+                    No saved addresses
+                  </p>
+                  <p
+                    class="font-body-sm mt-0.5 text-body-sm text-on-surface-variant"
+                  >
+                    Add an address to check out faster.
+                  </p>
+                  <button
+                    class="active:scale-95 bg-primary-container disabled:opacity-60 font-label-lg hover:bg-[#541423] mt-3 px-5 py-3 rounded-xl shadow-luxury text-label-lg text-surface-container-lowest transition-all"
+                    type="button"
+                  >
+                    Add address
+                  </button>
+                </div>
+              </section>
+            </div>
+            <div
+              class="flex flex-col gap-2.5 md:flex-row pt-2"
+            >
+              <button
+                class="active:scale-95 border border-[#C59B6A] font-label-lg md:px-8 py-3 rounded-xl text-label-lg text-on-surface transition-all"
+                type="button"
+              >
+                Log out
+              </button>
+              <button
+                class="font-label-lg py-2 text-label-lg text-primary underline"
+                type="button"
+              >
+                Log out of all devices
+              </button>
+            </div>
+          </main>
+          <nav
+            class="backdrop-blur-md bg-surface/95 border-outline-variant/20 border-t bottom-0 fixed flex items-center justify-around left-0 max-w-[480px] md:hidden mx-auto pb-[max(0.25rem,env(safe-area-inset-bottom))] px-gutter-mobile py-space-xs right-0 shadow-[0_-4px_16px_rgba(107,29,47,0.06)] w-full z-40"
+          >
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                auto_awesome
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Curation
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/collection"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                menu_book
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Lookbook
+              </span>
+            </a>
+            <a
+              aria-current="page"
+              class="active:scale-95 duration-200 flex flex-col font-semibold hover:text-primary items-center justify-center min-w-[56px] p-1 text-primary transition-colors"
+              href="/account"
+            >
+              <span
+                aria-hidden="true"
+                class="icon-fill material-symbols-outlined text-2xl"
+              >
+                person
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Account
+              </span>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div
+      aria-live="polite"
+      class="-translate-x-1/2 bg-primary duration-300 fixed left-1/2 max-w-[90vw] opacity-0 pointer-events-none px-4 py-2 rounded-full shadow-lg text-center text-white text-xs top-14 transition-all z-[70]"
+      role="status"
+    />
+  </div>
+</body>"
+`;
+
+exports[`accounts and team > drawer when signed in 1`] = `
+"<body
+  style="overflow: hidden;"
+>
+  <div>
+    <div
+      class="antialiased bg-background flex font-body-md justify-center min-h-screen selection:bg-primary-container selection:text-white text-body-md text-on-surface"
+    >
+      <div
+        class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
+      >
+        <header
+          class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
+        >
+          <div
+            class="flex gap-6 h-[72px] items-center justify-between max-w-6xl mx-auto px-8"
+          >
+            <a
+              class="flex flex-col shrink-0"
+              href="/"
+            >
+              <span
+                class="font-headline-sm font-medium text-headline-sm text-primary tracking-wide"
+              >
+                Swechha Collections
+              </span>
+            </a>
+            <nav
+              class="flex gap-7 items-center"
+            >
+              <a
+                aria-current="page"
+                class="border-b-2 border-secondary font-label-lg py-1 text-label-lg text-primary tracking-wider transition-colors uppercase"
+                href="/"
+              >
+                Curation
+              </a>
+              <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/collection"
+              >
+                Lookbook
+              </a>
+            </nav>
+            <div
+              class="flex gap-2 items-center shrink-0"
+            >
+              <form
+                class="relative"
+                role="search"
+              >
+                <span
+                  aria-hidden="true"
+                  class="-translate-y-1/2 absolute left-3 material-symbols-outlined text-outline text-xl top-1/2"
+                >
+                  search
+                </span>
+                <input
+                  aria-label="Search the catalogue"
+                  class="bg-[#FAF6F0] border border-[#EBE5DD] focus:border-[#C59B6A] focus:ring-0 font-body-sm lg:w-60 pl-10 placeholder:text-outline/70 pr-4 py-2 rounded-full text-[13px] text-on-surface w-44"
+                  placeholder="Search designs"
+                  type="search"
+                  value=""
+                />
+              </form>
+              <a
+                aria-label="My account"
+                href="/account"
+                title="ana@example.com"
+              >
+                <span
+                  class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle text-primary text-title-md w-9"
+                >
+                  A
+                </span>
+              </a>
+            </div>
+          </div>
+        </header>
+        <div
+          class="flex flex-col md:pb-0 pb-24 w-full"
+        >
+          <header
+            class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 flex items-center justify-between max-w-7xl md:hidden mx-auto px-gutter-mobile py-space-sm sticky top-0 w-full z-40"
+          >
+            <button
+              aria-label="Open Navigation Drawer"
+              class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl text-primary"
+              >
+                menu
+              </span>
+            </button>
+            <a
+              class="flex flex-col items-center justify-center text-center"
+              href="/"
+            >
+              <span
+                class="font-headline-sm font-medium text-headline-sm text-primary tracking-wide"
+              >
+                Swechha Collections
+              </span>
+            </a>
+            <button
+              aria-label="Search Catalogue"
+              class="active:scale-95 duration-200 flex h-10 hover:bg-surface-container-high items-center justify-center rounded-full text-primary transition-colors w-10"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl text-primary"
+              >
+                search
+              </span>
+            </button>
+          </header>
+          <div
+            aria-label="Menu"
+            aria-modal="true"
+            class="fixed inset-0 z-50"
+            role="dialog"
+          >
+            <button
+              aria-label="Close menu"
+              class="absolute backdrop-blur-[2px] bg-on-surface/40 inset-0"
+            />
+            <aside
+              class="absolute animate-drawer-in bg-surface bottom-0 flex flex-col left-0 max-w-[340px] overflow-y-auto shadow-2xl top-0 w-[82%]"
+            >
+              <div
+                class="border-b border-outline-variant/20 flex items-center justify-between px-margin-mobile py-3"
+              >
+                <div
+                  class="flex flex-col"
+                >
+                  <span
+                    class="font-headline-sm font-medium text-headline-sm text-primary tracking-wide"
+                  >
+                    Swechha Collections
+                  </span>
+                  <span
+                    class="-mt-1 font-label-md font-semibold text-label-md text-secondary tracking-widest"
+                  >
+                    ATELIER
+                  </span>
+                </div>
+                <button
+                  aria-label="Close menu"
+                  class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary w-9"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-2xl"
+                  >
+                    close
+                  </span>
+                </button>
+              </div>
+              <a
+                class="bg-surface-container-low border border-outline-variant/40 flex gap-2 items-center justify-between mt-3 mx-margin-mobile p-3 rounded-xl"
+                href="/account"
+              >
+                <span
+                  class="flex flex-col min-w-0"
+                >
+                  <span
+                    class="font-title-md text-[15px] text-primary truncate"
+                  >
+                    Hello, Ana Rao
+                  </span>
+                  <span
+                    class="font-body-sm text-[12px] text-on-surface-variant truncate"
+                  >
+                    My account
+                  </span>
+                </span>
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  person
+                </span>
+              </a>
+              <nav
+                class="flex-1 pt-3 px-margin-mobile"
+              >
+                <span
+                  class="font-label-md font-semibold text-label-md text-secondary tracking-wider uppercase"
+                >
+                  Shop by Category
+                </span>
+                <a
+                  class="border-b border-outline-variant/20 flex font-title-md hover:text-primary items-center justify-between py-3 text-[15px] text-on-surface"
+                  href="/collection"
+                >
+                  All designs 
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-outline"
+                  >
+                    chevron_right
+                  </span>
+                </a>
+                <a
+                  class="border-b border-outline-variant/20 flex font-title-md hover:text-primary items-center justify-between py-3 text-[15px] text-on-surface"
+                  href="/collection?category=Sarees"
+                >
+                  Sarees
+                   
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-outline"
+                  >
+                    chevron_right
+                  </span>
+                </a>
+                <a
+                  class="border-b border-outline-variant/20 flex font-title-md hover:text-primary items-center justify-between py-3 text-[15px] text-on-surface"
+                  href="/collection?category=Lehengas"
+                >
+                  Lehengas
+                   
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-outline"
+                  >
+                    chevron_right
+                  </span>
+                </a>
+                <a
+                  class="border-b border-outline-variant/20 flex font-title-md hover:text-primary items-center justify-between py-3 text-[15px] text-on-surface"
+                  href="/collection?category=Kurti"
+                >
+                  Kurti
+                   
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-outline"
+                  >
+                    chevron_right
+                  </span>
+                </a>
+                <a
+                  class="border-b border-outline-variant/20 flex font-title-md hover:text-primary items-center justify-between py-3 text-[15px] text-on-surface"
+                  href="/collection?category=Leggings"
+                >
+                  Leggings
+                   
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-outline"
+                  >
+                    chevron_right
+                  </span>
+                </a>
+                <a
+                  class="border-b border-outline-variant/20 flex font-title-md hover:text-primary items-center justify-between py-3 text-[15px] text-on-surface"
+                  href="/collection?category=Tops"
+                >
+                  Tops
+                   
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-outline"
+                  >
+                    chevron_right
+                  </span>
+                </a>
+                <a
+                  class="border-b border-outline-variant/20 flex font-title-md hover:text-primary items-center justify-between py-3 text-[15px] text-on-surface"
+                  href="/collection?category=Co-Ord%20sets"
+                >
+                  Co-Ord sets
+                   
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-outline"
+                  >
+                    chevron_right
+                  </span>
+                </a>
+                <a
+                  class="border-b border-outline-variant/20 flex font-title-md hover:text-primary items-center justify-between py-3 text-[15px] text-on-surface"
+                  href="/collection?category=Dresses(3-pcs)"
+                >
+                  Dresses(3-pcs)
+                   
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-outline"
+                  >
+                    chevron_right
+                  </span>
+                </a>
+                <a
+                  class="border-b border-outline-variant/20 flex font-title-md hover:text-primary items-center justify-between py-3 text-[15px] text-on-surface"
+                  href="/collection?category=Frocks"
+                >
+                  Frocks
+                   
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-outline"
+                  >
+                    chevron_right
+                  </span>
+                </a>
+                <a
+                  class="border-b border-outline-variant/20 flex font-title-md hover:text-primary items-center justify-between py-3 text-[15px] text-on-surface"
+                  href="/collection?category=Night%20dresses"
+                >
+                  Night dresses
+                   
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-outline"
+                  >
+                    chevron_right
+                  </span>
+                </a>
+                <a
+                  class="border-b border-outline-variant/20 flex font-title-md hover:text-primary items-center justify-between py-3 text-[15px] text-on-surface"
+                  href="/collection?category=Bamboo%20night%20dresses"
+                >
+                  Bamboo night dresses
+                   
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-outline"
+                  >
+                    chevron_right
+                  </span>
+                </a>
+              </nav>
+              <div
+                class="pt-3 px-margin-mobile"
+              >
+                <a
+                  class="border-b border-outline-variant/20 flex font-title-md hover:text-primary items-center justify-between py-3 text-[15px] text-on-surface"
+                  href="https://wa.me/919154246254?text=Hello%20Swechha%20Atelier%2C%20I%20would%20like%20to%20schedule%20a%20private%20styling%20consultation."
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Atelier consultations 
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-secondary"
+                  >
+                    auto_awesome
+                  </span>
+                </a>
+              </div>
+              <div
+                class="p-margin-mobile"
+              >
+                <a
+                  class="active:scale-95 bg-[#1b4332] flex font-semibold gap-2 hover:bg-[#143225] items-center justify-center px-4 py-3 rounded-xl shadow-md text-[14px] text-white tracking-wide transition-all w-full"
+                  href="https://wa.me/919154246254?text=Hello%20Swechha%20Collections%2C%20I%20would%20like%20to%20know%20more%20about%20your%20collection."
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-xl"
+                  >
+                    chat
+                  </span>
+                   Chat on WhatsApp
+                </a>
+              </div>
+            </aside>
+          </div>
+          <main
+            class="flex flex-1 flex-col w-full"
+          >
+            <section
+              class="md:max-w-6xl md:mx-auto md:pt-6 md:px-8 md:w-full pb-space-md pt-space-xs px-margin-mobile relative"
+            >
+              <div
+                class="aspect-[4/5] border border-outline-variant/30 md:aspect-[16/7] overflow-hidden relative rounded-xl shadow-lg w-full"
+              >
+                <div
+                  class="absolute flex inset-0 no-scrollbar overflow-x-auto snap-mandatory snap-x"
+                >
+                  <div
+                    class="flex flex-col h-full justify-end lg:p-16 md:justify-center md:p-12 p-space-md relative shrink-0 snap-center w-full"
+                  >
+                    <img
+                      alt="The Festive Edit"
+                      class="absolute h-full inset-0 md:object-[center_25%] object-cover object-top w-full"
+                      decoding="async"
+                      loading="eager"
+                      src="https://res.cloudinary.com/demo/image/upload/f_auto,q_auto,c_limit,w_900/banner-1.jpg"
+                    />
+                    <div
+                      class="absolute bg-gradient-to-t from-primary/95 inset-0 md:bg-gradient-to-r to-transparent via-primary/40"
+                    />
+                    <div
+                      class="flex flex-col gap-space-xs items-start md:gap-space-sm md:max-w-lg relative text-white z-10"
+                    >
+                      <span
+                        class="backdrop-blur-sm bg-secondary/90 font-label-md px-2.5 py-0.5 rounded-full text-label-md text-surface-container-lowest tracking-wider"
+                      >
+                        FESTIVE 2025
+                      </span>
+                      <h1
+                        class="font-headline-lg-mobile font-medium lg:text-display-lg md:font-display-lg md:text-headline-lg mt-1 text-headline-lg-mobile text-surface-container-lowest"
+                      >
+                        The Festive Edit
+                      </h1>
+                      <p
+                        class="font-body-sm line-clamp-2 max-w-[280px] md:max-w-md md:text-body-lg text-body-sm text-surface-container-highest/90"
+                      >
+                        Curated handlooms.
+                      </p>
+                      <button
+                        class="active:scale-95 bg-surface-container-lowest font-label-lg gap-2 hover:bg-surface-bright inline-flex items-center md:mt-4 md:px-6 md:py-3 mt-2.5 px-4 py-2 rounded-xl shadow-md text-label-lg text-primary tracking-wide transition-all"
+                        type="button"
+                      >
+                        <span>
+                          Explore Collection
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          class="font-semibold material-symbols-outlined text-sm"
+                        >
+                          arrow_forward
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="flex flex-col h-full justify-end lg:p-16 md:justify-center md:p-12 p-space-md relative shrink-0 snap-center w-full"
+                  >
+                    <img
+                      alt="Bridal Stories"
+                      class="absolute h-full inset-0 md:object-[center_25%] object-cover object-top w-full"
+                      decoding="async"
+                      loading="lazy"
+                      src="https://res.cloudinary.com/demo/image/upload/f_auto,q_auto,c_limit,w_900/banner-2.jpg"
+                    />
+                    <div
+                      class="absolute bg-gradient-to-t from-primary/95 inset-0 md:bg-gradient-to-r to-transparent via-primary/40"
+                    />
+                    <div
+                      class="flex flex-col gap-space-xs items-start md:gap-space-sm md:max-w-lg relative text-white z-10"
+                    >
+                      <h1
+                        class="font-headline-lg-mobile font-medium lg:text-display-lg md:font-display-lg md:text-headline-lg mt-1 text-headline-lg-mobile text-surface-container-lowest"
+                      >
+                        Bridal Stories
+                      </h1>
+                      <button
+                        class="active:scale-95 bg-surface-container-lowest font-label-lg gap-2 hover:bg-surface-bright inline-flex items-center md:mt-4 md:px-6 md:py-3 mt-2.5 px-4 py-2 rounded-xl shadow-md text-label-lg text-primary tracking-wide transition-all"
+                        type="button"
+                      >
+                        <span>
+                          Explore Collection
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          class="font-semibold material-symbols-outlined text-sm"
+                        >
+                          arrow_forward
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="absolute backdrop-blur-md bg-primary/40 flex gap-1.5 items-center px-2.5 py-1 right-space-md rounded-full top-space-md z-10"
+                >
+                  <span
+                    class="bg-white/50 h-1.5 rounded-full transition-all w-1.5"
+                  />
+                  <span
+                    class="bg-secondary-fixed h-1.5 rounded-full transition-all w-4"
+                  />
+                </div>
+              </div>
+            </section>
+            <section
+              class="md:mt-space-xl mt-space-lg"
+            >
+              <div
+                class="flex items-baseline justify-between mb-space-sm md:max-w-6xl md:mb-space-md md:mx-auto md:px-8 md:w-full px-margin-mobile"
+              >
+                <div>
+                  <h2
+                    class="font-headline-sm font-medium md:text-headline-md text-headline-sm text-primary"
+                  >
+                    New Arrivals
+                  </h2>
+                  <p
+                    class="-mt-0.5 font-body-sm text-body-sm text-on-surface-variant"
+                  >
+                    Fresh artisanal weavings from Varanasi & Chanderi
+                  </p>
+                </div>
+                <a
+                  class="flex font-label-md font-semibold gap-0.5 hover:text-primary items-center shrink-0 text-label-md text-secondary transition-colors"
+                  href="/collection?filter=new"
+                >
+                  <span>
+                    View all
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="font-semibold material-symbols-outlined text-sm"
+                  >
+                    chevron_right
+                  </span>
+                </a>
+              </div>
+              <div
+                class="flex gap-3 lg:grid lg:grid-cols-4 lg:overflow-visible md:gap-4 md:max-w-6xl md:mx-auto md:px-8 md:w-full no-scrollbar overflow-x-auto pb-2 px-margin-mobile scroll-smooth"
+              >
+                <a
+                  class="active:scale-[0.98] bg-surface-container-lowest border border-outline-variant/25 cursor-pointer flex flex-col group hover:shadow-md lg:w-auto md:w-[230px] overflow-hidden relative rounded-xl shadow-sm shrink-0 transition-all w-[200px]"
+                  href="/product/noor-kurta-set"
+                >
+                  <div
+                    class="aspect-[3/4] bg-surface-container-low overflow-hidden relative w-full"
+                  >
+                    <img
+                      alt="Noor Kurta Set"
+                      class="duration-300 group-hover:scale-105 h-full object-cover transition-transform w-full"
+                      decoding="async"
+                      loading="lazy"
+                      src="https://res.cloudinary.com/demo/image/upload/f_auto,q_auto,c_limit,w_420/noor-1.jpg"
+                    />
+                    <span
+                      class="absolute bg-secondary font-label-md left-2 px-2 py-0.5 rounded-full text-label-md text-surface-container-lowest top-2 tracking-wide"
+                    >
+                      New
+                    </span>
+                  </div>
+                  <div
+                    class="flex flex-1 flex-col justify-between p-2.5"
+                  >
+                    <div>
+                      <span
+                        class="block font-label-md font-medium line-clamp-1 text-label-md text-secondary"
+                      >
+                        Chanderi Silk & Organza Dupatta
+                      </span>
+                      <h3
+                        class="font-title-md group-hover:text-primary line-clamp-1 mt-0.5 text-on-surface text-title-md transition-colors"
+                      >
+                        Noor Kurta Set
+                      </h3>
+                    </div>
+                    <div
+                      class="border-outline-variant/20 border-t flex items-center justify-between mt-2 pt-2"
+                    >
+                      <div>
+                        <span
+                          class="font-semibold font-title-md text-primary text-title-md"
+                        >
+                          ₹12,800
+                        </span>
+                        <span
+                          class="font-body-sm line-through ml-1 text-body-sm text-outline"
+                        >
+                          ₹18,000
+                        </span>
+                      </div>
+                      <span
+                        class="bg-primary/10 font-label-md font-semibold px-1.5 py-0.5 rounded text-label-md text-primary"
+                      >
+                        29
+                        % OFF
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </section>
+            <section
+              class="md:max-w-6xl md:mt-space-xl md:mx-auto md:px-8 md:w-full mt-space-lg px-margin-mobile"
+            >
+              <div
+                class="mb-space-sm"
+              >
+                <h2
+                  class="font-headline-sm font-medium md:text-headline-md text-headline-sm text-primary"
+                >
+                  Shop by Category
+                </h2>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant"
+                >
+                  Explore our artisanal repertoire & heritage crafts
+                </p>
+              </div>
+              <div
+                class="gap-3 grid grid-cols-2 lg:grid-cols-6 md:gap-4 md:grid-cols-3"
+              >
+                <a
+                  class="aspect-square border border-outline-variant/30 cursor-pointer group overflow-hidden relative rounded-xl shadow-sm"
+                  href="/collection"
+                >
+                  <img
+                    alt="All collections"
+                    class="duration-300 group-hover:scale-105 h-full object-cover transition-transform w-full"
+                    decoding="async"
+                    loading="lazy"
+                    src="/images_for_ShopbyCategory/all_collections.jpg"
+                  />
+                  <div
+                    class="absolute bg-gradient-to-t from-primary/95 inset-0 to-transparent via-primary/30"
+                  />
+                  <div
+                    class="absolute bottom-0 flex flex-col inset-x-0 p-2.5"
+                  >
+                    <span
+                      class="font-headline-sm font-medium md:text-[19px] text-[17px] text-surface-container-lowest"
+                    >
+                      All collections
+                    </span>
+                    <span
+                      class="font-label-md line-clamp-1 opacity-90 text-[10px] text-secondary-fixed"
+                    >
+                      Complete curation
+                    </span>
+                    <span
+                      class="font-label-md mt-1 text-[10px] text-surface-container-highest/80"
+                    >
+                      3 designs
+                    </span>
+                  </div>
+                </a>
+                <a
+                  class="aspect-square border border-outline-variant/30 cursor-pointer group overflow-hidden relative rounded-xl shadow-sm"
+                  href="/collection?category=Sarees"
+                >
+                  <img
+                    alt="Sarees"
+                    class="duration-300 group-hover:scale-105 h-full object-cover transition-transform w-full"
+                    decoding="async"
+                    loading="lazy"
+                    src="/images_for_ShopbyCategory/sarees.jpg"
+                  />
+                  <div
+                    class="absolute bg-gradient-to-t from-primary/95 inset-0 to-transparent via-primary/30"
+                  />
+                  <div
+                    class="absolute bottom-0 flex flex-col inset-x-0 p-2.5"
+                  >
+                    <span
+                      class="font-headline-sm font-medium md:text-[19px] text-[17px] text-surface-container-lowest"
+                    >
+                      Sarees
+                    </span>
+                    <span
+                      class="font-label-md line-clamp-1 opacity-90 text-[10px] text-secondary-fixed"
+                    >
+                      Classic silhouettes
+                    </span>
+                    <span
+                      class="font-label-md mt-1 text-[10px] text-surface-container-highest/80"
+                    >
+                      1 design
+                    </span>
+                  </div>
+                </a>
+                <a
+                  class="aspect-square border border-outline-variant/30 cursor-pointer group overflow-hidden relative rounded-xl shadow-sm"
+                  href="/collection?category=Lehengas"
+                >
+                  <img
+                    alt="Lehengas"
+                    class="duration-300 group-hover:scale-105 h-full object-cover transition-transform w-full"
+                    decoding="async"
+                    loading="lazy"
+                    src="/images_for_ShopbyCategory/lehengas.jpg"
+                  />
+                  <div
+                    class="absolute bg-gradient-to-t from-primary/95 inset-0 to-transparent via-primary/30"
+                  />
+                  <div
+                    class="absolute bottom-0 flex flex-col inset-x-0 p-2.5"
+                  >
+                    <span
+                      class="font-headline-sm font-medium md:text-[19px] text-[17px] text-surface-container-lowest"
+                    >
+                      Lehengas
+                    </span>
+                    <span
+                      class="font-label-md line-clamp-1 opacity-90 text-[10px] text-secondary-fixed"
+                    >
+                      Festive favorites
+                    </span>
+                    <span
+                      class="font-label-md mt-1 text-[10px] text-surface-container-highest/80"
+                    >
+                      1 design
+                    </span>
+                  </div>
+                </a>
+                <a
+                  class="aspect-square border border-outline-variant/30 cursor-pointer group overflow-hidden relative rounded-xl shadow-sm"
+                  href="/collection?category=Kurti"
+                >
+                  <img
+                    alt="Kurti"
+                    class="duration-300 group-hover:scale-105 h-full object-cover transition-transform w-full"
+                    decoding="async"
+                    loading="lazy"
+                    src="/images_for_ShopbyCategory/kurtis.jpg"
+                  />
+                  <div
+                    class="absolute bg-gradient-to-t from-primary/95 inset-0 to-transparent via-primary/30"
+                  />
+                  <div
+                    class="absolute bottom-0 flex flex-col inset-x-0 p-2.5"
+                  >
+                    <span
+                      class="font-headline-sm font-medium md:text-[19px] text-[17px] text-surface-container-lowest"
+                    >
+                      Kurti
+                    </span>
+                    <span
+                      class="font-label-md line-clamp-1 opacity-90 text-[10px] text-secondary-fixed"
+                    >
+                      Everyday elegance
+                    </span>
+                    <span
+                      class="font-label-md mt-1 text-[10px] text-surface-container-highest/80"
+                    >
+                      1 design
+                    </span>
+                  </div>
+                </a>
+                <a
+                  class="aspect-square border border-outline-variant/30 cursor-pointer group overflow-hidden relative rounded-xl shadow-sm"
+                  href="/collection?category=Leggings"
+                >
+                  <img
+                    alt="Leggings"
+                    class="duration-300 group-hover:scale-105 h-full object-cover transition-transform w-full"
+                    decoding="async"
+                    loading="lazy"
+                    src="/images_for_ShopbyCategory/leggings.jpg"
+                  />
+                  <div
+                    class="absolute bg-gradient-to-t from-primary/95 inset-0 to-transparent via-primary/30"
+                  />
+                  <div
+                    class="absolute bottom-0 flex flex-col inset-x-0 p-2.5"
+                  >
+                    <span
+                      class="font-headline-sm font-medium md:text-[19px] text-[17px] text-surface-container-lowest"
+                    >
+                      Leggings
+                    </span>
+                    <span
+                      class="font-label-md line-clamp-1 opacity-90 text-[10px] text-secondary-fixed"
+                    >
+                      Comfort and style
+                    </span>
+                    <span
+                      class="font-label-md mt-1 text-[10px] text-surface-container-highest/80"
+                    >
+                      Coming soon
+                    </span>
+                  </div>
+                </a>
+                <a
+                  class="aspect-square border border-outline-variant/30 cursor-pointer group overflow-hidden relative rounded-xl shadow-sm"
+                  href="/collection?category=Tops"
+                >
+                  <img
+                    alt="Tops"
+                    class="duration-300 group-hover:scale-105 h-full object-cover transition-transform w-full"
+                    decoding="async"
+                    loading="lazy"
+                    src="/images_for_ShopbyCategory/tops.jpg"
+                  />
+                  <div
+                    class="absolute bg-gradient-to-t from-primary/95 inset-0 to-transparent via-primary/30"
+                  />
+                  <div
+                    class="absolute bottom-0 flex flex-col inset-x-0 p-2.5"
+                  >
+                    <span
+                      class="font-headline-sm font-medium md:text-[19px] text-[17px] text-surface-container-lowest"
+                    >
+                      Tops
+                    </span>
+                    <span
+                      class="font-label-md line-clamp-1 opacity-90 text-[10px] text-secondary-fixed"
+                    >
+                      Minimal essentials
+                    </span>
+                    <span
+                      class="font-label-md mt-1 text-[10px] text-surface-container-highest/80"
+                    >
+                      Coming soon
+                    </span>
+                  </div>
+                </a>
+                <a
+                  class="aspect-square border border-outline-variant/30 cursor-pointer group overflow-hidden relative rounded-xl shadow-sm"
+                  href="/collection?category=Co-Ord%20sets"
+                >
+                  <img
+                    alt="Co-Ord sets"
+                    class="duration-300 group-hover:scale-105 h-full object-cover transition-transform w-full"
+                    decoding="async"
+                    loading="lazy"
+                    src="/images_for_ShopbyCategory/co_ord_sets.jpg"
+                  />
+                  <div
+                    class="absolute bg-gradient-to-t from-primary/95 inset-0 to-transparent via-primary/30"
+                  />
+                  <div
+                    class="absolute bottom-0 flex flex-col inset-x-0 p-2.5"
+                  >
+                    <span
+                      class="font-headline-sm font-medium md:text-[19px] text-[17px] text-surface-container-lowest"
+                    >
+                      Co-Ord sets
+                    </span>
+                    <span
+                      class="font-label-md line-clamp-1 opacity-90 text-[10px] text-secondary-fixed"
+                    >
+                      Matching separates
+                    </span>
+                    <span
+                      class="font-label-md mt-1 text-[10px] text-surface-container-highest/80"
+                    >
+                      Coming soon
+                    </span>
+                  </div>
+                </a>
+                <a
+                  class="aspect-square border border-outline-variant/30 cursor-pointer group overflow-hidden relative rounded-xl shadow-sm"
+                  href="/collection?category=Dresses(3-pcs)"
+                >
+                  <img
+                    alt="Dresses(3-pcs)"
+                    class="duration-300 group-hover:scale-105 h-full object-cover transition-transform w-full"
+                    decoding="async"
+                    loading="lazy"
+                    src="/images_for_ShopbyCategory/dresses_3pcs.jpg"
+                  />
+                  <div
+                    class="absolute bg-gradient-to-t from-primary/95 inset-0 to-transparent via-primary/30"
+                  />
+                  <div
+                    class="absolute bottom-0 flex flex-col inset-x-0 p-2.5"
+                  >
+                    <span
+                      class="font-headline-sm font-medium md:text-[19px] text-[17px] text-surface-container-lowest"
+                    >
+                      Dresses(3-pcs)
+                    </span>
+                    <span
+                      class="font-label-md line-clamp-1 opacity-90 text-[10px] text-secondary-fixed"
+                    >
+                      Set styling
+                    </span>
+                    <span
+                      class="font-label-md mt-1 text-[10px] text-surface-container-highest/80"
+                    >
+                      Coming soon
+                    </span>
+                  </div>
+                </a>
+                <a
+                  class="aspect-square border border-outline-variant/30 cursor-pointer group overflow-hidden relative rounded-xl shadow-sm"
+                  href="/collection?category=Frocks"
+                >
+                  <img
+                    alt="Frocks"
+                    class="duration-300 group-hover:scale-105 h-full object-cover transition-transform w-full"
+                    decoding="async"
+                    loading="lazy"
+                    src="/images_for_ShopbyCategory/frocks.jpg"
+                  />
+                  <div
+                    class="absolute bg-gradient-to-t from-primary/95 inset-0 to-transparent via-primary/30"
+                  />
+                  <div
+                    class="absolute bottom-0 flex flex-col inset-x-0 p-2.5"
+                  >
+                    <span
+                      class="font-headline-sm font-medium md:text-[19px] text-[17px] text-surface-container-lowest"
+                    >
+                      Frocks
+                    </span>
+                    <span
+                      class="font-label-md line-clamp-1 opacity-90 text-[10px] text-secondary-fixed"
+                    >
+                      Light and playful
+                    </span>
+                    <span
+                      class="font-label-md mt-1 text-[10px] text-surface-container-highest/80"
+                    >
+                      Coming soon
+                    </span>
+                  </div>
+                </a>
+                <a
+                  class="aspect-square border border-outline-variant/30 cursor-pointer group overflow-hidden relative rounded-xl shadow-sm"
+                  href="/collection?category=Night%20dresses"
+                >
+                  <img
+                    alt="Night dresses"
+                    class="duration-300 group-hover:scale-105 h-full object-cover transition-transform w-full"
+                    decoding="async"
+                    loading="lazy"
+                    src="/images_for_ShopbyCategory/night_dresses.jpg"
+                  />
+                  <div
+                    class="absolute bg-gradient-to-t from-primary/95 inset-0 to-transparent via-primary/30"
+                  />
+                  <div
+                    class="absolute bottom-0 flex flex-col inset-x-0 p-2.5"
+                  >
+                    <span
+                      class="font-headline-sm font-medium md:text-[19px] text-[17px] text-surface-container-lowest"
+                    >
+                      Night dresses
+                    </span>
+                    <span
+                      class="font-label-md line-clamp-1 opacity-90 text-[10px] text-secondary-fixed"
+                    >
+                      Soft comfort
+                    </span>
+                    <span
+                      class="font-label-md mt-1 text-[10px] text-surface-container-highest/80"
+                    >
+                      Coming soon
+                    </span>
+                  </div>
+                </a>
+                <a
+                  class="aspect-square border border-outline-variant/30 cursor-pointer group overflow-hidden relative rounded-xl shadow-sm"
+                  href="/collection?category=Bamboo%20night%20dresses"
+                >
+                  <img
+                    alt="Bamboo night dresses"
+                    class="duration-300 group-hover:scale-105 h-full object-cover transition-transform w-full"
+                    decoding="async"
+                    loading="lazy"
+                    src="/images_for_ShopbyCategory/bamboo_night_dresses.jpg"
+                  />
+                  <div
+                    class="absolute bg-gradient-to-t from-primary/95 inset-0 to-transparent via-primary/30"
+                  />
+                  <div
+                    class="absolute bottom-0 flex flex-col inset-x-0 p-2.5"
+                  >
+                    <span
+                      class="font-headline-sm font-medium md:text-[19px] text-[17px] text-surface-container-lowest"
+                    >
+                      Bamboo night dresses
+                    </span>
+                    <span
+                      class="font-label-md line-clamp-1 opacity-90 text-[10px] text-secondary-fixed"
+                    >
+                      Breathable lounge
+                    </span>
+                    <span
+                      class="font-label-md mt-1 text-[10px] text-surface-container-highest/80"
+                    >
+                      Coming soon
+                    </span>
+                  </div>
+                </a>
+              </div>
+            </section>
+            <footer
+              class="bg-surface-container-low border-outline-variant/30 border-t flex flex-col md:pt-space-xl mt-space-xl pb-space-lg pt-space-lg px-margin-mobile"
+            >
+              <div
+                class="md:gap-10 md:grid md:grid-cols-3 md:items-start md:max-w-6xl md:mx-auto md:px-8 md:w-full"
+              >
+                <div>
+                  <div
+                    class="md:text-left text-center"
+                  >
+                    <h4
+                      class="font-headline-sm font-medium text-headline-sm text-primary tracking-wide"
+                    >
+                      Swechha Collections
+                    </h4>
+                    <p
+                      class="font-body-sm italic mt-1 text-body-sm text-on-surface-variant"
+                    >
+                      Contemporary elegance woven into timeless Indian traditions.
+                    </p>
+                  </div>
+                  <div
+                    class="border-b border-outline-variant/20 md:mb-0 md:mx-0 mx-auto my-space-md w-16"
+                  />
+                </div>
+                <div
+                  class="flex flex-col gap-space-sm md:col-span-2 md:gap-10 md:grid md:grid-cols-2 text-left"
+                >
+                  <div>
+                    <span
+                      class="block font-label-lg font-semibold text-label-lg text-secondary tracking-wider uppercase"
+                    >
+                      Atelier Locations
+                    </span>
+                    <p
+                      class="font-body-sm mt-0.5 text-body-sm text-on-surface"
+                    >
+                      Jubilee Hills, Hyderabad
+                    </p>
+                  </div>
+                  <div>
+                    <span
+                      class="block font-label-lg font-semibold text-label-lg text-secondary tracking-wider uppercase"
+                    >
+                      Styling Concierge
+                    </span>
+                    <a
+                      class="flex gap-1.5 items-center mt-0.5 text-on-surface"
+                      href="https://wa.me/919154246254"
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="material-symbols-outlined text-primary text-sm"
+                      >
+                        chat
+                      </span>
+                      <span
+                        class="font-body-sm text-body-sm"
+                      >
+                        WhatsApp: 
+                        +91 91542 46254
+                      </span>
+                    </a>
+                    <a
+                      class="flex gap-1.5 items-center mt-0.5 text-on-surface"
+                      href="mailto:concierge@swechhacollections.com"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="material-symbols-outlined text-primary text-sm"
+                      >
+                        mail
+                      </span>
+                      <span
+                        class="break-all font-body-sm text-body-sm"
+                      >
+                        concierge@swechhacollections.com
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="border-outline-variant/20 border-t flex flex-col gap-space-xs items-center md:max-w-6xl md:mt-space-lg md:mx-auto md:px-8 md:w-full mt-space-md pt-space-md text-center"
+              >
+                <div
+                  class="flex gap-4 items-center text-primary"
+                >
+                  <a
+                    aria-label="Instagram"
+                    class="bg-surface-container flex h-8 hover:bg-surface-container-high items-center justify-center rounded-full transition-colors w-8"
+                    href="https://instagram.com/swechha"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="material-symbols-outlined text-lg"
+                    >
+                      photo_camera
+                    </span>
+                  </a>
+                  <a
+                    aria-label="WhatsApp"
+                    class="bg-surface-container flex h-8 hover:bg-surface-container-high items-center justify-center rounded-full transition-colors w-8"
+                    href="https://wa.me/919154246254"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="material-symbols-outlined text-lg"
+                    >
+                      chat
+                    </span>
+                  </a>
+                  <button
+                    aria-label="Share Catalogue"
+                    class="bg-surface-container flex h-8 hover:bg-surface-container-high items-center justify-center rounded-full transition-colors w-8"
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="material-symbols-outlined text-lg"
+                    >
+                      share
+                    </span>
+                  </button>
+                </div>
+                <p
+                  class="font-label-md leading-relaxed mt-2 px-2 text-label-md text-on-surface-variant/80"
+                >
+                  Private Catalogue Presentation • Inquire with our stylists for bespoke consultations.
+                </p>
+                <span
+                  class="font-label-md mt-1 text-[10px] text-outline"
+                >
+                  © 
+                  2026
+                   Swechha Collections Atelier. All rights reserved.
+                </span>
+              </div>
+            </footer>
+          </main>
+          <nav
+            class="backdrop-blur-md bg-surface/95 border-outline-variant/20 border-t bottom-0 fixed flex items-center justify-around left-0 max-w-[480px] md:hidden mx-auto pb-[max(0.25rem,env(safe-area-inset-bottom))] px-gutter-mobile py-space-xs right-0 shadow-[0_-4px_16px_rgba(107,29,47,0.06)] w-full z-40"
+          >
+            <a
+              aria-current="page"
+              class="active:scale-95 duration-200 flex flex-col font-semibold hover:text-primary items-center justify-center min-w-[56px] p-1 text-primary transition-colors"
+              href="/"
+            >
+              <span
+                aria-hidden="true"
+                class="icon-fill material-symbols-outlined text-2xl"
+              >
+                auto_awesome
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Curation
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/collection"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                menu_book
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Lookbook
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/account"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                person
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Account
+              </span>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div
+      aria-live="polite"
+      class="-translate-x-1/2 bg-primary duration-300 fixed left-1/2 max-w-[90vw] opacity-0 pointer-events-none px-4 py-2 rounded-full shadow-lg text-center text-white text-xs top-14 transition-all z-[70]"
+      role="status"
+    />
+  </div>
+</body>"
+`;
+
+exports[`accounts and team > login: email step 1`] = `
+"<body>
+  <div>
+    <div
+      class="antialiased bg-background flex font-body-md justify-center min-h-screen selection:bg-primary-container selection:text-white text-body-md text-on-surface"
+    >
+      <div
+        class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
+      >
+        <header
+          class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
+        >
+          <div
+            class="flex gap-6 h-[72px] items-center justify-between max-w-6xl mx-auto px-8"
+          >
+            <a
+              class="flex flex-col shrink-0"
+              href="/"
+            >
+              <span
+                class="font-headline-sm font-medium text-headline-sm text-primary tracking-wide"
+              >
+                Swechha Collections
+              </span>
+            </a>
+            <nav
+              class="flex gap-7 items-center"
+            >
+              <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/"
+              >
+                Curation
+              </a>
+              <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/collection"
+              >
+                Lookbook
+              </a>
+            </nav>
+            <div
+              class="flex gap-2 items-center shrink-0"
+            >
+              <form
+                class="relative"
+                role="search"
+              >
+                <span
+                  aria-hidden="true"
+                  class="-translate-y-1/2 absolute left-3 material-symbols-outlined text-outline text-xl top-1/2"
+                >
+                  search
+                </span>
+                <input
+                  aria-label="Search the catalogue"
+                  class="bg-[#FAF6F0] border border-[#EBE5DD] focus:border-[#C59B6A] focus:ring-0 font-body-sm lg:w-60 pl-10 placeholder:text-outline/70 pr-4 py-2 rounded-full text-[13px] text-on-surface w-44"
+                  placeholder="Search designs"
+                  type="search"
+                  value=""
+                />
+              </form>
+              <a
+                aria-label="Log in or sign up"
+                class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+                href="/login"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
+              </a>
+            </div>
+          </div>
+        </header>
+        <div
+          class="flex flex-col md:pb-16 min-h-screen pb-24 w-full"
+        >
+          <header
+            class="backdrop-blur-md bg-surface/95 border-b border-outline-variant/30 flex items-center justify-between md:hidden px-margin-mobile py-2.5 sticky top-0 z-40"
+          >
+            <button
+              aria-label="Return to Catalogue"
+              class="-ml-1 active:scale-90 flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                arrow_back
+              </span>
+            </button>
+            <div
+              class="flex flex-1 flex-col items-center justify-center overflow-hidden px-2 text-center"
+            >
+              <span
+                class="font-medium font-title-md max-w-[210px] text-[14px] text-primary truncate"
+              >
+                Account
+              </span>
+              <span
+                class="-mt-0.5 font-label-md text-[10px] text-secondary tracking-widest uppercase"
+              >
+                Sign in
+              </span>
+            </div>
+            <div
+              class="flex gap-1 items-center justify-end min-w-9"
+            >
+              <span
+                class="w-9"
+              />
+            </div>
+          </header>
+          <main
+            class="flex flex-1 items-center justify-center md:py-16 px-gutter-mobile py-10"
+          >
+            <form
+              class="admin-card flex flex-col items-center md:max-w-sm p-5 shadow-luxury text-center w-full"
+              novalidate=""
+            >
+              <div
+                class="bg-secondary-container/60 border border-secondary/40 flex h-12 items-center justify-center rounded-full text-primary w-12"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-[24px]"
+                >
+                  person
+                </span>
+              </div>
+              <h1
+                class="font-headline-sm mt-3 text-headline-sm text-primary"
+              >
+                Sign in or create an account
+              </h1>
+              <p
+                class="font-body-sm mt-1 text-body-sm text-on-surface-variant"
+              >
+                We'll email you a 6-digit code.
+              </p>
+              <label
+                class="mt-4 text-left w-full"
+              >
+                <span
+                  class="sr-only"
+                >
+                  Email address
+                </span>
+                <input
+                  autocomplete="email"
+                  class="field"
+                  inputmode="email"
+                  placeholder="you@example.com"
+                  type="email"
+                  value=""
+                />
+              </label>
+              <button
+                class="active:scale-95 bg-primary-container disabled:opacity-60 font-semibold font-title-md hover:bg-[#541423] mt-4 py-3 rounded-xl shadow-luxury text-[15px] text-surface-container-lowest transition-all w-full"
+                type="submit"
+              >
+                Continue
+              </button>
+            </form>
+          </main>
+          <nav
+            class="backdrop-blur-md bg-surface/95 border-outline-variant/20 border-t bottom-0 fixed flex items-center justify-around left-0 max-w-[480px] md:hidden mx-auto pb-[max(0.25rem,env(safe-area-inset-bottom))] px-gutter-mobile py-space-xs right-0 shadow-[0_-4px_16px_rgba(107,29,47,0.06)] w-full z-40"
+          >
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                auto_awesome
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Curation
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/collection"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                menu_book
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Lookbook
+              </span>
+            </a>
+            <a
+              aria-current="page"
+              class="active:scale-95 duration-200 flex flex-col font-semibold hover:text-primary items-center justify-center min-w-[56px] p-1 text-primary transition-colors"
+              href="/account"
+            >
+              <span
+                aria-hidden="true"
+                class="icon-fill material-symbols-outlined text-2xl"
+              >
+                person
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Account
+              </span>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div
+      aria-live="polite"
+      class="-translate-x-1/2 bg-primary duration-300 fixed left-1/2 max-w-[90vw] opacity-0 pointer-events-none px-4 py-2 rounded-full shadow-lg text-center text-white text-xs top-14 transition-all z-[70]"
+      role="status"
+    />
+  </div>
+</body>"
+`;
+
+exports[`accounts and team > team (admin) 1`] = `
+"<body>
+  <div>
+    <div
+      class="admin-root antialiased bg-[#f0eded] flex justify-center md:py-0 min-h-screen py-0 selection:bg-primary-container selection:text-white sm:py-6 text-on-surface"
+    >
+      <div
+        class="bg-background border border-outline-variant/30 flex flex-col max-w-[480px] md:border-0 md:max-w-none md:pb-16 md:rounded-none md:shadow-none min-h-screen overflow-clip pb-28 relative shadow-2xl sm:rounded-[32px] w-full"
+      >
+        <header
+          class="backdrop-blur-md bg-surface/90 duration-200 md:border-b md:border-outline-variant/30 md:px-0 px-gutter-mobile py-3 sticky top-0 transition-colors z-40"
+        >
+          <div
+            class="flex gap-4 items-center justify-between md:max-w-6xl md:mx-auto md:px-8 w-full"
+          >
+            <a
+              class="flex flex-col"
+              href="/adminDivya"
+            >
+              <div
+                class="flex gap-2 items-center"
+              >
+                <span
+                  class="font-headline-sm font-medium md:whitespace-nowrap text-headline-sm text-primary tracking-wide"
+                >
+                  Swechha Collections
+                </span>
+                <span
+                  class="bg-primary-container font-label-md px-2 py-0.5 rounded-full shadow-sm text-label-md text-surface-container-lowest tracking-wider"
+                >
+                  ADMIN
+                </span>
+              </div>
+              <span
+                class="font-label-md md:whitespace-nowrap mt-0.5 text-label-md text-secondary tracking-widest"
+              >
+                ATELIER CONCIERGE & INVENTORY
+              </span>
+            </a>
+            <nav
+              class="gap-5 hidden items-center lg:gap-8 md:flex"
+            >
+              <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/adminDivya"
+              >
+                Dashboard
+              </a>
+              <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/adminDivya/products"
+              >
+                Products
+              </a>
+              <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/adminDivya/lookbook"
+              >
+                Lookbook
+              </a>
+              <a
+                aria-current="page"
+                class="border-b-2 border-secondary font-label-lg py-1 text-label-lg text-primary tracking-wider transition-colors uppercase"
+                href="/adminDivya/team"
+              >
+                Team
+              </a>
+              <a
+                aria-label="View Site"
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/"
+                rel="noreferrer"
+                target="_blank"
+              >
+                <span
+                  aria-hidden="true"
+                  class="lg:hidden material-symbols-outlined text-[20px]"
+                >
+                  storefront
+                </span>
+                <span
+                  class="hidden lg:inline"
+                >
+                  View Site
+                </span>
+              </a>
+              <button
+                aria-label="Add Product"
+                class="active:scale-95 bg-primary-container font-label-lg gap-1.5 hover:bg-[#541423] inline-flex items-center lg:px-4 px-2.5 py-2 rounded-xl shadow-luxury text-label-lg text-surface-container-lowest transition-all whitespace-nowrap"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-[18px]"
+                >
+                  add
+                </span>
+                 
+                <span
+                  class="hidden lg:inline"
+                >
+                  Add Product
+                </span>
+              </button>
+            </nav>
+            <div
+              class="flex gap-2.5 items-center shrink-0"
+            >
+              <button
+                aria-label="3 stock alerts"
+                class="active:scale-95 duration-150 flex hover:bg-surface-container-high items-center justify-center p-2 relative rounded-full text-on-surface-variant transition-colors"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-[22px]"
+                >
+                  notifications
+                </span>
+                <span
+                  class="absolute bg-primary-container h-2 right-1.5 ring-2 ring-background rounded-full top-1.5 w-2"
+                />
+              </button>
+              <div
+                class="relative"
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="menu"
+                  aria-label="Account menu"
+                  type="button"
+                >
+                  <span
+                    class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle text-primary text-title-md w-9"
+                  >
+                    DO
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+        <main
+          class="md:max-w-6xl md:mx-auto md:pt-6 md:px-8 md:w-full pb-8 pt-3 px-gutter-mobile space-y-4"
+        >
+          <div>
+            <h2
+              class="font-headline-sm md:text-headline-md text-headline-sm text-primary"
+            >
+              Team
+            </h2>
+            <p
+              class="-mt-0.5 font-body-sm text-body-sm text-on-surface-variant"
+            >
+              People who can open this admin
+            </p>
+          </div>
+          <div
+            class="md:gap-5 md:grid md:grid-cols-2 md:items-start md:space-y-0 space-y-4"
+          >
+            <form
+              class="admin-card space-y-3"
+              novalidate=""
+            >
+              <div>
+                <h2
+                  class="font-headline-sm leading-tight text-[18px] text-primary"
+                >
+                  Add someone
+                </h2>
+                <p
+                  class="font-body-sm mt-0.5 text-[12px] text-on-surface-variant"
+                >
+                  They sign in with this email and a code. 
+                  Staff can manage products and stock. Admins can also edit the lookbook and the team.
+                </p>
+              </div>
+              <div>
+                <label
+                  class="field-label"
+                  for="team-email"
+                >
+                  Email
+                </label>
+                <input
+                  autocomplete="off"
+                  class="field"
+                  id="team-email"
+                  inputmode="email"
+                  placeholder="name@example.com"
+                  type="email"
+                  value=""
+                />
+              </div>
+              <div
+                aria-label="Role"
+                class="bg-surface-container gap-1 grid p-1 rounded-xl"
+                role="radiogroup"
+                style="grid-template-columns: repeat(2, minmax(0,1fr));"
+              >
+                <button
+                  aria-checked="true"
+                  class="bg-surface-container-lowest border border-outline-variant/40 font-label-lg py-2 rounded-lg shadow-sm text-label-lg text-primary transition-all"
+                  role="radio"
+                  type="button"
+                >
+                  Staff
+                </button>
+                <button
+                  aria-checked="false"
+                  class="font-label-lg py-2 rounded-lg text-label-lg text-on-surface-variant transition-all"
+                  role="radio"
+                  type="button"
+                >
+                  Admin
+                </button>
+              </div>
+              <button
+                class="active:scale-95 bg-primary-container disabled:opacity-60 font-semibold font-title-md hover:bg-[#541423] md:px-8 md:w-auto py-3 rounded-xl shadow-luxury text-[15px] text-surface-container-lowest transition-all w-full"
+                type="submit"
+              >
+                Add to team
+              </button>
+            </form>
+            <section
+              class="space-y-2"
+            >
+              <div
+                class="bg-surface-container-lowest border border-outline-variant/40 flex gap-3 items-center justify-between p-3 rounded-xl shadow-luxury-subtle"
+              >
+                <div
+                  class="flex gap-3 items-center min-w-0"
+                >
+                  <span
+                    class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle shrink-0 text-primary text-title-md w-9"
+                  >
+                    DO
+                  </span>
+                  <div
+                    class="min-w-0 space-y-1"
+                  >
+                    <p
+                      class="font-title-md leading-tight text-[15px] text-primary truncate"
+                    >
+                      Divya Owner
+                    </p>
+                    <p
+                      class="font-body-sm text-[12px] text-on-surface-variant truncate"
+                    >
+                      owner@swechha.test
+                    </p>
+                    <div
+                      class="flex flex-wrap gap-1"
+                    >
+                      <span
+                        class="bg-secondary-fixed/60 font-label-md font-semibold gap-1 inline-flex items-center px-2 py-0.5 rounded-full text-label-md text-on-secondary-container"
+                      >
+                        <span
+                          class="bg-secondary h-1.5 rounded-full shrink-0 w-1.5"
+                        />
+                        Admin
+                      </span>
+                      <span
+                        class="bg-emerald-50 border border-emerald-200/60 font-label-md gap-1 inline-flex items-center px-2 py-0.5 rounded-full text-emerald-800 text-label-md"
+                      >
+                        <span
+                          class="bg-emerald-600 h-1.5 rounded-full shrink-0 w-1.5"
+                        />
+                        You
+                      </span>
+                      <span
+                        class="bg-surface-container-high border border-outline-variant/40 font-label-md gap-1 inline-flex items-center px-2 py-0.5 rounded-full text-label-md text-on-surface-variant"
+                      >
+                        <span
+                          class="bg-outline h-1.5 rounded-full shrink-0 w-1.5"
+                        />
+                        Not signed in yet
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="bg-surface-container-lowest border border-outline-variant/40 flex gap-3 items-center justify-between p-3 rounded-xl shadow-luxury-subtle"
+              >
+                <div
+                  class="flex gap-3 items-center min-w-0"
+                >
+                  <span
+                    class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle shrink-0 text-primary text-title-md w-9"
+                  >
+                    SS
+                  </span>
+                  <div
+                    class="min-w-0 space-y-1"
+                  >
+                    <p
+                      class="font-title-md leading-tight text-[15px] text-primary truncate"
+                    >
+                      Sita Staff
+                    </p>
+                    <p
+                      class="font-body-sm text-[12px] text-on-surface-variant truncate"
+                    >
+                      staff@swechha.test
+                    </p>
+                    <div
+                      class="flex flex-wrap gap-1"
+                    >
+                      <span
+                        class="bg-surface-container-high border border-outline-variant/40 font-label-md gap-1 inline-flex items-center px-2 py-0.5 rounded-full text-label-md text-on-surface-variant"
+                      >
+                        <span
+                          class="bg-outline h-1.5 rounded-full shrink-0 w-1.5"
+                        />
+                        Staff
+                      </span>
+                      <span
+                        class="bg-surface-container-high border border-outline-variant/40 font-label-md gap-1 inline-flex items-center px-2 py-0.5 rounded-full text-label-md text-on-surface-variant"
+                      >
+                        <span
+                          class="bg-outline h-1.5 rounded-full shrink-0 w-1.5"
+                        />
+                        Not signed in yet
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="flex flex-col gap-1 items-end shrink-0"
+                >
+                  <button
+                    class="font-label-lg text-label-lg text-primary underline"
+                    type="button"
+                  >
+                    Make admin
+                  </button>
+                  <button
+                    class="font-label-lg text-error text-label-lg underline"
+                    type="button"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </section>
+          </div>
+        </main>
+        <nav
+          class="-translate-x-1/2 backdrop-blur-md bg-surface/95 border-outline-variant/30 border-t bottom-0 fixed flex items-center justify-around left-1/2 max-w-[480px] md:hidden pb-[max(0.25rem,env(safe-area-inset-bottom))] px-gutter-mobile py-space-xs shadow-luxury w-full z-50"
+        >
+          <a
+            class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
+            href="/adminDivya"
+          >
+            <span
+              aria-hidden="true"
+              class="material-symbols-outlined text-[23px]"
+            >
+              dashboard
+            </span>
+            <span
+              class="font-label-md mt-0.5 text-label-md"
+            >
+              Dashboard
+            </span>
+            <span
+              class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
+            />
+          </a>
+          <a
+            class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
+            href="/adminDivya/products"
+          >
+            <span
+              aria-hidden="true"
+              class="material-symbols-outlined text-[23px]"
+            >
+              styler
+            </span>
+            <span
+              class="font-label-md mt-0.5 text-label-md"
+            >
+              Products
+            </span>
+            <span
+              class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
+            />
+          </a>
+          <div
+            class="-mt-5"
+          >
+            <button
+              aria-label="Add new product"
+              class="active:scale-95 bg-primary-container border-2 border-background duration-150 flex h-12 hover:bg-[#541423] items-center justify-center rounded-full shadow-luxury text-surface-container-lowest transition-all w-12"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-[26px]"
+              >
+                add
+              </span>
+            </button>
+          </div>
+          <a
+            class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
+            href="/adminDivya/lookbook"
+          >
+            <span
+              aria-hidden="true"
+              class="material-symbols-outlined text-[23px]"
+            >
+              auto_awesome
+            </span>
+            <span
+              class="font-label-md mt-0.5 text-label-md"
+            >
+              Lookbook
+            </span>
+            <span
+              class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
+            />
+          </a>
+          <a
+            class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
+            href="/"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span
+              aria-hidden="true"
+              class="material-symbols-outlined text-[23px]"
+            >
+              storefront
+            </span>
+            <span
+              class="font-label-md mt-0.5 text-label-md"
+            >
+              View Site
+            </span>
+            <span
+              class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
+            />
+          </a>
+        </nav>
+      </div>
+    </div>
+    <div
+      aria-live="polite"
+      class="-translate-x-1/2 bg-primary duration-300 fixed left-1/2 max-w-[90vw] opacity-0 pointer-events-none px-4 py-2 rounded-full shadow-lg text-center text-white text-xs top-14 transition-all z-[70]"
+      role="status"
+    />
+  </div>
+</body>"
+`;
+
 exports[`admin > customers see "no access" 1`] = `
 "<body>
   <div>
@@ -122,6 +2378,12 @@ exports[`admin > dashboard 1`] = `
                 Lookbook
               </a>
               <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/adminDivya/team"
+              >
+                Team
+              </a>
+              <a
                 aria-label="View Site"
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
                 href="/"
@@ -178,9 +2440,20 @@ exports[`admin > dashboard 1`] = `
                 />
               </button>
               <div
-                class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle text-primary text-title-md w-9"
+                class="relative"
               >
-                SC
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="menu"
+                  aria-label="Account menu"
+                  type="button"
+                >
+                  <span
+                    class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle text-primary text-title-md w-9"
+                  >
+                    DO
+                  </span>
+                </button>
               </div>
             </div>
           </div>
@@ -769,6 +3042,12 @@ exports[`admin > lookbook 1`] = `
                 Lookbook
               </a>
               <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/adminDivya/team"
+              >
+                Team
+              </a>
+              <a
                 aria-label="View Site"
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
                 href="/"
@@ -825,9 +3104,20 @@ exports[`admin > lookbook 1`] = `
                 />
               </button>
               <div
-                class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle text-primary text-title-md w-9"
+                class="relative"
               >
-                SC
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="menu"
+                  aria-label="Account menu"
+                  type="button"
+                >
+                  <span
+                    class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle text-primary text-title-md w-9"
+                  >
+                    DO
+                  </span>
+                </button>
               </div>
             </div>
           </div>
@@ -846,6 +3136,40 @@ exports[`admin > lookbook 1`] = `
             >
               Home page banners and boutique details
             </p>
+          </div>
+          <div
+            class="admin-card flex gap-3 items-center justify-between"
+          >
+            <div
+              class="flex gap-3 items-center min-w-0"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined shrink-0 text-[22px] text-secondary"
+              >
+                group
+              </span>
+              <div
+                class="min-w-0"
+              >
+                <p
+                  class="font-title-md text-[15px] text-primary"
+                >
+                  Team
+                </p>
+                <p
+                  class="font-body-sm text-[12px] text-on-surface-variant"
+                >
+                  Staff and admins who can open this admin
+                </p>
+              </div>
+            </div>
+            <a
+              class="active:scale-95 border border-[#C59B6A] font-label-lg px-4 py-3 rounded-xl shrink-0 text-label-lg text-on-surface transition-all"
+              href="/adminDivya/team"
+            >
+              Manage
+            </a>
           </div>
           <div
             class="md:gap-5 md:grid md:grid-cols-2 md:items-start md:space-y-0 space-y-4"
@@ -4949,6 +7273,12 @@ exports[`admin > products 1`] = `
                 Lookbook
               </a>
               <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/adminDivya/team"
+              >
+                Team
+              </a>
+              <a
                 aria-label="View Site"
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
                 href="/"
@@ -5005,9 +7335,20 @@ exports[`admin > products 1`] = `
                 />
               </button>
               <div
-                class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle text-primary text-title-md w-9"
+                class="relative"
               >
-                SC
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="menu"
+                  aria-label="Account menu"
+                  type="button"
+                >
+                  <span
+                    class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle text-primary text-title-md w-9"
+                  >
+                    DO
+                  </span>
+                </button>
               </div>
             </div>
           </div>
@@ -5779,6 +8120,12 @@ exports[`admin > products: delete confirm 1`] = `
                 Lookbook
               </a>
               <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/adminDivya/team"
+              >
+                Team
+              </a>
+              <a
                 aria-label="View Site"
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
                 href="/"
@@ -5835,9 +8182,20 @@ exports[`admin > products: delete confirm 1`] = `
                 />
               </button>
               <div
-                class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle text-primary text-title-md w-9"
+                class="relative"
               >
-                SC
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="menu"
+                  aria-label="Account menu"
+                  type="button"
+                >
+                  <span
+                    class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle text-primary text-title-md w-9"
+                  >
+                    DO
+                  </span>
+                </button>
               </div>
             </div>
           </div>
@@ -6653,6 +9011,12 @@ exports[`admin > products: quick stock sheet 1`] = `
                 Lookbook
               </a>
               <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/adminDivya/team"
+              >
+                Team
+              </a>
+              <a
                 aria-label="View Site"
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
                 href="/"
@@ -6709,9 +9073,20 @@ exports[`admin > products: quick stock sheet 1`] = `
                 />
               </button>
               <div
-                class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle text-primary text-title-md w-9"
+                class="relative"
               >
-                SC
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="menu"
+                  aria-label="Account menu"
+                  type="button"
+                >
+                  <span
+                    class="bg-secondary-container/60 border border-secondary/40 flex font-bold font-title-md h-9 items-center justify-center rounded-full shadow-luxury-subtle text-primary text-title-md w-9"
+                  >
+                    DO
+                  </span>
+                </button>
               </div>
             </div>
           </div>
@@ -7868,6 +10243,18 @@ exports[`public site > collection 1`] = `
                   value=""
                 />
               </form>
+              <a
+                aria-label="Log in or sign up"
+                class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+                href="/login"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
+              </a>
             </div>
           </div>
         </header>
@@ -8298,6 +10685,22 @@ exports[`public site > collection 1`] = `
                 Lookbook
               </span>
             </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/account"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                person
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Account
+              </span>
+            </a>
           </nav>
         </div>
       </div>
@@ -8374,6 +10777,18 @@ exports[`public site > collection: category + in stock + sort 1`] = `
                   value=""
                 />
               </form>
+              <a
+                aria-label="Log in or sign up"
+                class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+                href="/login"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
+              </a>
             </div>
           </div>
         </header>
@@ -8699,6 +11114,22 @@ exports[`public site > collection: category + in stock + sort 1`] = `
                 Lookbook
               </span>
             </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/account"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                person
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Account
+              </span>
+            </a>
           </nav>
         </div>
       </div>
@@ -8775,6 +11206,18 @@ exports[`public site > collection: empty 1`] = `
                   value="zzzz"
                 />
               </form>
+              <a
+                aria-label="Log in or sign up"
+                class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+                href="/login"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
+              </a>
             </div>
           </div>
         </header>
@@ -9059,6 +11502,22 @@ exports[`public site > collection: empty 1`] = `
                 Lookbook
               </span>
             </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/account"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                person
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Account
+              </span>
+            </a>
           </nav>
         </div>
       </div>
@@ -9135,6 +11594,18 @@ exports[`public site > home 1`] = `
                   value=""
                 />
               </form>
+              <a
+                aria-label="Log in or sign up"
+                class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+                href="/login"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
+              </a>
             </div>
           </div>
         </header>
@@ -9963,6 +12434,22 @@ exports[`public site > home 1`] = `
                 Lookbook
               </span>
             </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/account"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                person
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Account
+              </span>
+            </a>
           </nav>
         </div>
       </div>
@@ -10041,6 +12528,18 @@ exports[`public site > home: drawer open 1`] = `
                   value=""
                 />
               </form>
+              <a
+                aria-label="Log in or sign up"
+                class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+                href="/login"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
+              </a>
             </div>
           </div>
         </header>
@@ -10127,6 +12626,31 @@ exports[`public site > home: drawer open 1`] = `
                   </span>
                 </button>
               </div>
+              <a
+                class="bg-surface-container-low border border-outline-variant/40 flex gap-2 items-center justify-between mt-3 mx-margin-mobile p-3 rounded-xl"
+                href="/login"
+              >
+                <span
+                  class="flex flex-col min-w-0"
+                >
+                  <span
+                    class="font-title-md text-[15px] text-primary truncate"
+                  >
+                    Log in / Sign up
+                  </span>
+                  <span
+                    class="font-body-sm text-[12px] text-on-surface-variant truncate"
+                  >
+                    Track orders and save addresses
+                  </span>
+                </span>
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl text-primary"
+                >
+                  login
+                </span>
+              </a>
               <nav
                 class="flex-1 pt-3 px-margin-mobile"
               >
@@ -10278,6 +12802,24 @@ exports[`public site > home: drawer open 1`] = `
                   </span>
                 </a>
               </nav>
+              <div
+                class="pt-3 px-margin-mobile"
+              >
+                <a
+                  class="border-b border-outline-variant/20 flex font-title-md hover:text-primary items-center justify-between py-3 text-[15px] text-on-surface"
+                  href="https://wa.me/919154246254?text=Hello%20Swechha%20Atelier%2C%20I%20would%20like%20to%20schedule%20a%20private%20styling%20consultation."
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Atelier consultations 
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-secondary"
+                  >
+                    auto_awesome
+                  </span>
+                </a>
+              </div>
               <div
                 class="p-margin-mobile"
               >
@@ -11082,6 +13624,22 @@ exports[`public site > home: drawer open 1`] = `
                 Lookbook
               </span>
             </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/account"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                person
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Account
+              </span>
+            </a>
           </nav>
         </div>
       </div>
@@ -11158,6 +13716,18 @@ exports[`public site > home: load error 1`] = `
                   value=""
                 />
               </form>
+              <a
+                aria-label="Log in or sign up"
+                class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+                href="/login"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
+              </a>
             </div>
           </div>
         </header>
@@ -11938,6 +14508,22 @@ exports[`public site > home: load error 1`] = `
                 Lookbook
               </span>
             </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/account"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                person
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Account
+              </span>
+            </a>
           </nav>
         </div>
       </div>
@@ -12014,6 +14600,18 @@ exports[`public site > home: loading 1`] = `
                   value=""
                 />
               </form>
+              <a
+                aria-label="Log in or sign up"
+                class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+                href="/login"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
+              </a>
             </div>
           </div>
         </header>
@@ -12669,6 +15267,22 @@ exports[`public site > home: loading 1`] = `
                 Lookbook
               </span>
             </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/account"
+            >
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-2xl"
+              >
+                person
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Account
+              </span>
+            </a>
           </nav>
         </div>
       </div>
@@ -12782,6 +15396,18 @@ exports[`public site > product: draft is not found for customers 1`] = `
                   value=""
                 />
               </form>
+              <a
+                aria-label="Log in or sign up"
+                class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+                href="/login"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
+              </a>
             </div>
           </div>
         </header>
@@ -12884,6 +15510,18 @@ exports[`public site > product: free size saree 1`] = `
                   value=""
                 />
               </form>
+              <a
+                aria-label="Log in or sign up"
+                class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+                href="/login"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
+              </a>
             </div>
           </div>
         </header>
@@ -13277,6 +15915,18 @@ exports[`public site > product: out of stock 1`] = `
                   value=""
                 />
               </form>
+              <a
+                aria-label="Log in or sign up"
+                class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+                href="/login"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
+              </a>
             </div>
           </div>
         </header>
@@ -13750,6 +16400,18 @@ exports[`public site > product: sized, with size picked 1`] = `
                   value=""
                 />
               </form>
+              <a
+                aria-label="Log in or sign up"
+                class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+                href="/login"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
+              </a>
             </div>
           </div>
         </header>
@@ -14468,6 +17130,18 @@ exports[`public site > product: zoom viewer 1`] = `
                   value=""
                 />
               </form>
+              <a
+                aria-label="Log in or sign up"
+                class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
+                href="/login"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
+              </a>
             </div>
           </div>
         </header>

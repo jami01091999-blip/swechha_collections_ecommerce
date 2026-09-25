@@ -1,6 +1,9 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Icon from '../shared/Icon';
-import { IconButton } from '../ui';
+import { Avatar, IconButton, initials } from '../ui';
+import { isAdmin, useAuth } from '../../lib/auth';
+import { logout } from '../../lib/api';
 import { ADMIN_BASE } from '../../lib/constants';
 
 /** Sticky admin header — Stitch dashboard header. */
@@ -33,12 +36,64 @@ export function AdminHeader({ alerts = 0 }) {
             <Icon name="notifications" className="text-[22px]" />
             {alerts > 0 && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-primary-container rounded-full ring-2 ring-background" />}
           </button>
-          <div className="w-9 h-9 rounded-full bg-secondary-container/60 border border-secondary/40 flex items-center justify-center text-primary font-title-md text-title-md font-bold shadow-luxury-subtle">
-            SC
-          </div>
+          <AccountMenu />
         </div>
       </div>
     </header>
+  );
+}
+
+/** Initials button with View site / My account / Log out. */
+function AccountMenu() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const box = useRef(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const close = (e) => {
+      if (e.type === 'keydown' ? e.key === 'Escape' : !box.current?.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', close);
+    document.addEventListener('keydown', close);
+    return () => {
+      document.removeEventListener('mousedown', close);
+      document.removeEventListener('keydown', close);
+    };
+  }, [open]);
+
+  const item =
+    'w-full flex items-center gap-2 text-left px-3 py-2 rounded-lg font-body-sm text-[14px] text-on-surface hover:bg-surface-container';
+  const signOut = async () => {
+    setOpen(false);
+    await logout().catch(() => {});
+    navigate('/', { replace: true });
+  };
+
+  return (
+    <div className="relative" ref={box}>
+      <button type="button" aria-label="Account menu" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+        <Avatar>{initials(user)}</Avatar>
+      </button>
+      {open && (
+        <div role="menu" className="admin-card absolute right-0 top-full mt-2 w-56 p-1.5 z-50 shadow-luxury">
+          <div className="px-3 py-2 border-b border-outline-variant/30 mb-1">
+            <p className="font-title-md text-[14px] text-primary truncate">{user?.name || 'Signed in'}</p>
+            <p className="font-body-sm text-[12px] text-on-surface-variant truncate">{user?.email}</p>
+          </div>
+          <a role="menuitem" href="/" target="_blank" rel="noreferrer" className={item}>
+            <Icon name="storefront" className="text-[18px]" /> View site
+          </a>
+          <Link role="menuitem" to="/account" className={item}>
+            <Icon name="person" className="text-[18px]" /> My account
+          </Link>
+          <button role="menuitem" type="button" onClick={signOut} className={item}>
+            <Icon name="logout" className="text-[18px]" /> Log out
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -112,6 +167,7 @@ export function AdminNav() {
 /** Laptop/tablet navigation inside the admin header (the bottom bar is phone-only). */
 function DesktopAdminNav() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const link = ({ isActive }) =>
     `font-label-lg text-label-lg uppercase tracking-wider py-1 border-b-2 transition-colors ${
       isActive ? 'text-primary border-secondary' : 'text-on-surface-variant border-transparent hover:text-primary'
@@ -127,6 +183,11 @@ function DesktopAdminNav() {
       <NavLink to={`${ADMIN_BASE}/lookbook`} className={link}>
         Lookbook
       </NavLink>
+      {isAdmin(user) && (
+        <NavLink to={`${ADMIN_BASE}/team`} className={link}>
+          Team
+        </NavLink>
+      )}
       <a href="/" target="_blank" rel="noreferrer" aria-label="View Site" className={link({ isActive: false })}>
         <Icon name="storefront" className="text-[20px] lg:hidden" />
         <span className="hidden lg:inline">View Site</span>

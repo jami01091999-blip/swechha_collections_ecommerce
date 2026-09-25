@@ -19,7 +19,8 @@ async function tick() {
   for (let stable = 0, i = 0; stable < 3 && i < 300; i++) {
     await act(() => new Promise((r) => setTimeout(r, 15)));
     const html = document.body.innerHTML;
-    stable = current?.state.pending === 0 && html === last ? stable + 1 : 0;
+    const idle = current?.state.pending === 0 && !document.querySelector('.animate-spin');
+    stable = idle && html === last ? stable + 1 : 0;
     last = html;
   }
 }

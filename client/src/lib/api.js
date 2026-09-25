@@ -179,7 +179,7 @@ export function useAdminProduct(id) {
   return fromList ? { data: fromList, loading: false, error: null } : { ...single, loading: single.loading || list.loading };
 }
 
-export const useTeam = () => useResource(keys.team, () => api('/admin/team').then((d) => d.team));
+export const useTeam = (enabled = true) => useResource(keys.team, () => api('/admin/team').then((d) => d.team), enabled);
 const refreshTeam = (data) => {
   queryClient.invalidateQueries({ queryKey: keys.team });
   return data;

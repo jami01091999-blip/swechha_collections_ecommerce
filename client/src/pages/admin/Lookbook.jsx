@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { AdminHeader, AdminNav } from '../../components/admin/AdminChrome';
 import { SingleImage } from '../../components/admin/ImageManager';
 import { ErrorSummary, Section } from '../../components/admin/FormBits';
-import { Button, Field, Input, PageContainer, Select, Skeleton, Textarea } from '../../components/ui';
+import { Button, Card, Field, Input, PageContainer, Select, Skeleton, Textarea } from '../../components/ui';
 import Icon from '../../components/shared/Icon';
 import { saveSettings, useAdminProducts, useSettings } from '../../lib/api';
-import { CATEGORIES } from '../../lib/constants';
+import { ADMIN_BASE, CATEGORIES } from '../../lib/constants';
+import { isAdmin, useAuth } from '../../lib/auth';
 import { useInventoryStats } from './Dashboard';
 import { useToast } from '../../context/Toast';
 
@@ -14,6 +16,8 @@ const NEW_BANNER = { tag: '', title: '', subtitle: '', image: '', ctaLabel: 'Exp
 /** Lookbook = the home-page hero banners + boutique contact details shown in the footer. */
 export default function Lookbook() {
   const toast = useToast();
+  const { user } = useAuth();
+  const canSave = isAdmin(user);
   const { data: settings, loading } = useSettings();
   const { data: products } = useAdminProducts();
   const stats = useInventoryStats(products);
@@ -77,6 +81,27 @@ export default function Lookbook() {
           <h2 className="font-headline-sm text-headline-sm md:text-headline-md text-primary">Lookbook</h2>
           <p className="font-body-sm text-body-sm text-on-surface-variant -mt-0.5">Home page banners and boutique details</p>
         </div>
+        {canSave ? (
+          <Card className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <Icon name="group" className="text-[22px] text-secondary shrink-0" />
+              <div className="min-w-0">
+                <p className="font-title-md text-[15px] text-primary">Team</p>
+                <p className="font-body-sm text-[12px] text-on-surface-variant">Staff and admins who can open this admin</p>
+              </div>
+            </div>
+            <Button as={Link} to={`${ADMIN_BASE}/team`} variant="secondary" size="sm" className="px-4 shrink-0">
+              Manage
+            </Button>
+          </Card>
+        ) : (
+          <Card className="flex items-start gap-3">
+            <Icon name="lock" className="text-[20px] text-secondary shrink-0 mt-0.5" />
+            <p className="font-body-sm text-body-sm text-on-surface-variant">
+              Only admins can change the lookbook. You can look, but saving is turned off.
+            </p>
+          </Card>
+        )}
         <ErrorSummary errors={{ error }} />
         {!form ? (
           <Skeleton tone="none" className="admin-card h-40" aria-busy={loading} />
@@ -179,9 +204,11 @@ export default function Lookbook() {
               </div>
             </Section>
 
-            <Button size="lg" onClick={save} disabled={saving} className="w-full md:w-auto md:px-12">
-              {saving ? 'Saving…' : 'Save Lookbook'}
-            </Button>
+            {canSave && (
+              <Button size="lg" onClick={save} disabled={saving} className="w-full md:w-auto md:px-12">
+                {saving ? 'Saving…' : 'Save Lookbook'}
+              </Button>
+            )}
           </>
         )}
       </PageContainer>

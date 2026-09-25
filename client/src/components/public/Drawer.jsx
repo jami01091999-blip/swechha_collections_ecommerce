@@ -5,9 +5,11 @@ import { Button } from '../ui';
 import { CATEGORIES } from '../../lib/constants';
 import { useSettings } from '../../lib/api';
 import { waLink } from '../../lib/format';
+import { useAuth } from '../../lib/auth';
 
 export default function Drawer({ open, onClose }) {
   const { data: settings } = useSettings();
+  const { user } = useAuth();
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => e.key === 'Escape' && onClose();
@@ -38,6 +40,21 @@ export default function Drawer({ open, onClose }) {
             <Icon name="close" className="text-2xl" />
           </button>
         </div>
+        <Link
+          to={user ? '/account' : '/login'}
+          onClick={onClose}
+          className="mx-margin-mobile mt-3 rounded-xl border border-outline-variant/40 bg-surface-container-low p-3 flex items-center justify-between gap-2"
+        >
+          <span className="flex flex-col min-w-0">
+            <span className="font-title-md text-[15px] text-primary truncate">
+              {user ? `Hello, ${user.name || 'there'}` : 'Log in / Sign up'}
+            </span>
+            <span className="font-body-sm text-[12px] text-on-surface-variant truncate">
+              {user ? 'My account' : 'Track orders and save addresses'}
+            </span>
+          </span>
+          <Icon name={user ? 'person' : 'login'} className="text-primary text-2xl" />
+        </Link>
         <nav className="px-margin-mobile pt-3 flex-1" onClick={onClose}>
           <span className="font-label-md text-label-md text-secondary font-semibold uppercase tracking-wider">Shop by Category</span>
           <Link to="/collection" className={item}>
@@ -49,6 +66,18 @@ export default function Drawer({ open, onClose }) {
             </Link>
           ))}
         </nav>
+        {settings?.whatsapp && (
+          <div className="px-margin-mobile pt-3">
+            <a
+              href={waLink(settings.whatsapp, 'Hello Swechha Atelier, I would like to schedule a private styling consultation.')}
+              target="_blank"
+              rel="noreferrer"
+              className={item}
+            >
+              Atelier consultations <Icon name="auto_awesome" className="text-secondary" />
+            </a>
+          </div>
+        )}
         {settings?.whatsapp && (
           <div className="p-margin-mobile">
             <Button

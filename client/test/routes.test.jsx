@@ -23,7 +23,7 @@ async function settle() {
   for (let stable = 0, i = 0; stable < 3 && i < 400; i++) {
     await act(() => new Promise((r) => setTimeout(r, 15)));
     const html = document.body.innerHTML;
-    const idle = api.state.pending === 0 && !html.includes('Opening atelier…');
+    const idle = api.state.pending === 0 && !html.includes('Opening atelier…') && !document.querySelector('.animate-spin');
     stable = idle && html === last ? stable + 1 : 0;
     last = html;
   }
@@ -177,6 +177,43 @@ describe('admin', () => {
   it('lookbook', async () => {
     await renderRoute('/adminDivya/lookbook', { admin: true });
     expect(snap()).toMatchSnapshot();
+  });
+});
+
+describe('accounts and team', () => {
+  it('login: email step', async () => {
+    await renderRoute('/login');
+    expect(snap()).toMatchSnapshot();
+  });
+  it('account (customer)', async () => {
+    await renderRoute('/account', { user: USERS.customer });
+    expect(snap()).toMatchSnapshot();
+  });
+  it('drawer when signed in', async () => {
+    await renderRoute('/', { user: USERS.customer });
+    fireEvent.click(screen.getByLabelText('Open Navigation Drawer'));
+    await settle();
+    expect(screen.getByText('Hello, Ana Rao')).toBeTruthy();
+    expect(snap()).toMatchSnapshot();
+  });
+  it('team (admin)', async () => {
+    await renderRoute('/adminDivya/team', { admin: true });
+    expect(screen.getByText('Sita Staff')).toBeTruthy();
+    expect(snap()).toMatchSnapshot();
+  });
+  it('team is closed to staff; lookbook save hidden for staff', async () => {
+    await renderRoute('/adminDivya/team', { user: USERS.staff });
+    expect(screen.getByText('Only admins can manage the team')).toBeTruthy();
+    cleanup();
+    await renderRoute('/adminDivya/lookbook', { user: USERS.staff });
+    expect(screen.queryByRole('button', { name: 'Save Lookbook' })).toBeNull();
+    expect(screen.queryByText('Team')).toBeNull();
+  });
+  it('admin account menu', async () => {
+    await renderRoute('/adminDivya', { admin: true });
+    fireEvent.click(screen.getByLabelText('Account menu'));
+    expect(screen.getByRole('menuitem', { name: /My account/ })).toBeTruthy();
+    expect(screen.getByRole('menuitem', { name: /Log out/ })).toBeTruthy();
   });
 });
 
