@@ -3,15 +3,20 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "engines": { "node": ">=20" },
-  "workspaces": ["client", "server"],
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
     "dev": "concurrently -k -n api,web -c magenta,cyan \"npm run dev -w server\" \"npm run dev -w client\"",
     "dev:web": "npm run dev -w client",
     "dev:api": "npm run dev -w server",
     "build": "npm run build -w client",
     "start": "npm start -w server",
-    "test": "npm test -w server",
+    "test": "npm test -w server && npm test -w client",
     "seed": "npm run seed -w server",
     "seed:reset": "npm run seed:reset -w server",
     "db:indexes": "npm run db:indexes -w server"
