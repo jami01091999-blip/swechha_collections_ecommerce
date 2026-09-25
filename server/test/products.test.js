@@ -1,18 +1,22 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import request from 'supertest';
-import { ADMIN, XRW, PHOTO, startTestApp, validProduct } from './helpers.js';
+import { XRW, PHOTO, startTestApp, validProduct } from './helpers.js';
 
 let ctx;
 let app;
+let staff;
+let customer;
 
 beforeAll(async () => {
   ctx = await startTestApp();
   app = ctx.app;
+  staff = (await ctx.signIn('staff@example.com', { role: 'staff' })).agent;
+  customer = (await ctx.signIn('shopper@example.com', { role: 'customer' })).agent;
 });
 afterAll(() => ctx?.stop());
 beforeEach(() => ctx.Product.deleteMany({}));
 
-const create = (body) => request(app).post('/api/products').set(ADMIN).send(body);
+const create = (body) => staff.post('/api/products').set(XRW).send(body);
 
 describe('GET /api/products', () => {
   it('returns published products only, as a plain array, with public cache headers', async () => {
@@ -33,21 +37,22 @@ describe('GET /api/products', () => {
     expect(res.body.map((p) => p.name)).toEqual(['Third', 'Second', 'First']);
   });
 
-  it('?all=1 without the admin key → 401', async () => {
+  it('?all=1 when signed out → 401', async () => {
     const res = await request(app).get('/api/products?all=1');
     expect(res.status).toBe(401);
-    expect(res.body.error).toBe('Admin key is missing or incorrect.');
+    expect(res.body.error).toBe('Please sign in to continue.');
   });
 
-  it('?all=1 with a wrong key → 401', async () => {
-    const res = await request(app).get('/api/products?all=1').set('x-admin-key', 'nope');
-    expect(res.status).toBe(401);
+  it('?all=1 as a customer → 403', async () => {
+    const res = await customer.get('/api/products?all=1');
+    expect(res.status).toBe(403);
+    expect(res.body.error).toBe("You don't have access to this.");
   });
 
-  it('?all=1 with the key includes drafts and is not cached', async () => {
+  it('?all=1 as staff includes drafts and is not cached', async () => {
     await create(validProduct({ code: 'B1' }));
     await create(validProduct({ code: 'B2', status: 'draft', images: [] }));
-    const res = await request(app).get('/api/products?all=1').set(ADMIN);
+    const res = await staff.get('/api/products?all=1').set(XRW);
     expect(res.status).toBe(200);
     expect(res.body).toHaveLength(2);
     expect(res.headers['cache-control']).toBe('no-store');
@@ -55,7 +60,8 @@ describe('GET /api/products', () => {
 });
 
 describe('POST /api/products', () => {
-  it('requires the admin key', async () => {
+  it('requires a staff sign-in (401 guest, 403 customer)', async () => {
+    expect((await customer.post('/api/products').set(XRW).send(validProduct())).status).toBe(403);
     const res = await request(app).post('/api/products').set(XRW).send(validProduct());
     expect(res.status).toBe(401);
     expect(await ctx.Product.countDocuments()).toBe(0);
@@ -137,7 +143,7 @@ describe('POST /api/products', () => {
   });
 
   it('rejects a body that is not valid JSON', async () => {
-    const res = await request(app).post('/api/products').set(ADMIN).set('Content-Type', 'application/json').send('{bad');
+    const res = await staff.post('/api/products').set(XRW).set('Content-Type', 'application/json').send('{bad');
     expect(res.status).toBe(400);
     expect(res.body.error).toBe('Request body is not valid JSON.');
   });
@@ -152,9 +158,9 @@ describe('/api/products/:idOrSlug', () => {
     expect(res.headers['cache-control']).toBe('public, s-maxage=30, stale-while-revalidate=300');
   });
 
-  it('admin can read a draft; public gets 404', async () => {
+  it('staff can read a draft; public and customers get 404', async () => {
     const { body } = await create(validProduct({ status: 'draft', images: [] }));
-    const admin = await request(app).get(`/api/products/${body._id}`).set(ADMIN);
+    const admin = await staff.get(`/api/products/${body._id}`).set(XRW);
     expect(admin.status).toBe(200);
     expect(admin.headers['cache-control']).toBe('no-store');
     for (const id of [body._id, body.slug]) {
@@ -162,8 +168,7 @@ describe('/api/products/:idOrSlug', () => {
       expect(pub.status).toBe(404);
       expect(pub.body.error).toBe('Product not found.');
     }
-    const wrongKey = await request(app).get(`/api/products/${body._id}`).set('x-admin-key', 'nope');
-    expect(wrongKey.status).toBe(404);
+    expect((await customer.get(`/api/products/${body._id}`)).status).toBe(404);
   });
 
   it('unknown id or slug → 404', async () => {
@@ -174,7 +179,7 @@ describe('/api/products/:idOrSlug', () => {
   it('PATCH is partial and keeps defaults (lowStockThreshold stays 2)', async () => {
     const { body } = await create(validProduct({ description: 'Keep me' }));
     await new Promise((r) => setTimeout(r, 5));
-    const res = await request(app).patch(`/api/products/${body._id}`).set(ADMIN).send({ price: 15000 });
+    const res = await staff.patch(`/api/products/${body._id}`).set(XRW).send({ price: 15000 });
     expect(res.status).toBe(200);
     expect(res.body.price).toBe(15000);
     expect(res.body.lowStockThreshold).toBe(2);
@@ -186,14 +191,14 @@ describe('/api/products/:idOrSlug', () => {
 
   it('PUT behaves like PATCH', async () => {
     const { body } = await create(validProduct());
-    const res = await request(app).put(`/api/products/${body.slug}`).set(ADMIN).send({ isNewArrival: true });
+    const res = await staff.put(`/api/products/${body.slug}`).set(XRW).send({ isNewArrival: true });
     expect(res.status).toBe(200);
     expect(res.body.isNewArrival).toBe(true);
   });
 
   it('PATCH validates the merged product', async () => {
     const { body } = await create(validProduct());
-    const res = await request(app).patch(`/api/products/${body._id}`).set(ADMIN).send({ images: [] });
+    const res = await staff.patch(`/api/products/${body._id}`).set(XRW).send({ images: [] });
     expect(res.status).toBe(400);
     expect(res.body.error).toBe('Add at least one photo before publishing.');
   });
@@ -201,28 +206,30 @@ describe('/api/products/:idOrSlug', () => {
   it('PATCH to another product’s code → 409', async () => {
     await create(validProduct({ code: 'C1', name: 'One' }));
     const { body } = await create(validProduct({ code: 'C2', name: 'Two' }));
-    const res = await request(app).patch(`/api/products/${body._id}`).set(ADMIN).send({ code: 'c1' });
+    const res = await staff.patch(`/api/products/${body._id}`).set(XRW).send({ code: 'c1' });
     expect(res.status).toBe(409);
     expect(res.body.error).toBe('Another product already uses this product code.');
   });
 
-  it('writes require the admin key', async () => {
+  it('writes require staff (401 guest, 403 customer)', async () => {
     const { body } = await create(validProduct());
+    expect((await customer.patch(`/api/products/${body._id}`).set(XRW).send({ price: 1 })).status).toBe(403);
+    expect((await customer.delete(`/api/products/${body._id}`).set(XRW)).status).toBe(403);
     expect((await request(app).patch(`/api/products/${body._id}`).set(XRW).send({ price: 1 })).status).toBe(401);
     expect((await request(app).delete(`/api/products/${body._id}`).set(XRW)).status).toBe(401);
   });
 
   it('delete, then 404', async () => {
     const { body } = await create(validProduct());
-    const del = await request(app).delete(`/api/products/${body._id}`).set(ADMIN);
+    const del = await staff.delete(`/api/products/${body._id}`).set(XRW);
     expect(del.status).toBe(200);
     expect(del.body).toEqual({ deleted: true });
-    expect((await request(app).get(`/api/products/${body._id}`).set(ADMIN)).status).toBe(404);
-    expect((await request(app).delete(`/api/products/${body._id}`).set(ADMIN)).status).toBe(404);
+    expect((await staff.get(`/api/products/${body._id}`).set(XRW)).status).toBe(404);
+    expect((await staff.delete(`/api/products/${body._id}`).set(XRW)).status).toBe(404);
   });
 
   it('unsupported method → 405 with Allow header', async () => {
-    const res = await request(app).delete('/api/products').set(ADMIN);
+    const res = await staff.delete('/api/products').set(XRW);
     expect(res.status).toBe(405);
     expect(res.headers.allow).toBe('GET, POST');
     expect(res.body.error).toBe('Method DELETE not allowed.');

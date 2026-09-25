@@ -1,14 +1,18 @@
 import { createHash } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import request from 'supertest';
-import { ADMIN, XRW, startTestApp } from './helpers.js';
+import { XRW, startTestApp } from './helpers.js';
 
 let ctx;
 let app;
+let staff;
+let customer;
 
 beforeAll(async () => {
   ctx = await startTestApp();
   app = ctx.app;
+  staff = (await ctx.signIn('staff@example.com', { role: 'staff' })).agent;
+  customer = (await ctx.signIn('shopper@example.com', { role: 'customer' })).agent;
 });
 afterAll(() => ctx?.stop());
 
@@ -35,12 +39,13 @@ describe('GET /api/health', () => {
 });
 
 describe('POST /api/upload-signature', () => {
-  it('requires the admin key', async () => {
+  it('requires staff (401 guest, 403 customer)', async () => {
     expect((await request(app).post('/api/upload-signature').set(XRW)).status).toBe(401);
+    expect((await customer.post('/api/upload-signature').set(XRW)).status).toBe(403);
   });
 
   it('→ 503 when Cloudinary keys are not configured', async () => {
-    const res = await request(app).post('/api/upload-signature').set(ADMIN);
+    const res = await staff.post('/api/upload-signature').set(XRW);
     expect(res.status).toBe(503);
     expect(res.body.error).toBe(
       'Photo upload is not set up. Add the CLOUDINARY_* keys to your environment, or paste an image link instead.'
@@ -54,26 +59,9 @@ describe('POST /api/upload-signature', () => {
   });
 });
 
-describe('/api/admin/verify', () => {
-  it('GET says whether a key is required', async () => {
-    const res = await request(app).get('/api/admin/verify');
-    expect(res.status).toBe(200);
-    expect(res.body).toEqual({ required: true });
-    expect(res.headers['cache-control']).toBe('no-store');
-  });
-
-  it('POST with the right key → 200 { ok: true }', async () => {
-    const res = await request(app).post('/api/admin/verify').set(ADMIN);
-    expect(res.status).toBe(200);
-    expect(res.body).toEqual({ ok: true });
-  });
-
-  it('POST with a wrong or missing key → 401 { ok: false }', async () => {
-    for (const key of ['wrong', '']) {
-      const res = await request(app).post('/api/admin/verify').set(XRW).set('x-admin-key', key);
-      expect(res.status).toBe(401);
-      expect(res.body).toEqual({ ok: false });
-    }
+describe('admin key removed', () => {
+  it('/api/admin/verify no longer exists', async () => {
+    expect((await request(app).get('/api/admin/verify')).status).toBe(404);
   });
 });
 

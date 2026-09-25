@@ -3,7 +3,6 @@ import request from 'supertest';
 
 /** Header every state-changing request needs (CSRF rule). */
 export const XRW = { 'X-Requested-With': 'swechha' };
-export const ADMIN = { 'x-admin-key': 'test-admin-key', ...XRW };
 export const PHOTO = { url: 'https://res.cloudinary.com/demo/image/upload/sample.jpg', publicId: '' };
 
 /** Starts an in-memory MongoDB, then loads the app (env is read at import time). */

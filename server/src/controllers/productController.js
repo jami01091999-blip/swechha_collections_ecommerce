@@ -1,13 +1,13 @@
 import * as products from '../services/productService.js';
-import { assertAdmin, isAdmin } from '../middlewares/adminKey.js';
+import { STAFF_ROLES, assertRole, isStaff } from '../middlewares/auth.js';
 import { noStore, publicCache } from '../utils/cache.js';
 import { HttpError } from '../utils/HttpError.js';
 
-// GET /api/products → published (public) · GET /api/products?all=1 → everything (admin)
+// GET /api/products → published (public) · GET /api/products?all=1 → everything (staff/admin)
 export async function list(req, res) {
   const wantAll = req.query.all === '1';
   if (wantAll) {
-    assertAdmin(req);
+    assertRole(req, STAFF_ROLES);
     noStore(res);
   } else {
     publicCache(res, 30);
@@ -22,8 +22,12 @@ export async function create(req, res) {
 
 export async function getOne(req, res) {
   const doc = await products.findProductOr404(req.params.id);
-  const admin = req.headers['x-admin-key'] !== undefined && isAdmin(req);
-  if (doc.status !== 'published' && !admin) throw new HttpError(404, 'Product not found.');
+  const admin = isStaff(req.user);
+  if (doc.status !== 'published' && !admin) {
+    // A staff member whose access token just expired should refresh and retry rather than see a 404.
+    if (req.authError?.extra?.code === 'TOKEN_EXPIRED') throw req.authError;
+    throw new HttpError(404, 'Product not found.');
+  }
   if (admin) noStore(res);
   else publicCache(res, 30);
   res.status(200).json(doc);

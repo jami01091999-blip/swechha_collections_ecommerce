@@ -10,7 +10,6 @@ export default defineConfig({
       NODE_ENV: 'test',
       APP_MODE: 'test',
       MONGO_DB: 'swechha_test',
-      ADMIN_KEY: 'test-admin-key',
       CLIENT_ORIGIN: 'http://localhost:5173,https://swechha.example',
       LOG_LEVEL: 'silent',
       // Test-only values; never used outside vitest.

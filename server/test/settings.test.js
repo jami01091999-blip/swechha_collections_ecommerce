@@ -1,13 +1,17 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import request from 'supertest';
-import { ADMIN, XRW, startTestApp } from './helpers.js';
+import { XRW, startTestApp } from './helpers.js';
 
 let ctx;
 let app;
+let admin;
+let staff;
 
 beforeAll(async () => {
   ctx = await startTestApp();
   app = ctx.app;
+  admin = (await ctx.signIn('owner@swechha.test', { role: 'admin' })).agent;
+  staff = (await ctx.signIn('staff@example.com', { role: 'staff' })).agent;
 });
 afterAll(() => ctx?.stop());
 beforeEach(() => ctx.Setting.deleteMany({}));
@@ -25,7 +29,15 @@ describe('/api/settings', () => {
     expect(res.headers['cache-control']).toBe('public, s-maxage=60, stale-while-revalidate=300');
   });
 
-  it('PUT requires the admin key', async () => {
+  it('PUT is admin only (403 staff)', async () => {
+    expect(
+      (
+        await staff
+          .put('/api/settings')
+          .set(XRW)
+          .send({ banners: [banner] })
+      ).status
+    ).toBe(403);
     const res = await request(app)
       .put('/api/settings')
       .set(XRW)
@@ -34,9 +46,9 @@ describe('/api/settings', () => {
   });
 
   it('PUT sanitises: WhatsApp digits only, @handle → Instagram URL, bad banners dropped', async () => {
-    const res = await request(app)
+    const res = await admin
       .put('/api/settings')
-      .set(ADMIN)
+      .set(XRW)
       .send({
         collectionName: '  Winter Edit  ',
         whatsapp: '+91 98765-43210',
@@ -66,26 +78,26 @@ describe('/api/settings', () => {
   });
 
   it('keeps a full Instagram URL as is', async () => {
-    const res = await request(app)
+    const res = await admin
       .put('/api/settings')
-      .set(ADMIN)
+      .set(XRW)
       .send({ banners: [banner], instagram: 'https://www.instagram.com/x' });
     expect(res.body.instagram).toBe('https://www.instagram.com/x');
   });
 
   it('needs at least one banner', async () => {
-    const res = await request(app)
+    const res = await admin
       .put('/api/settings')
-      .set(ADMIN)
+      .set(XRW)
       .send({ banners: [{ title: 'No image' }] });
     expect(res.status).toBe(400);
     expect(res.body.error).toBe('Keep at least one banner with a title and an image.');
   });
 
   it('rejects a WhatsApp number without a country code', async () => {
-    const res = await request(app)
+    const res = await admin
       .put('/api/settings')
-      .set(ADMIN)
+      .set(XRW)
       .send({ banners: [banner], whatsapp: '98765' });
     expect(res.status).toBe(400);
     expect(res.body.error).toBe('WhatsApp number needs the country code, e.g. 919876543210.');

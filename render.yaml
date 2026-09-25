@@ -25,11 +25,29 @@ services:
         value: swechha
       - key: CLOUDINARY_FOLDER
         value: swechha/products
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: '465'
+      - key: ACCESS_TOKEN_MINUTES
+        value: '15'
+      - key: REFRESH_TOKEN_DAYS
+        value: '30'
       - key: MONGO_URI
         sync: false
       - key: CLIENT_ORIGIN
         sync: false
-      - key: ADMIN_KEY
+      - key: JWT_ACCESS_SECRET
+        sync: false
+      - key: OTP_SECRET
+        sync: false
+      - key: ADMIN_EMAILS
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: MAIL_FROM
         sync: false
       - key: CLOUDINARY_CLOUD_NAME
         sync: false

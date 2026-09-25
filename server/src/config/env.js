@@ -22,7 +22,6 @@ const schema = z.object({
   MONGO_URI: optional,
   MONGO_DB: z.string().min(1).default('swechha'),
   CLIENT_ORIGIN: z.string().default('http://localhost:5173'),
-  ADMIN_KEY: optional, // removed in Phase 1 step 3
   // Auth
   JWT_ACCESS_SECRET: secret,
   OTP_SECRET: secret,

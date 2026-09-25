@@ -7,7 +7,7 @@ const common = { standardHeaders: 'draft-7', legacyHeaders: false, message, skip
 /** Every /api request, keyed by the real client IP (see `trust proxy` in app.js). */
 export const apiLimiter = rateLimit({ ...common, windowMs: 15 * 60 * 1000, limit: 600 });
 
-/** Admin writes and admin-key checks: stricter, to slow down key guessing. */
+/** Staff/admin writes: stricter than the general limit. */
 export const adminWriteLimiter = rateLimit({ ...common, windowMs: 15 * 60 * 1000, limit: 120 });
 
 /** Sign-in endpoints (on top of the per-email / per-IP OTP limits). */
