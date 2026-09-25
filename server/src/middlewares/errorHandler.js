@@ -1,5 +1,10 @@
 const GENERIC = 'The server could not complete the request. Try again in a moment.';
 
+const DUPLICATE_MESSAGES = {
+  code: 'Another product already uses this product code.',
+  email: 'An account with this email already exists.',
+};
+
 // eslint-disable-next-line no-unused-vars
 export function errorHandler(err, req, res, next) {
   const requestId = req.id;
@@ -11,9 +16,10 @@ export function errorHandler(err, req, res, next) {
   }
   if (err?.code === 11000) {
     const field = Object.keys(err.keyPattern || {})[0] || 'field';
-    return res.status(409).json({ error: `Another product already uses this ${field === 'code' ? 'product code' : field}.`, requestId });
+    return res.status(409).json({ error: DUPLICATE_MESSAGES[field] || `Another product already uses this ${field}.`, requestId });
   }
   const status = err?.status || err?.statusCode || 500;
   if (!err?.expose) req.log?.error({ err }, 'Unhandled error');
-  res.status(status).json({ error: err?.expose ? err.message : GENERIC, requestId });
+  if (err?.extra?.retryAfter) res.setHeader('Retry-After', String(err.extra.retryAfter));
+  res.status(status).json({ error: err?.expose ? err.message : GENERIC, ...(err?.expose ? err.extra : undefined), requestId });
 }

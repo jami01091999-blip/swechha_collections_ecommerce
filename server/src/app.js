@@ -2,10 +2,12 @@ import express from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { pinoHttp } from 'pino-http';
 import { env } from './config/env.js';
 import { logger } from './utils/logger.js';
 import { requestId } from './middlewares/requestId.js';
+import { csrf } from './middlewares/csrf.js';
 import { apiLimiter } from './middlewares/rateLimit.js';
 import { notFound } from './middlewares/notFound.js';
 import { errorHandler } from './middlewares/errorHandler.js';
@@ -45,8 +47,9 @@ export function createApp() {
   );
   app.use(compression());
   app.use(express.json({ limit: '1mb' }));
+  app.use(cookieParser());
 
-  app.use('/api', apiLimiter, apiRouter);
+  app.use('/api', apiLimiter, csrf, apiRouter);
   app.use(notFound);
   app.use(errorHandler);
   return app;

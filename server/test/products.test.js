@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import request from 'supertest';
-import { ADMIN, PHOTO, startTestApp, validProduct } from './helpers.js';
+import { ADMIN, XRW, PHOTO, startTestApp, validProduct } from './helpers.js';
 
 let ctx;
 let app;
@@ -56,7 +56,7 @@ describe('GET /api/products', () => {
 
 describe('POST /api/products', () => {
   it('requires the admin key', async () => {
-    const res = await request(app).post('/api/products').send(validProduct());
+    const res = await request(app).post('/api/products').set(XRW).send(validProduct());
     expect(res.status).toBe(401);
     expect(await ctx.Product.countDocuments()).toBe(0);
   });
@@ -208,8 +208,8 @@ describe('/api/products/:idOrSlug', () => {
 
   it('writes require the admin key', async () => {
     const { body } = await create(validProduct());
-    expect((await request(app).patch(`/api/products/${body._id}`).send({ price: 1 })).status).toBe(401);
-    expect((await request(app).delete(`/api/products/${body._id}`)).status).toBe(401);
+    expect((await request(app).patch(`/api/products/${body._id}`).set(XRW).send({ price: 1 })).status).toBe(401);
+    expect((await request(app).delete(`/api/products/${body._id}`).set(XRW)).status).toBe(401);
   });
 
   it('delete, then 404', async () => {

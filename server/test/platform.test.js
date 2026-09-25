@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import request from 'supertest';
-import { ADMIN, startTestApp } from './helpers.js';
+import { ADMIN, XRW, startTestApp } from './helpers.js';
 
 let ctx;
 let app;
@@ -36,7 +36,7 @@ describe('GET /api/health', () => {
 
 describe('POST /api/upload-signature', () => {
   it('requires the admin key', async () => {
-    expect((await request(app).post('/api/upload-signature')).status).toBe(401);
+    expect((await request(app).post('/api/upload-signature').set(XRW)).status).toBe(401);
   });
 
   it('→ 503 when Cloudinary keys are not configured', async () => {
@@ -70,7 +70,7 @@ describe('/api/admin/verify', () => {
 
   it('POST with a wrong or missing key → 401 { ok: false }', async () => {
     for (const key of ['wrong', '']) {
-      const res = await request(app).post('/api/admin/verify').set('x-admin-key', key);
+      const res = await request(app).post('/api/admin/verify').set(XRW).set('x-admin-key', key);
       expect(res.status).toBe(401);
       expect(res.body).toEqual({ ok: false });
     }

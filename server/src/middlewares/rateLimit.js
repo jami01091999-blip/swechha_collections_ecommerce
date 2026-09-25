@@ -9,3 +9,6 @@ export const apiLimiter = rateLimit({ ...common, windowMs: 15 * 60 * 1000, limit
 
 /** Admin writes and admin-key checks: stricter, to slow down key guessing. */
 export const adminWriteLimiter = rateLimit({ ...common, windowMs: 15 * 60 * 1000, limit: 120 });
+
+/** Sign-in endpoints (on top of the per-email / per-IP OTP limits). */
+export const authLimiter = rateLimit({ ...common, windowMs: 15 * 60 * 1000, limit: 30 });

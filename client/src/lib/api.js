@@ -40,7 +40,8 @@ const authListeners = new Set();
 export const onAuthFailure = (fn) => (authListeners.add(fn), () => authListeners.delete(fn));
 
 export async function api(path, { method = 'GET', body, admin = false } = {}) {
-  const headers = {};
+  // Every request carries this header: the API rejects state-changing requests without it (CSRF rule).
+  const headers = { 'X-Requested-With': 'swechha' };
   if (body !== undefined) headers['Content-Type'] = 'application/json';
   if (admin) headers['x-admin-key'] = adminKey.get();
   let res;

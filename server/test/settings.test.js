@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import request from 'supertest';
-import { ADMIN, startTestApp } from './helpers.js';
+import { ADMIN, XRW, startTestApp } from './helpers.js';
 
 let ctx;
 let app;
@@ -28,6 +28,7 @@ describe('/api/settings', () => {
   it('PUT requires the admin key', async () => {
     const res = await request(app)
       .put('/api/settings')
+      .set(XRW)
       .send({ banners: [banner] });
     expect(res.status).toBe(401);
   });
