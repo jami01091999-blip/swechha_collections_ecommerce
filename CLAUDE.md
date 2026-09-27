@@ -124,6 +124,19 @@ Never print secret values, never commit `.env` files, never log request bodies o
   (the only exception is the `APP_MODE=test` OTP log line).
 - New per-user queries must use a key under `['me', …]` or `['admin', …]` so sign-in/out clears them.
 
+## Catalogue conventions (Phase 2)
+
+- Stock sold to customers is **available = stock − reserved** (`reserved` = checkout holds, set only by the server).
+  Client: `availableOf` / `sizeRows` in `lib/stock.js`. Server: `available` in `services/productShape.js`.
+- Every write that touches sizes, price or code goes through `shapeProduct()` (`services/productShape.js`) — it builds
+  SKUs and the derived `totalStock / inStock / availableSizes / discountPercent`. Never set those by hand or in hooks.
+- List endpoints return the **card projection** only (`CARD_FIELDS` in `catalogService.js`); never descriptions.
+  Public product JSON never includes `reserved`, weight, dimensions, HSN or tax.
+- New list queries need a supporting index; add an `explain()` case to `server/test/catalog.test.js`.
+- Schema changes to existing data ship as an idempotent migration in `server/src/scripts/migrations/` with a dry-run
+  default and a JSON backup before `--apply` (see `002-sizes-sku.js`).
+- Collection filters live in the URL (`components/catalog/filters.js`); saved designs go through `useSaved()`.
+
 ## API conventions
 
 - All requests from the client are relative `/api/...` with `credentials: 'include'` (see `lib/api.js`).

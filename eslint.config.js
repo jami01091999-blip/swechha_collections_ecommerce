@@ -39,5 +39,10 @@ export default [
     files: ['server/**/*.js', 'eslint.config.js'],
     languageOptions: { ecmaVersion: 'latest', sourceType: 'module', globals: { ...globals.node } },
   },
+  {
+    // k6 load scripts run in k6, not Node.
+    files: ['server/scripts/load/**/*.js'],
+    languageOptions: { globals: { __VU: 'readonly', __ITER: 'readonly', __ENV: 'readonly' } },
+  },
   prettier,
 ];

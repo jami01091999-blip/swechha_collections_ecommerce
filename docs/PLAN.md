@@ -7,7 +7,7 @@ Each phase ships on its own, keeps the Stitch design (see design rules in `CLAUD
 | --- | ----------------------- | --------------------------------------------------------------------------------------------- |
 | 0   | Foundation              | Monorepo, Express API, shared UI kit, tests, deploy setup. No new features. **Done.**         |
 | 1   | Email-OTP login & roles | Customers and staff sign in with a 6-digit email code; roles replace the admin key. **Done.** |
-| 2   | Catalogue upgrade       | SKU per size, server pagination and search, wishlist synced to the account.                   |
+| 2   | Catalogue upgrade       | SKU per size, server pagination and search, wishlist synced to the account. **Done.**         |
 | 3   | Cart & Buy Now          | Cart (guest and signed-in, merged on login) and a one-tap Buy Now path.                       |
 | 4   | Checkout + COD + Orders | Checkout with saved addresses, cash on delivery, order records and customer order pages.      |
 | 5   | Razorpay (test mode)    | Online payments with signature verification and webhooks.                                     |
@@ -35,12 +35,16 @@ Each phase ships on its own, keeps the Stitch design (see design rules in `CLAUD
 - `/adminDivya` by role (guests → sign in, customers → no access); `ADMIN_EMAILS` become admins; Team screen.
 - Not done here: an audit log of admin sign-ins (moved to Phase 7).
 
-## 2 — Catalogue upgrade
+## 2 — Catalogue upgrade (done)
 
-- Variants: one SKU per size with its own stock (migration script from `sizes[]` / `freeSizeStock`, reversible).
-- `GET /api/products` gains pagination, filters, sort and text search (response becomes `{ items, page, total }`
-  behind a version flag so the current client keeps working until switched).
-- Wishlist stored on the account and merged from the phone's saved list; route `/saved`.
+- Sizes are SKUs `{ label, sku, stock, reserved }` (free size = one `FREE` row); shipping/tax fields with category
+  defaults; derived `totalStock / inStock / availableSizes / discountPercent`; catalogue and text indexes.
+- Migration 002 (dry run, JSON backup, idempotent) moves existing products to the new shape.
+- `/api/products` with filters, facets, sorts, pagination and text search; `/api/home`, related, suggestions, categories.
+- Admin: paginated product list, stats, atomic stock updates; form with SKUs, Sized/Free switch, shipping & tax.
+- Collection page with infinite scroll, URL filters, phone sheets and laptop sidebar; search suggestions; responsive images.
+- Saved designs synced to the account (merged from the device at sign-in); `/saved`; hearts on product pages and headers.
+- k6 load script and `docs/PERFORMANCE.md`.
 
 ## 3 — Cart & Buy Now
 
