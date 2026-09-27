@@ -15,6 +15,9 @@ import { health } from '../controllers/healthController.js';
 import { authRouter } from './auth.js';
 import { usersRouter } from './users.js';
 import { wishlistRouter } from './wishlist.js';
+import { cartRouter, checkoutRouter, ordersRouter, paymentsRouter, shippingRouter } from './commerce.js';
+import { adminCommerceRouter } from './adminCommerce.js';
+import * as system from '../controllers/systemController.js';
 
 // Catalogue writes: staff and admins. Settings and team: admins only.
 const staffWrite = [adminWriteLimiter, requireAuth, requireRole('admin', 'staff')];
@@ -26,6 +29,30 @@ export const apiRouter = Router();
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/users', usersRouter);
 apiRouter.use('/wishlist', wishlistRouter);
+apiRouter.use('/cart', cartRouter);
+apiRouter.use('/checkout', checkoutRouter);
+apiRouter.use('/orders', ordersRouter);
+apiRouter.use('/payments', paymentsRouter);
+apiRouter.use('/shipping', shippingRouter);
+apiRouter.use('/admin', adminCommerceRouter);
+
+// Server-to-server (raw bodies, CSRF-exempt — see app.js and middlewares/csrf.js).
+apiRouter
+  .route('/webhooks/razorpay')
+  .post(h(system.razorpayWebhook))
+  .all(methodNotAllowed(['POST']));
+apiRouter
+  .route('/webhooks/courier')
+  .post(h(system.courierWebhook))
+  .all(methodNotAllowed(['POST']));
+apiRouter
+  .route('/internal/jobs')
+  .post(h(system.jobs))
+  .all(methodNotAllowed(['POST']));
+apiRouter
+  .route('/sitemap.xml')
+  .get(h(system.sitemap))
+  .all(methodNotAllowed(['GET']));
 
 apiRouter
   .route('/health')

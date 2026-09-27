@@ -52,6 +52,8 @@ const productSchema = new Schema(
     inStock: Boolean,
     availableSizes: [String],
     discountPercent: Number,
+    // Stock revision: every write that touches sizes (checkout holds, stock edits, product edits) compares and bumps it.
+    rev: Number,
   },
   { collection: 'products', versionKey: false, timestamps: true }
 );
@@ -71,7 +73,10 @@ productSchema.index(
   { name: 'text', fabric: 'text', 'colors.name': 'text', category: 'text', code: 'text', description: 'text' },
   {
     name: 'product_text',
-    weights: { name: 10, code: 8, fabric: 5, 'colors.name': 3, category: 3, description: 1 },
+    // TEST_MONGO_COMPAT: MongoDB-compatible test servers (FerretDB/DocumentDB) allow at most 3 custom weights.
+    weights: process.env.TEST_MONGO_COMPAT
+      ? { name: 10, code: 8, fabric: 5 }
+      : { name: 10, code: 8, fabric: 5, 'colors.name': 3, category: 3, description: 1 },
     default_language: 'english',
   }
 );

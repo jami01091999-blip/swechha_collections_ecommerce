@@ -1,3 +1,4 @@
+import { audit } from '../services/auditService.js';
 import * as settings from '../services/settingsService.js';
 import { noStore, publicCache } from '../utils/cache.js';
 
@@ -9,5 +10,7 @@ export async function get(req, res) {
 
 export async function put(req, res) {
   noStore(res);
-  res.status(200).json(await settings.saveSettings(req.body || {}));
+  const saved = await settings.saveSettings(req.body || {});
+  await audit(req, 'settings.lookbook', { entity: 'settings', entityId: 'site', summary: 'Lookbook and boutique details updated' });
+  res.status(200).json(saved);
 }

@@ -2,6 +2,7 @@ import { env } from './config/env.js';
 import { logger } from './utils/logger.js';
 import { connectDb, disconnectDb } from './db/mongoose.js';
 import { createApp } from './app.js';
+import { startScheduler } from './services/jobService.js';
 
 const app = createApp();
 const server = app.listen(env.PORT, () => logger.info(`API ready on http://localhost:${env.PORT} (${env.NODE_ENV}, ${env.APP_MODE} mode)`));
@@ -11,6 +12,7 @@ async function connectWithRetry() {
   try {
     await connectDb();
     logger.info('MongoDB connected');
+    startScheduler();
   } catch (e) {
     logger.error({ reason: e.message }, 'MongoDB connection failed, retrying in 5s');
     setTimeout(connectWithRetry, 5000).unref();

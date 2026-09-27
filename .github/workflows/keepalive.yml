@@ -24,3 +24,15 @@ jobs:
             exit 0
           fi
           curl --fail --silent --show-error --max-time 90 --retry 3 --retry-delay 15 --retry-all-errors "$API_HEALTH_URL"
+      # Releases stock held by online orders that were never paid (the API also does this every 2 minutes
+      # while awake). Needs the CRON_SECRET repository secret, same value as on Render.
+      - name: Run scheduled jobs
+        env:
+          API_HEALTH_URL: ${{ secrets.API_HEALTH_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$API_HEALTH_URL" ] || [ -z "$CRON_SECRET" ]; then
+            echo "API_HEALTH_URL or CRON_SECRET not set; skipping."
+            exit 0
+          fi
+          curl --fail --silent --show-error --max-time 60 -X POST -H "x-cron-secret: $CRON_SECRET" "${API_HEALTH_URL%/health}/internal/jobs"

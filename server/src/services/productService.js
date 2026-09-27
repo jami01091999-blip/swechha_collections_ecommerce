@@ -55,7 +55,7 @@ export async function createProduct(body) {
   return doc.toObject();
 }
 
-export async function updateProduct(id, body) {
+export async function updateProduct(id, body, attempt = 0) {
   const existing = await findProductOr404(id);
   const changes = sanitizeProduct(body);
   const merged = { ...existing, ...changes };
@@ -65,12 +65,17 @@ export async function updateProduct(id, body) {
   validateProduct(shaped);
   await assertCodeFree(shaped.code, existing._id);
   await assertSkusFree(shaped.sizes, existing._id);
-  const { _id, createdAt, updatedAt, slug, ...set } = storable(shaped);
+  const { _id, createdAt, updatedAt, slug, rev, ...set } = storable(shaped);
+  // Compare-and-set on `rev` so a checkout hold placed while the form was saving is never overwritten.
   const updated = await Product.findOneAndUpdate(
-    { _id: existing._id },
-    { $set: set, $unset: { freeSizeStock: '' } },
+    { _id: existing._id, rev: existing.rev ?? null },
+    { $set: set, $unset: { freeSizeStock: '' }, $inc: { rev: 1 } },
     { new: true, lean: true }
   );
+  if (!updated) {
+    if (attempt < 3) return updateProduct(id, body, attempt + 1);
+    throw new HttpError(409, 'This product was changed at the same moment. Try again.');
+  }
   // Remove photos that were taken off the product from Cloudinary (fire and forget).
   if (changes.images) {
     const kept = new Set(changes.images.map((i) => i.publicId));

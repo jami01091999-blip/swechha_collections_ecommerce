@@ -5,14 +5,14 @@ MERN monorepo with npm workspaces: React client on Vercel, Express API on Render
 
 ## Stack
 
-| Part               | Tech                                                                                                          |
-| ------------------ | ------------------------------------------------------------------------------------------------------------- |
-| Client (`client/`) | React 18, Vite 5, React Router 6 (data router), TanStack Query 5, Tailwind 3                                  |
-| Server (`server/`) | Node 20+, Express 4, Mongoose 8, zod, helmet, pino, express-rate-limit (ESM)                                  |
-| Data               | MongoDB Atlas, database `swechha`: collections `products` and `settings` (`_id: "site"`)                      |
-| Images             | Cloudinary: signed direct upload from the browser                                                             |
-| Tests              | vitest everywhere; supertest + mongodb-memory-server (server); Testing Library + jsdom DOM snapshots (client) |
-| Quality            | ESLint flat config (`eslint.config.js`) and Prettier (`.prettierrc.json`, width 140) at the root              |
+| Part               | Tech                                                                                                                                                       |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Client (`client/`) | React 18, Vite 5, React Router 6 (data router), TanStack Query 5, Tailwind 3                                                                               |
+| Server (`server/`) | Node 20+, Express 4, Mongoose 8, zod, helmet, pino, express-rate-limit (ESM)                                                                               |
+| Data               | MongoDB Atlas, database `swechha`: products, settings, users, sessions, otp codes, wishlists, carts, orders, coupons, counters, webhook events, audit logs |
+| Images             | Cloudinary: signed direct upload from the browser                                                                                                          |
+| Tests              | vitest everywhere; supertest + mongodb-memory-server (server); Testing Library + jsdom DOM snapshots (client)                                              |
+| Quality            | ESLint flat config (`eslint.config.js`) and Prettier (`.prettierrc.json`, width 140) at the root                                                           |
 
 ## Folder map
 
@@ -136,6 +136,19 @@ Never print secret values, never commit `.env` files, never log request bodies o
 - Schema changes to existing data ship as an idempotent migration in `server/src/scripts/migrations/` with a dry-run
   default and a JSON backup before `--apply` (see `002-sizes-sku.js`).
 - Collection filters live in the URL (`components/catalog/filters.js`); saved designs go through `useSaved()`.
+
+## Commerce conventions (Phases 3–8)
+
+- Stock moves only through `services/stockService.js` (reserve / release / commit / restock). It compare-and-sets the
+  product's `rev`; every other write to `sizes` must also filter on `rev` and `$inc` it (see `updateStock`, `updateProduct`).
+- Order status changes only through `transition()` / `cancelOrder()` in `services/orderService.js` (allowed moves in
+  `TRANSITIONS`); they apply stock, payment and email side effects once.
+- Prices/totals: `services/pricingService.js` (`priceLines`, `orderTotals`). Never accept money values from the client.
+- Money moves (refunds, cancelling paid orders, coupons, customers, shop rules, sales, export) are admin-only; staff run
+  fulfilment. Admin actions call `audit(req, action, …)`.
+- Webhooks are CSRF-exempt, read a raw body (`app.js`) and must verify a signature/token before doing anything.
+- Payment providers: `razorpay` or `mock` (test mode only). Delivery: `manual` or `shiprocket` (`SHIPPING_PROVIDER`).
+- New collections must be added to `scripts/syncIndexes.js` (production has autoIndex off).
 
 ## API conventions
 

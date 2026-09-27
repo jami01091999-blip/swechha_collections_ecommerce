@@ -39,6 +39,20 @@ const schema = z.object({
   CLOUDINARY_API_KEY: optional,
   CLOUDINARY_API_SECRET: optional,
   CLOUDINARY_FOLDER: z.string().min(1).default('swechha/products'),
+  // Payments (Phase 5). `mock` is a built-in test payment screen, allowed only when APP_MODE=test.
+  PAYMENT_PROVIDER: z.enum(['razorpay', 'mock']).optional(),
+  RAZORPAY_KEY_ID: optional,
+  RAZORPAY_KEY_SECRET: optional,
+  RAZORPAY_WEBHOOK_SECRET: optional,
+  // Delivery (Phase 6). `manual` = you ship with any courier and enter the AWB; `shiprocket` = Shiprocket API.
+  SHIPPING_PROVIDER: z.enum(['manual', 'shiprocket']).default('manual'),
+  SHIPROCKET_EMAIL: optional,
+  SHIPROCKET_PASSWORD: optional,
+  SHIPROCKET_PICKUP_LOCATION: optional,
+  SHIPROCKET_WEBHOOK_TOKEN: optional,
+  // Scheduled jobs (release unpaid holds) can also be triggered with this secret; public site URL for sitemap/emails.
+  CRON_SECRET: optional,
+  SITE_URL: optional,
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
   // Number of proxies in front of the app (Render's load balancer = 1).
   TRUST_PROXY: z.coerce.number().int().min(0).default(1),
@@ -47,7 +61,8 @@ const schema = z.object({
 // Checked separately so every missing variable is listed at once.
 const REQUIRED = ['MONGO_URI', 'JWT_ACCESS_SECRET', 'OTP_SECRET'];
 const REQUIRED_IN_PRODUCTION = ['CLIENT_ORIGIN'];
-const REQUIRED_IN_LIVE_MODE = ['SMTP_USER', 'SMTP_PASS', 'MAIL_FROM'];
+const REQUIRED_IN_LIVE_MODE = ['SMTP_USER', 'SMTP_PASS', 'MAIL_FROM', 'RAZORPAY_KEY_ID', 'RAZORPAY_KEY_SECRET', 'RAZORPAY_WEBHOOK_SECRET'];
+const REQUIRED_FOR_SHIPROCKET = ['SHIPROCKET_EMAIL', 'SHIPROCKET_PASSWORD', 'SHIPROCKET_PICKUP_LOCATION', 'SHIPROCKET_WEBHOOK_TOKEN'];
 
 const parsed = schema.safeParse(process.env);
 const isSet = (name) => Boolean(process.env[name]?.trim());
@@ -55,9 +70,13 @@ const required = [
   ...REQUIRED,
   ...(process.env.NODE_ENV === 'production' ? REQUIRED_IN_PRODUCTION : []),
   ...(process.env.APP_MODE === 'live' ? REQUIRED_IN_LIVE_MODE : []),
+  ...(process.env.SHIPPING_PROVIDER === 'shiprocket' ? REQUIRED_FOR_SHIPROCKET : []),
 ];
 const problems = [
   ...required.filter((name) => !isSet(name)).map((name) => `${name}: missing`),
+  ...(process.env.APP_MODE === 'live' && process.env.PAYMENT_PROVIDER === 'mock'
+    ? ['PAYMENT_PROVIDER: mock is not allowed when APP_MODE=live']
+    : []),
   ...(parsed.success ? [] : parsed.error.issues.map((i) => `${i.path.join('.') || 'env'}: ${i.message}`)),
 ];
 if (problems.length) {
@@ -78,6 +97,11 @@ export const env = Object.freeze({
     .map((s) => s.trim().toLowerCase())
     .filter(Boolean),
   smtpConfigured: Boolean(d.SMTP_USER && d.SMTP_PASS && d.MAIL_FROM),
+  razorpayConfigured: Boolean(d.RAZORPAY_KEY_ID && d.RAZORPAY_KEY_SECRET),
+  // Razorpay when keys exist (or when asked for); otherwise the built-in test payment screen in test mode.
+  paymentProvider:
+    d.PAYMENT_PROVIDER || (d.RAZORPAY_KEY_ID && d.RAZORPAY_KEY_SECRET ? 'razorpay' : d.APP_MODE === 'live' ? 'razorpay' : 'mock'),
+  siteUrl: (d.SITE_URL || d.CLIENT_ORIGIN.split(',')[0] || '').trim().replace(/\/$/, ''),
   isProd: d.NODE_ENV === 'production',
   isTest: d.NODE_ENV === 'test',
   isLive: d.APP_MODE === 'live',

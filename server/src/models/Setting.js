@@ -18,6 +18,8 @@ const settingSchema = new Schema(
     locations: String,
     instagram: String,
     defaultTaxRatePercent: Number,
+    // Shop rules for checkout, delivery, returns and invoices (validators/shop.js).
+    shop: Schema.Types.Mixed,
   },
   { collection: 'settings', versionKey: false, timestamps: { createdAt: false, updatedAt: true } }
 );

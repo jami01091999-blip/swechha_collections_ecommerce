@@ -2,7 +2,7 @@ import { env } from '../config/env.js';
 
 const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
 /** Paths (under /api) that receive server-to-server calls, e.g. payment webhooks in Phase 5. */
-export const CSRF_EXEMPT = new Set([]);
+export const CSRF_EXEMPT = new Set(['/webhooks/razorpay', '/webhooks/courier', '/internal/jobs']);
 
 const blocked = (res, req) =>
   res.status(403).json({ error: 'This request was blocked. Reload the page and try again.', code: 'CSRF', requestId: req.id });

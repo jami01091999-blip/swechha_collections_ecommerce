@@ -46,6 +46,8 @@ export function createApp() {
     })
   );
   app.use(compression());
+  // Webhooks need the exact bytes for signature checks; express.json then skips these requests.
+  app.use('/api/webhooks', express.raw({ type: () => true, limit: '1mb' }));
   app.use(express.json({ limit: '1mb' }));
   app.use(cookieParser());
 

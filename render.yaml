@@ -55,3 +55,16 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
+      # Commerce (Phases 3–8)
+      - key: SHIPPING_PROVIDER
+        value: manual
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: RAZORPAY_WEBHOOK_SECRET
+        sync: false
+      - key: CRON_SECRET
+        sync: false
+      - key: SITE_URL
+        sync: false

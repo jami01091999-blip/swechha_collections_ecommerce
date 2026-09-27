@@ -173,3 +173,97 @@ Stored in `settings` as a single document with `_id: "site"`.
 | `locations`      | ≤200                                                                                                                                                                                                                  |
 | `instagram`      | full URL kept; `@handle` or `handle` → `https://instagram.com/handle`                                                                                                                                                 |
 | `updatedAt`      | set on save                                                                                                                                                                                                           |
+
+## Commerce (Phases 3–8)
+
+All customer routes below need a signed-in user (cookies) except `POST /api/cart/preview`, `GET /api/shipping/serviceability`
+and `GET /api/sitemap.xml`. Every response is `no-store` unless noted. Prices, totals, discounts and stock always
+come from the database; anything like `price` or `total` in a request body is ignored.
+
+### Bag
+
+| Method | Path                                    | Body                                      | Notes                                                                                                   |
+| ------ | --------------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| GET    | `/api/cart`                             | –                                         | `{ items, summary }`                                                                                    |
+| POST   | `/api/cart/items`                       | `{ productId, size, qty=1 }`              | adds or increases; 409 `Only N left in M.`, 400 `Choose a size.` (`SIZE_REQUIRED`), 400 per-order limit |
+| PATCH  | `/api/cart/items/:itemId`               | `{ qty?, size? }`                         | changing to a size already in the bag merges the lines                                                  |
+| DELETE | `/api/cart/items/:itemId` · `/api/cart` | –                                         | remove one · empty the bag                                                                              |
+| POST   | `/api/cart/merge`                       | `{ items: [{ productId, size, qty }] }`   | device bag → account at sign-in; trims to stock, skips what can't be bought; returns `merged`           |
+| POST   | `/api/cart/preview`                     | same as merge (+ optional `key` per line) | guests: prices the device bag (line `_id` = `key`)                                                      |
+
+Bag line: `{ _id, productId, slug, name, fabric, image, size, sizeLabel ("Free Size" for FREE), sku, qty, buyQty, price, mrp,
+lineTotal, available, maxQty, status, message, sizes: [{label, sizeLabel, available}] }` where `status` is `ok`,
+`qty_reduced` (fewer left than asked; `buyQty` is what can be bought), `out_of_stock` or `unavailable`.
+`summary`: `{ itemCount, lineCount, subtotal, mrpTotal, savings }`. Limits: 20 lines, 10 per line, product `maxQtyPerOrder`.
+
+### Checkout and orders
+
+| Method | Path                               | Body                                                                                       | Notes                                                                                      |
+| ------ | ---------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| POST   | `/api/checkout/quote`              | `{ source: cart\|buy_now, item?, addressId?, paymentMethod?: cod\|online, couponCode? }`   | live totals + `problems[]` + `canPlace`                                                    |
+| POST   | `/api/orders`                      | quote body + `addressId`, `paymentMethod`, `idempotencyKey` (8–80 chars, new per checkout) | 201 `{ order, payment? }`; same key → same order; 409 `CHECKOUT_PROBLEMS` / `OUT_OF_STOCK` |
+| GET    | `/api/orders?page&limit`           | –                                                                                          | my orders, newest first                                                                    |
+| GET    | `/api/orders/:orderNumber`         | –                                                                                          | full order (404 for other people's)                                                        |
+| POST   | `/api/orders/:orderNumber/cancel`  | `{ reason? }`                                                                              | before shipping; releases stock; paid online orders are refunded                           |
+| POST   | `/api/orders/:orderNumber/returns` | `{ type: refund\|exchange, reason, note?, items: [{ itemId, qty }] }`                      | delivered + within the return window + returnable items                                    |
+| GET    | `/api/orders/:orderNumber/invoice` | –                                                                                          | printable GST invoice (HTML) once confirmed                                                |
+
+Quote: `{ lines, pricing: { subtotal, mrpTotal, discount, couponCode, shipping, codFee, total, taxTotal, savings, interState,
+amountToFreeShipping }, coupon: { code, valid, discount, message } | null, address, delivery: { serviceable, cod, etaDays:{min,max},
+etaDate } | null, payment: { method, cod: { available, reason?, fee }, online: { available, provider, testMode } }, problems: [{ type, message, lineId? }], canPlace }`.
+
+Order: `orderNumber` (`SW-YYYY-NNNNNN`), `invoiceNumber` (`SWI-…`, after confirmation), `status`
+(`pending_payment → confirmed → packed → shipped → out_for_delivery → delivered`, or `cancelled` / `rto`), `statusHistory`,
+`items` (snapshot incl. `taxableValue`, `taxAmount`), `address`, `pricing`, `payment: { method, provider, status, paidAt,
+refundedTotal, refunds }`, `shipment: { courier, awb, trackingUrl, events }`, `returnRequest`, and flags `canCancel`,
+`canPay`, `canReturn`, `returnDeadline`, `invoiceAvailable`. Payment status: `pending, paid, failed, refund_pending, refunded,
+partially_refunded, cod_pending, cod_collected`.
+
+Stock: placing an order **holds** it (`reserved`), cancelling or not paying in time **releases** it, shipping **deducts** it,
+a received return or courier RTO **adds it back** (`services/stockService.js`).
+
+### Payments
+
+| Method | Path                                | Notes                                                                                                    |
+| ------ | ----------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| POST   | `/api/payments/razorpay/verify`     | `{ orderNumber, razorpay_order_id, razorpay_payment_id, razorpay_signature }` → confirmed order          |
+| POST   | `/api/payments/:orderNumber/retry`  | new `payment` payload while the order is still inside its time limit (409 `PAYMENT_EXPIRED` after)       |
+| POST   | `/api/payments/:orderNumber/failed` | `{ reason? }` records a failed attempt (order stays payable)                                             |
+| POST   | `/api/payments/:orderNumber/mock`   | `{ outcome: success\|failure }` — built-in test screen, only when `APP_MODE=test` and no Razorpay key id |
+| POST   | `/api/webhooks/razorpay`            | server-to-server; raw body, `X-Razorpay-Signature`; each event once                                      |
+
+`payment` payload (Razorpay): `{ provider:'razorpay', keyId, providerOrderId, amount (paise), currency, name, description, prefill,
+orderNumber, expiresAt, testMode }` → open Razorpay Checkout with it. Mock: `{ provider:'mock', orderNumber, amount, expiresAt, testMode:true }`.
+Unpaid online orders are cancelled after `reservationMinutes` (default 15); a payment that lands later restores the order,
+or is refunded automatically if the items sold out.
+
+### Delivery
+
+| Method | Path                                    | Notes                                                                     |
+| ------ | --------------------------------------- | ------------------------------------------------------------------------- |
+| GET    | `/api/shipping/serviceability?pincode=` | `{ serviceable, cod, etaDays, etaDate, message? }` (cached 1 h)           |
+| POST   | `/api/webhooks/courier`                 | Shiprocket tracking updates, header `x-api-key: SHIPROCKET_WEBHOOK_TOKEN` |
+
+### Admin (staff: fulfilment · admin: money, customers, settings)
+
+| Method   | Path                                              | Role                    | Notes                                                                                                 |
+| -------- | ------------------------------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------- |
+| GET      | `/api/admin/orders?tab&q&from&to&payment&page`    | staff                   | tabs `new, packed, shipped, delivered, returns, unpaid, cancelled, all`; `counts` per tab             |
+| GET      | `/api/admin/orders/:id`                           | staff                   | id or order number; `customer`, `allowedNext`                                                         |
+| POST     | `/api/admin/orders/:id/status`                    | staff                   | `{ action: pack\|unpack\|out_for_delivery\|delivered\|rto, note? }`                                   |
+| POST     | `/api/admin/orders/:id/ship`                      | staff                   | `{ courier?, awb?, trackingUrl? }` (manual; test mode fills blanks)                                   |
+| POST     | `/api/admin/orders/:id/cancel`                    | admin                   | `{ reason? }`                                                                                         |
+| POST     | `/api/admin/orders/:id/refund`                    | admin                   | `{ amount, reason, note? }` (COD refunds need `note` = UPI/bank reference)                            |
+| POST     | `/api/admin/orders/:id/return`                    | staff (refund: admin)   | `{ action: approve\|reject\|picked_up\|received\|refund\|exchange\|close, note?, restock?, amount? }` |
+| GET      | `/api/admin/orders/:id/packing-slip` · `/invoice` | staff                   | printable HTML                                                                                        |
+| GET      | `/api/admin/orders/export.csv?from&to`            | admin                   | CSV (spreadsheet-formula safe)                                                                        |
+| GET      | `/api/admin/customers?q&page` · `/:id`            | admin                   | with orders and spend                                                                                 |
+| PATCH    | `/api/admin/customers/:id`                        | admin                   | `{ isBlocked }`                                                                                       |
+| GET      | `/api/admin/sales?range=today\|7d\|30d\|90d`      | admin                   | revenue (net of refunds), orders, daily series, top products, work queue                              |
+| GET/POST | `/api/admin/coupons` · PATCH/DELETE `/:id`        | admin                   | percent/flat, min order, cap, dates, limits                                                           |
+| GET/PUT  | `/api/admin/shop-settings`                        | staff read, admin write | delivery fee, free-delivery threshold, COD rules, return days, payment time limit, GSTIN/business     |
+| GET      | `/api/admin/audit?page&entity&entityId`           | admin                   | who did what                                                                                          |
+
+### Other
+
+`POST /api/internal/jobs` (header `x-cron-secret`) runs housekeeping; `GET /api/sitemap.xml`; `GET /api/settings` now also returns `shop`.

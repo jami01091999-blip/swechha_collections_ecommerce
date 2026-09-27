@@ -154,12 +154,14 @@ export async function updateStock(id, updates, attempt = 0) {
   const wanted = new Map(updates.map((u) => [u.label, u.stock]));
   const sizes = doc.sizes.map((s) => (wanted.has(s.label) ? { ...s, stock: wanted.get(s.label) } : s));
   const shaped = shapeProduct({ ...doc, sizes }, doc.sizes);
+  const { rev, ...set } = shaped;
   const updated = await Product.findOneAndUpdate(
-    { _id: doc._id, updatedAt: doc.updatedAt },
-    { $set: shaped },
-    { new: true, lean: true, projection: ADMIN_ROW }
+    { _id: doc._id, rev: doc.rev ?? null },
+    { $set: set, $inc: { rev: 1 } },
+    { new: true, lean: true, projection: { ...ADMIN_ROW, images: 1 } }
   );
-  if (updated) return updated;
+  // Same row shape as the list (cover photo only); trimmed here so every MongoDB-compatible engine accepts the update.
+  if (updated) return { ...updated, images: (updated.images || []).slice(0, 1) };
   if (attempt < 3) return updateStock(id, updates, attempt + 1);
   throw new HttpError(409, 'This product was changed at the same moment. Try again.');
 }

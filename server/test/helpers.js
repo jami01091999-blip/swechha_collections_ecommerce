@@ -5,10 +5,14 @@ import request from 'supertest';
 export const XRW = { 'X-Requested-With': 'swechha' };
 export const PHOTO = { url: 'https://res.cloudinary.com/demo/image/upload/sample.jpg', publicId: '' };
 
-/** Starts an in-memory MongoDB, then loads the app (env is read at import time). */
+/**
+ * Starts an in-memory MongoDB, then loads the app (env is read at import time).
+ * Set TEST_MONGO_URI to run against an existing MongoDB-compatible server instead (the database is dropped first).
+ */
 export async function startTestApp() {
-  const mongo = await MongoMemoryServer.create();
-  process.env.MONGO_URI = mongo.getUri();
+  const external = process.env.TEST_MONGO_URI;
+  const mongo = external ? null : await MongoMemoryServer.create();
+  process.env.MONGO_URI = external || mongo.getUri();
   const { createApp } = await import('../src/app.js');
   const db = await import('../src/db/mongoose.js');
   const { Product } = await import('../src/models/Product.js');
@@ -19,6 +23,7 @@ export async function startTestApp() {
   const { testOutbox } = await import('../src/integrations/mailer.js');
   const tokens = await import('../src/services/tokenService.js');
   await db.connectDb();
+  if (external) await (await import('mongoose')).default.connection.db.dropDatabase();
   // Build unique indexes before duplicate-key tests.
   await Promise.all([Product.init(), User.init(), Session.init(), OtpCode.init()]);
   const app = createApp();
@@ -49,7 +54,7 @@ export async function startTestApp() {
     },
     async stop() {
       await db.disconnectDb();
-      await mongo.stop();
+      await mongo?.stop();
     },
   };
 }

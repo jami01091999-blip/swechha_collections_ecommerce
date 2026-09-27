@@ -1,3 +1,4 @@
+import { audit } from '../services/auditService.js';
 import { publicUser } from '../models/User.js';
 import * as otp from '../services/otpService.js';
 import {
@@ -24,6 +25,13 @@ export async function verifyOtp(req, res) {
   const { user, isNew } = await otp.verifyOtp({ email: req.body?.email, code: req.body?.code });
   const refreshToken = await createSession(user, req);
   setAuthCookies(res, signAccessToken(user), refreshToken);
+  if (user.role === 'admin' || user.role === 'staff') {
+    await audit({ ...req, user }, 'auth.staff_sign_in', {
+      entity: 'user',
+      entityId: user._id,
+      summary: `${user.email} (${user.role}) signed in`,
+    });
+  }
   res.status(200).json({ user: publicUser(user), isNew });
 }
 
