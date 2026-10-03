@@ -3,17 +3,17 @@
 Each phase ships on its own, keeps the Stitch design (see design rules in `CLAUDE.md`), and ends with passing
 `npm run lint && npm test && npm run build`. Payments and couriers stay in test mode until Phase 8.
 
-| #   | Phase                   | Goal                                                                                                   |
-| --- | ----------------------- | ------------------------------------------------------------------------------------------------------ |
-| 0   | Foundation              | Monorepo, Express API, shared UI kit, tests, deploy setup. No new features. **Done.**                  |
-| 1   | Email-OTP login & roles | Customers and staff sign in with a 6-digit email code; roles replace the admin key. **Done.**          |
-| 2   | Catalogue upgrade       | SKU per size, server pagination and search, wishlist synced to the account. **Done.**                  |
-| 3   | Cart & Buy Now          | Cart (guest and signed-in, merged on login) and a one-tap Buy Now path. **API done.**                  |
-| 4   | Checkout + COD + Orders | Checkout with saved addresses, cash on delivery, order records and customer order pages. **API done.** |
-| 5   | Razorpay (test mode)    | Online payments with signature verification and webhooks. **API done.**                                |
-| 6   | Delivery                | Manual courier first; Shiprocket adapter behind `SHIPPING_PROVIDER`; tracking. **API done.**           |
-| 7   | Admin commerce          | Orders dashboard, fulfilment, refunds/cancellations, stock movements, reports. **API done.**           |
-| 8   | Go-live switch          | `APP_MODE=live`: live payment and courier keys, final checks, launch.                                  |
+| #   | Phase                   | Goal                                                                                               |
+| --- | ----------------------- | -------------------------------------------------------------------------------------------------- |
+| 0   | Foundation              | Monorepo, Express API, shared UI kit, tests, deploy setup. No new features. **Done.**              |
+| 1   | Email-OTP login & roles | Customers and staff sign in with a 6-digit email code; roles replace the admin key. **Done.**      |
+| 2   | Catalogue upgrade       | SKU per size, server pagination and search, wishlist synced to the account. **Done.**              |
+| 3   | Cart & Buy Now          | Cart (guest and signed-in, merged on login) and a one-tap Buy Now path. **Done.**                  |
+| 4   | Checkout + COD + Orders | Checkout with saved addresses, cash on delivery, order records and customer order pages. **Done.** |
+| 5   | Razorpay (test mode)    | Online payments with signature verification and webhooks. **Done.**                                |
+| 6   | Delivery                | Manual courier first; Shiprocket adapter behind `SHIPPING_PROVIDER`; tracking. **Done.**           |
+| 7   | Admin commerce          | Orders dashboard, fulfilment, refunds/cancellations, stock movements, reports. **Done.**           |
+| 8   | Go-live switch          | `APP_MODE=live`: live payment and courier keys, final checks, launch.                              |
 
 ## 0 — Foundation (done)
 
@@ -77,7 +77,8 @@ Each phase ships on its own, keeps the Stitch design (see design rules in `CLAUD
 - `APP_MODE=live` with live Razorpay and courier keys; remove test banners; final security, performance and
   accessibility checks; backups and monitoring; launch checklist.
 
-## Status after drop 1 (server for Phases 3–8)
+## Status: all phases built (test mode)
 
-The API for Phases 3–7 and the server side of Phase 8 (sitemap, live-mode checks) are built and tested
-(`server/test/cart.test.js`, `orders.test.js`, `adminOrders.test.js`). Customer and admin screens follow in drops 2 and 3.
+Phases 3–8 are built: API (`server/test/cart.test.js`, `orders.test.js`, `adminOrders.test.js`), customer screens
+(bag, checkout, payment, orders, tracking, returns, policy pages) and admin screens (orders, customers, coupons, shop rules,
+activity, sales). `client/test/shop.test.jsx` covers the shopping journey. Going live: `docs/GO-LIVE.md`.
