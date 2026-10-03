@@ -76,3 +76,12 @@ export const autoSku = (code, label) =>
         .replace(/-+/g, '-')
         .slice(0, 60)
     : '';
+
+/** Policy pages (Phase 8): [slug, title]. */
+export const POLICIES = [
+  ['shipping', 'Shipping policy'],
+  ['returns', 'Returns & refunds'],
+  ['terms', 'Terms of use'],
+  ['privacy', 'Privacy policy'],
+  ['contact', 'Contact us'],
+];

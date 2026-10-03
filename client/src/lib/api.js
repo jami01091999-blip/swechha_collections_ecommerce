@@ -26,6 +26,18 @@ export const keys = {
   me: ['me'],
   addresses: ['me', 'addresses'],
   wishlist: ['me', 'wishlist'],
+  bag: ['me', 'bag'],
+  orders: (page) => ['me', 'orders', page],
+  order: (n) => ['me', 'order', n],
+  pincode: (pin) => ['pincode', pin],
+  adminOrders: (qs) => ['admin', 'orders', qs],
+  adminOrder: (id) => ['admin', 'order', id],
+  sales: (range) => ['admin', 'sales', range],
+  coupons: ['admin', 'coupons'],
+  customers: (qs) => ['admin', 'customers', qs],
+  customer: (id) => ['admin', 'customer', id],
+  shopRules: ['admin', 'shop'],
+  audit: (page) => ['admin', 'audit', page],
   adminList: (qs) => ['admin', 'products', qs],
   adminProduct: (id) => ['admin', 'product', id],
   adminOptions: ['admin', 'options'],
@@ -39,6 +51,7 @@ export function clearUserQueries() {
   queryClient.removeQueries({ queryKey: ['admin'] });
   queryClient.removeQueries({ queryKey: keys.addresses });
   queryClient.removeQueries({ queryKey: keys.wishlist });
+  queryClient.removeQueries({ queryKey: ['me'], predicate: (q) => q.queryKey.length > 1 });
 }
 
 export function setSignedIn(user) {
@@ -348,3 +361,92 @@ export async function uploadImage(file, onProgress) {
     xhr.send(form);
   });
 }
+
+/* ── checkout and orders (Phases 3–7) ─────────────────────── */
+/** Live checkout quote: totals, delivery, COD/online availability and every problem to fix before ordering. */
+export const fetchQuote = (body) => api('/checkout/quote', { method: 'POST', body });
+
+/** Places the order. `idempotencyKey` must stay the same for retries of one checkout. Returns { order, payment? }. */
+export async function placeOrder(body) {
+  const out = await api('/orders', { method: 'POST', body });
+  queryClient.invalidateQueries({ queryKey: ['me', 'orders'] });
+  queryClient.invalidateQueries({ queryKey: keys.bag });
+  return out;
+}
+
+export const useMyOrders = (page = 1) => useResource(keys.orders(page), () => api(`/orders?page=${page}`));
+export const useMyOrder = (orderNumber) => useResource(keys.order(orderNumber), () => api(`/orders/${orderNumber}`), !!orderNumber);
+
+const saveOrder = (order) => {
+  queryClient.setQueryData(keys.order(order.orderNumber), order);
+  queryClient.invalidateQueries({ queryKey: ['me', 'orders'] });
+  queryClient.invalidateQueries({ queryKey: keys.bag });
+  return order;
+};
+export const cancelMyOrder = (n, reason) => api(`/orders/${n}/cancel`, { method: 'POST', body: { reason } }).then(saveOrder);
+export const requestReturn = (n, body) => api(`/orders/${n}/returns`, { method: 'POST', body }).then(saveOrder);
+export const retryPayment = (n) => api(`/payments/${n}/retry`, { method: 'POST' }).then((d) => d.payment);
+export const verifyRazorpay = (body) => api('/payments/razorpay/verify', { method: 'POST', body }).then(saveOrder);
+export const mockPay = (n, outcome) => api(`/payments/${n}/mock`, { method: 'POST', body: { outcome } }).then(saveOrder);
+export const reportPaymentFailure = (n, reason) => api(`/payments/${n}/failed`, { method: 'POST', body: { reason } }).then(saveOrder);
+
+/** PIN code delivery check: { serviceable, cod, etaDays, etaDate, message? }. */
+export const usePincode = (pin) =>
+  useResource(keys.pincode(pin), () => api(`/shipping/serviceability?pincode=${encodeURIComponent(pin)}`), /^[1-9]\d{5}$/.test(pin || ''));
+
+/* ── admin commerce (Phase 7) ─────────────────────────────── */
+export const useAdminOrders = (params) => {
+  const qs = catalogQs(params);
+  return useResource(keys.adminOrders(qs), () => api(`/admin/orders?${qs}`));
+};
+export const useAdminOrder = (id) => useResource(keys.adminOrder(id), () => api(`/admin/orders/${id}`), !!id);
+
+const saveAdminOrder = (o) => {
+  queryClient.setQueryData(keys.adminOrder(o._id), o);
+  queryClient.setQueryData(keys.adminOrder(o.orderNumber), o);
+  queryClient.invalidateQueries({ queryKey: ['admin', 'orders'] });
+  queryClient.invalidateQueries({ queryKey: ['admin', 'sales'] });
+  // Stock moved (ship / return / cancel): catalogue numbers are stale.
+  queryClient.invalidateQueries({ queryKey: keys.adminStats });
+  return o;
+};
+export const orderAction = (id, action, note) =>
+  api(`/admin/orders/${id}/status`, { method: 'POST', body: { action, note } }).then(saveAdminOrder);
+export const shipOrder = (id, body) => api(`/admin/orders/${id}/ship`, { method: 'POST', body }).then(saveAdminOrder);
+export const adminCancelOrder = (id, reason) =>
+  api(`/admin/orders/${id}/cancel`, { method: 'POST', body: { reason } }).then(saveAdminOrder);
+export const refundOrder = (id, body) => api(`/admin/orders/${id}/refund`, { method: 'POST', body }).then(saveAdminOrder);
+export const returnAction = (id, body) => api(`/admin/orders/${id}/return`, { method: 'POST', body }).then(saveAdminOrder);
+
+export const useSales = (range, enabled = true) => useResource(keys.sales(range), () => api(`/admin/sales?range=${range}`), enabled);
+
+export const useCoupons = () => useResource(keys.coupons, () => api('/admin/coupons'));
+const refreshCoupons = (d) => {
+  queryClient.invalidateQueries({ queryKey: keys.coupons });
+  return d;
+};
+export const createCoupon = (body) => api('/admin/coupons', { method: 'POST', body }).then(refreshCoupons);
+export const updateCoupon = (id, body) => api(`/admin/coupons/${id}`, { method: 'PATCH', body }).then(refreshCoupons);
+export const deleteCoupon = (id) => api(`/admin/coupons/${id}`, { method: 'DELETE' }).then(refreshCoupons);
+
+export const useCustomers = (params) => {
+  const qs = catalogQs(params);
+  return useResource(keys.customers(qs), () => api(`/admin/customers?${qs}`));
+};
+export const useCustomer = (id) => useResource(keys.customer(id), () => api(`/admin/customers/${id}`), !!id);
+export const setCustomerBlocked = (id, isBlocked) =>
+  api(`/admin/customers/${id}`, { method: 'PATCH', body: { isBlocked } }).then((c) => {
+    queryClient.setQueryData(keys.customer(id), c);
+    queryClient.invalidateQueries({ queryKey: ['admin', 'customers'] });
+    return c;
+  });
+
+export const useShopRules = () => useResource(keys.shopRules, () => api('/admin/shop-settings'));
+export const saveShopRules = (body) =>
+  api('/admin/shop-settings', { method: 'PUT', body }).then((s) => {
+    queryClient.setQueryData(keys.shopRules, s);
+    queryClient.invalidateQueries({ queryKey: keys.settings });
+    return s;
+  });
+
+export const useAudit = (page) => useResource(keys.audit(page), () => api(`/admin/audit?page=${page}`));

@@ -5,6 +5,7 @@ import { ToastProvider } from './context/Toast';
 import { queryClient } from './lib/queryClient';
 import { AuthProvider, PageSpinner, RequireAuth } from './lib/auth';
 import { WishlistSync } from './lib/wishlist';
+import { BagSync } from './lib/bag';
 import PublicLayout from './components/public/PublicLayout';
 import Home from './pages/public/Home';
 import Collection from './pages/public/Collection';
@@ -20,10 +21,26 @@ const Products = lazy(() => import('./pages/admin/Products'));
 const ProductForm = lazy(() => import('./pages/admin/ProductForm'));
 const Lookbook = lazy(() => import('./pages/admin/Lookbook'));
 const Team = lazy(() => import('./pages/admin/Team'));
+const Orders = lazy(() => import('./pages/admin/Orders'));
+const AdminOrderDetail = lazy(() => import('./pages/admin/AdminOrderDetail'));
+const Customers = lazy(() => import('./pages/admin/Customers'));
+const Coupons = lazy(() => import('./pages/admin/Coupons'));
+const ShopRules = lazy(() => import('./pages/admin/ShopRules'));
+const Activity = lazy(() => import('./pages/admin/Activity'));
 // Only signed-in customers need the account page, so it is split out too.
 const Account = lazy(() => import('./pages/public/Account'));
 const Login = lazy(() => import('./pages/public/Login'));
 const Saved = lazy(() => import('./pages/public/Saved'));
+const Bag = lazy(() => import('./pages/public/Bag'));
+const Checkout = lazy(() => import('./pages/public/Checkout'));
+const MyOrders = lazy(() => import('./pages/public/MyOrders'));
+const OrderDetail = lazy(() => import('./pages/public/OrderDetail'));
+const Policy = lazy(() => import('./pages/public/Policy'));
+const signedIn = (el) => (
+  <RequireAuth>
+    <Suspense fallback={<PageSpinner />}>{el}</Suspense>
+  </RequireAuth>
+);
 const page = (el) => <Suspense fallback={<PageSpinner />}>{el}</Suspense>;
 
 // UI kit gallery, dev server only: import.meta.env.DEV is false in `vite build`, so this import is dropped.
@@ -47,6 +64,7 @@ function Root() {
       <AuthProvider>
         <ToastProvider>
           <WishlistSync />
+          <BagSync />
           <ScrollRestoration getKey={(location) => location.pathname + location.search} />
           <Outlet />
         </ToastProvider>
@@ -67,6 +85,11 @@ export const routes = [
           { path: '/product/:slug', element: <ProductDetail /> },
           { path: '/login', element: page(<Login />) },
           { path: '/saved', element: page(<Saved />) },
+          { path: '/bag', element: page(<Bag />) },
+          { path: '/checkout', element: signedIn(<Checkout />) },
+          { path: '/account/orders', element: signedIn(<MyOrders />) },
+          { path: '/account/orders/:orderNumber', element: signedIn(<OrderDetail />) },
+          { path: '/policies/:page', element: page(<Policy />) },
           {
             path: '/account',
             element: (
@@ -93,6 +116,12 @@ export const routes = [
           { path: 'products/:id', element: <ProductForm /> },
           { path: 'lookbook', element: <Lookbook /> },
           { path: 'team', element: <Team /> },
+          { path: 'orders', element: <Orders /> },
+          { path: 'orders/:id', element: <AdminOrderDetail /> },
+          { path: 'customers', element: <Customers /> },
+          { path: 'coupons', element: <Coupons /> },
+          { path: 'shop', element: <ShopRules /> },
+          { path: 'activity', element: <Activity /> },
         ],
       },
       ...devRoutes,

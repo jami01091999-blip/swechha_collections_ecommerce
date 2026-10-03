@@ -1,3 +1,5 @@
+import { POLICIES } from '../../lib/constants';
+import { Link } from 'react-router-dom';
 import Icon from '../shared/Icon';
 import { formatPhone, waLink } from '../../lib/format';
 import { useToast } from '../../context/Toast';
@@ -80,6 +82,13 @@ export default function Footer({ settings = {} }) {
         <p className="font-label-md text-label-md text-on-surface-variant/80 mt-2 px-2 leading-relaxed">
           Private Catalogue Presentation • Inquire with our stylists for bespoke consultations.
         </p>
+        <nav aria-label="Policies" className="flex flex-wrap justify-center gap-x-3 gap-y-1 mt-2">
+          {POLICIES.map(([k, label]) => (
+            <Link key={k} to={`/policies/${k}`} className="font-label-md text-label-md text-secondary hover:text-primary">
+              {label}
+            </Link>
+          ))}
+        </nav>
         <span className="font-label-md text-[10px] text-outline mt-1">
           © {new Date().getFullYear()} Swechha Collections Atelier. All rights reserved.
         </span>

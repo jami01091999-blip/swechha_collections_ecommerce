@@ -13,6 +13,9 @@ import { Button, IconButton, PageContainer, PriceBlock, Skeleton } from '../../c
 import { formatINR, waLink } from '../../lib/format';
 import { isOutOfStock } from '../../lib/stock';
 import { useToast } from '../../context/Toast';
+import { useBag } from '../../lib/bag';
+import { useAuth } from '../../lib/auth';
+import PincodeCheck from '../../components/shop/PincodeCheck';
 import NotFound from './NotFound';
 
 function Accordion({ title, open, onToggle, children }) {
@@ -100,6 +103,40 @@ function ProductView({ p }) {
   const isSaree = p.category === 'Sarees';
   const images = p.images?.length ? p.images : [{ url: '' }];
   const out = isOutOfStock(p);
+  const bag = useBag();
+  const { user } = useAuth();
+  const [adding, setAdding] = useState(false);
+  const [added, setAdded] = useState(false);
+  const [needSize, setNeedSize] = useState(false);
+  const sized = p.sizeType === 'sized';
+  const chosenSize = sized ? size : 'FREE';
+
+  const requireSize = () => {
+    if (chosenSize) return true;
+    setNeedSize(true);
+    document.getElementById('size-section')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    toast('Choose a size');
+    return false;
+  };
+  const addToBag = async () => {
+    if (added) return navigate('/bag');
+    if (!requireSize()) return;
+    setAdding(true);
+    try {
+      await bag.add(p, chosenSize, 1);
+      setAdded(true);
+      toast('Added to your bag');
+    } catch (e) {
+      toast(e.message);
+    } finally {
+      setAdding(false);
+    }
+  };
+  const buyNow = () => {
+    if (!requireSize()) return;
+    const to = `/checkout?buy=${p._id}&size=${encodeURIComponent(chosenSize)}&qty=1`;
+    navigate(user ? to : `/login?next=${encodeURIComponent(to)}`);
+  };
 
   useEffect(() => {
     document.title = `${p.name} | Swechha Collections`;
@@ -311,15 +348,24 @@ function ProductView({ p }) {
           </section>
 
           {/* Size availability */}
-          <section className="px-margin-mobile md:px-0 space-y-3 py-3.5 border-b border-outline-variant/20 bg-surface-container-lowest/60 md:bg-transparent">
+          <section
+            id="size-section"
+            className={`px-margin-mobile md:px-0 space-y-3 py-3.5 border-b border-outline-variant/20 bg-surface-container-lowest/60 md:bg-transparent scroll-mt-24 ${needSize && !chosenSize ? 'ring-2 ring-error/40 rounded-xl' : ''}`}
+          >
             {(!isSaree || p.sizeType === 'sized') && (
               <SizeSection
                 product={p}
                 selected={size}
-                onSelect={setSize}
+                onSelect={(s) => {
+                  setSize(s);
+                  setNeedSize(false);
+                  setAdded(false);
+                }}
                 onGuide={() => toast('Standard Swechha Size Guide: Regular Indian Festive Fit')}
               />
             )}
+            {needSize && !chosenSize && <p className="font-label-md text-label-md text-error font-semibold">Choose a size to continue</p>}
+            {!out && <PincodeCheck />}
           </section>
 
           {/* Accordions */}
@@ -352,20 +398,31 @@ function ProductView({ p }) {
             )}
           </section>
 
-          {/* Laptop: enquiry actions inline (phones use the sticky bar below) */}
+          {/* Laptop: buy actions inline (phones use the sticky bar below) */}
           <div className="hidden md:flex items-center gap-2.5 pt-6">
-            <Button
-              as="a"
-              variant="whatsapp"
-              size="lg"
-              className="flex-1"
-              href={waLink(settings?.whatsapp, waText)}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Icon name="chat" className="text-xl" />
-              <span>Enquire on WhatsApp</span>
-            </Button>
+            {out ? (
+              <Button
+                as="a"
+                variant="whatsapp"
+                size="lg"
+                className="flex-1"
+                href={waLink(settings?.whatsapp, waText)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Icon name="chat" className="text-xl" />
+                <span>Sold out — ask when it&apos;s back</span>
+              </Button>
+            ) : (
+              <>
+                <Button variant="secondary" size="lg" className="flex-1" onClick={addToBag} disabled={adding}>
+                  {adding ? 'Adding…' : added ? 'Go to bag' : 'Add to bag'}
+                </Button>
+                <Button size="lg" className="flex-1" onClick={buyNow}>
+                  Buy now
+                </Button>
+              </>
+            )}
             <SaveButton
               product={p}
               boxed
@@ -381,9 +438,18 @@ function ProductView({ p }) {
               <Icon name="share" className="text-2xl" />
             </button>
           </div>
-          <div className="hidden md:flex items-center justify-center pt-2">
-            <span className="text-[11px] text-on-surface-variant">Enquire on whatsapp for more details</span>
-          </div>
+          {!out && (
+            <div className="hidden md:flex items-center justify-center pt-3">
+              <a
+                href={waLink(settings?.whatsapp, waText)}
+                target="_blank"
+                rel="noreferrer"
+                className="text-[12px] text-secondary hover:text-primary flex items-center gap-1"
+              >
+                <Icon name="chat" className="text-[16px]" /> Questions? Ask our stylist on WhatsApp
+              </a>
+            </div>
+          )}
         </div>
       </PageContainer>
 
@@ -401,14 +467,32 @@ function ProductView({ p }) {
         </PageContainer>
       )}
 
-      {/* Sticky WhatsApp enquiry bar */}
+      {/* Sticky buy bar (phones) */}
       <div className="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface/95 backdrop-blur-md px-margin-mobile py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] max-w-[480px] mx-auto right-0 border-t border-outline-variant/30 shadow-[0_-6px_20px_rgba(78,5,26,0.08)]">
-        <div className="flex flex-col gap-1.5">
+        {out ? (
           <Button as="a" variant="whatsapp" className="w-full" href={waLink(settings?.whatsapp, waText)} target="_blank" rel="noreferrer">
             <Icon name="chat" className="text-xl" />
-            <span>Enquire on WhatsApp</span>
+            <span>Sold out — ask when it&apos;s back</span>
           </Button>
-        </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <a
+              href={waLink(settings?.whatsapp, waText)}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Ask on WhatsApp"
+              className="w-12 h-12 shrink-0 rounded-xl bg-[#1b4332] text-white flex items-center justify-center active:scale-95"
+            >
+              <Icon name="chat" className="text-xl" />
+            </a>
+            <Button variant="secondary" className="flex-1" onClick={addToBag} disabled={adding}>
+              {adding ? 'Adding…' : added ? 'Go to bag' : 'Add to bag'}
+            </Button>
+            <Button className="flex-1" onClick={buyNow}>
+              Buy now
+            </Button>
+          </div>
+        )}
       </div>
 
       {zoom && <ZoomViewer images={p.images} start={slide} onClose={() => setZoom(false)} />}

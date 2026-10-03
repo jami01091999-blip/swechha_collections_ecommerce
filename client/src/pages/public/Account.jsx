@@ -1,3 +1,5 @@
+import { useMyOrders } from '../../lib/api';
+import { ORDER_STATUS } from '../../components/shop/ShopBits';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { SubHeader } from '../../components/public/Header';
@@ -205,6 +207,34 @@ function Addresses({ user }) {
   );
 }
 
+function RecentOrders() {
+  const { data, loading } = useMyOrders(1);
+  if (loading && !data) return <Skeleton className="h-16 rounded-xl" />;
+  if (!data?.items?.length) return <EmptyState icon="receipt_long" title="No orders yet" body="Your orders will appear here." />;
+  return (
+    <div className="space-y-2">
+      {data.items.slice(0, 3).map((o) => (
+        <Link
+          key={o._id}
+          to={`/account/orders/${o.orderNumber}`}
+          className="flex items-center justify-between gap-2 py-2 border-b border-outline-variant/20 last:border-0"
+        >
+          <span>
+            <span className="block font-title-md text-[14px] text-primary">{o.orderNumber}</span>
+            <span className="block font-label-md text-label-md text-on-surface-variant">
+              {new Date(o.placedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} · ₹{o.total.toLocaleString('en-IN')}
+            </span>
+          </span>
+          <ToneChip tone={(ORDER_STATUS[o.status] || [])[1] || 'grey'}>{(ORDER_STATUS[o.status] || [o.status])[0]}</ToneChip>
+        </Link>
+      ))}
+      <Link to="/account/orders" className="inline-block pt-1 font-label-lg text-label-lg text-secondary hover:text-primary">
+        All orders
+      </Link>
+    </div>
+  );
+}
+
 export default function Account() {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -264,7 +294,7 @@ export default function Account() {
           <div className="space-y-4">
             <Profile key={user._id} user={user} />
             <Block title="My orders">
-              <EmptyState icon="receipt_long" title="No orders yet" body="Your orders will appear here." />
+              <RecentOrders />
             </Block>
           </div>
           <Addresses user={user} />

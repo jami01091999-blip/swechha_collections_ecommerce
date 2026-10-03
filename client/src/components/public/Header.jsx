@@ -5,6 +5,7 @@ import { useAuth } from '../../lib/auth';
 import SearchBox from '../catalog/SearchBox';
 import { SavedCountBadge } from '../shared/SaveButton';
 import { useSaved } from '../../lib/wishlist';
+import { useBag } from '../../lib/bag';
 
 /** Sticky top app bar — Stitch home header. */
 export default function Header({ onMenu }) {
@@ -83,6 +84,7 @@ export function DesktopHeader() {
   const q = new URLSearchParams(search).get('q') || '';
   const { user } = useAuth();
   const { count } = useSaved();
+  const bag = useBag();
   return (
     <header className="hidden md:block sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant/20">
       <div className="max-w-6xl mx-auto px-8 h-[72px] flex items-center justify-between gap-6">
@@ -121,6 +123,14 @@ export function DesktopHeader() {
           >
             <Icon name="favorite" className="text-2xl" />
             <SavedCountBadge count={count} />
+          </Link>
+          <Link
+            to="/bag"
+            aria-label={bag.count ? `Bag (${bag.count})` : 'Bag'}
+            className="relative w-9 h-9 rounded-full flex items-center justify-center text-primary hover:bg-surface-container transition-colors"
+          >
+            <Icon name="shopping_bag" className="text-2xl" />
+            <SavedCountBadge count={bag.count} />
           </Link>
           {user ? (
             <Link to="/account" aria-label="My account" title={user.email}>

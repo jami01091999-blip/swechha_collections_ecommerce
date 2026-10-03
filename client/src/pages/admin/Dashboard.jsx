@@ -4,6 +4,8 @@ import { AdminHeader, AdminNav } from '../../components/admin/AdminChrome';
 import { Thumb } from '../../components/admin/bits';
 import { Button, Card, PageContainer, Skeleton, StatusChip } from '../../components/ui';
 import StockSheet from '../../components/admin/StockSheet';
+import SalesPanel from '../../components/admin/SalesPanel';
+import { isAdmin, useAuth } from '../../lib/auth';
 import Icon from '../../components/shared/Icon';
 import ScrollToHash from '../../components/shared/ScrollToHash';
 import { useAdminStats, useSettings } from '../../lib/api';
@@ -42,6 +44,7 @@ function RowSkeleton() {
 }
 
 export default function Dashboard() {
+  const { user } = useAuth();
   const navigate = useNavigate();
   // Counts come from one aggregation on the server; the dashboard never downloads the whole catalogue.
   const { data, loading, error, reload } = useAdminStats();
@@ -88,6 +91,8 @@ export default function Dashboard() {
             </span>
           </div>
         </div>
+
+        {isAdmin(user) && <SalesPanel />}
 
         {error && !data && (
           <Card className="text-center">

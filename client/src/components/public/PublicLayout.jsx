@@ -9,6 +9,11 @@ export default function PublicLayout() {
   return (
     <div className="bg-background text-on-surface antialiased font-body-md text-body-md min-h-screen flex justify-center selection:bg-primary-container selection:text-white">
       <div className="w-full max-w-[480px] md:max-w-none bg-surface relative min-h-screen shadow-2xl md:shadow-none flex flex-col border-x md:border-x-0 border-outline-variant/20 overflow-x-clip">
+        {import.meta.env.VITE_APP_MODE !== 'live' && (
+          <p className="bg-secondary-fixed/70 text-on-secondary-container text-center font-label-md text-[11px] py-1 px-3">
+            Test shop — orders, payments and deliveries are not real.
+          </p>
+        )}
         <DesktopHeader />
         <Outlet />
       </div>

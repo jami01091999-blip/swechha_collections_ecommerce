@@ -52,7 +52,7 @@ export function ConfirmSheet({ title, body, confirmLabel, onConfirm, onClose, bu
   return (
     <Sheet onClose={onClose} label={title}>
       <h2 className="font-headline-sm text-headline-sm text-primary">{title}</h2>
-      <p className="font-body-sm text-body-sm text-on-surface-variant mt-1">{body}</p>
+      <div className="font-body-sm text-body-sm text-on-surface-variant mt-1">{body}</div>
       <div className="grid grid-cols-2 gap-2.5 mt-5">
         <Button variant="secondary" size="sm" onClick={onClose}>
           Cancel

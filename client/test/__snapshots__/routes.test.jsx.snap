@@ -9,6 +9,11 @@ exports[`accounts and team > account (customer) 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -81,6 +86,18 @@ exports[`accounts and team > account (customer) 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -368,10 +385,14 @@ exports[`accounts and team > account (customer) 1`] = `
               href="/"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                auto_awesome
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  auto_awesome
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -384,10 +405,14 @@ exports[`accounts and team > account (customer) 1`] = `
               href="/collection"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                menu_book
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  menu_book
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -396,15 +421,39 @@ exports[`accounts and team > account (customer) 1`] = `
               </span>
             </a>
             <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/bag"
+            >
+              <span
+                class="relative"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
+                </span>
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Bag
+              </span>
+            </a>
+            <a
               aria-current="page"
               class="active:scale-95 duration-200 flex flex-col font-semibold hover:text-primary items-center justify-center min-w-[56px] p-1 text-primary transition-colors"
               href="/account"
             >
               <span
-                aria-hidden="true"
-                class="icon-fill material-symbols-outlined text-2xl"
+                class="relative"
               >
-                person
+                <span
+                  aria-hidden="true"
+                  class="icon-fill material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -436,6 +485,11 @@ exports[`accounts and team > drawer when signed in 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -509,6 +563,18 @@ exports[`accounts and team > drawer when signed in 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -1590,6 +1656,41 @@ exports[`accounts and team > drawer when signed in 1`] = `
                 >
                   Private Catalogue Presentation • Inquire with our stylists for bespoke consultations.
                 </p>
+                <nav
+                  aria-label="Policies"
+                  class="flex flex-wrap gap-x-3 gap-y-1 justify-center mt-2"
+                >
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/shipping"
+                  >
+                    Shipping policy
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/returns"
+                  >
+                    Returns & refunds
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/terms"
+                  >
+                    Terms of use
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/privacy"
+                  >
+                    Privacy policy
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/contact"
+                  >
+                    Contact us
+                  </a>
+                </nav>
                 <span
                   class="font-label-md mt-1 text-[10px] text-outline"
                 >
@@ -1609,10 +1710,14 @@ exports[`accounts and team > drawer when signed in 1`] = `
               href="/"
             >
               <span
-                aria-hidden="true"
-                class="icon-fill material-symbols-outlined text-2xl"
+                class="relative"
               >
-                auto_awesome
+                <span
+                  aria-hidden="true"
+                  class="icon-fill material-symbols-outlined text-2xl"
+                >
+                  auto_awesome
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -1625,10 +1730,14 @@ exports[`accounts and team > drawer when signed in 1`] = `
               href="/collection"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                menu_book
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  menu_book
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -1638,13 +1747,37 @@ exports[`accounts and team > drawer when signed in 1`] = `
             </a>
             <a
               class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/bag"
+            >
+              <span
+                class="relative"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
+                </span>
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Bag
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
               href="/account"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                person
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -1674,6 +1807,11 @@ exports[`accounts and team > login: email step 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -1746,6 +1884,18 @@ exports[`accounts and team > login: email step 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -1863,10 +2013,14 @@ exports[`accounts and team > login: email step 1`] = `
               href="/"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                auto_awesome
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  auto_awesome
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -1879,10 +2033,14 @@ exports[`accounts and team > login: email step 1`] = `
               href="/collection"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                menu_book
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  menu_book
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -1891,15 +2049,39 @@ exports[`accounts and team > login: email step 1`] = `
               </span>
             </a>
             <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/bag"
+            >
+              <span
+                class="relative"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
+                </span>
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Bag
+              </span>
+            </a>
+            <a
               aria-current="page"
               class="active:scale-95 duration-200 flex flex-col font-semibold hover:text-primary items-center justify-center min-w-[56px] p-1 text-primary transition-colors"
               href="/account"
             >
               <span
-                aria-hidden="true"
-                class="icon-fill material-symbols-outlined text-2xl"
+                class="relative"
               >
-                person
+                <span
+                  aria-hidden="true"
+                  class="icon-fill material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -1970,23 +2152,72 @@ exports[`accounts and team > team (admin) 1`] = `
               </a>
               <a
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/adminDivya/orders"
+              >
+                Orders
+              </a>
+              <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
                 href="/adminDivya/products"
               >
                 Products
               </a>
               <a
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
-                href="/adminDivya/lookbook"
+                href="/adminDivya/customers"
               >
-                Lookbook
+                Customers
               </a>
-              <a
-                aria-current="page"
-                class="border-b-2 border-secondary font-label-lg py-1 text-label-lg text-primary tracking-wider transition-colors uppercase"
-                href="/adminDivya/team"
+              <details
+                class="group relative"
               >
-                Team
-              </a>
+                <summary
+                  class="border-b-2 border-transparent cursor-pointer flex font-label-lg gap-0.5 hover:text-primary items-center list-none py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                >
+                  More 
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-[18px]"
+                  >
+                    expand_more
+                  </span>
+                </summary>
+                <div
+                  class="absolute bg-surface border border-outline-variant/40 mt-2 py-1 right-0 rounded-xl shadow-luxury w-48 z-50"
+                >
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/lookbook"
+                  >
+                    Lookbook
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/coupons"
+                  >
+                    Coupons
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/shop"
+                  >
+                    Shop rules
+                  </a>
+                  <a
+                    aria-current="page"
+                    class="active block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/team"
+                  >
+                    Team
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/activity"
+                  >
+                    Activity
+                  </a>
+                </div>
+              </details>
               <a
                 aria-label="View Site"
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
@@ -2292,18 +2523,18 @@ exports[`accounts and team > team (admin) 1`] = `
           </a>
           <a
             class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
-            href="/adminDivya/products"
+            href="/adminDivya/orders"
           >
             <span
               aria-hidden="true"
               class="material-symbols-outlined text-[23px]"
             >
-              styler
+              receipt_long
             </span>
             <span
               class="font-label-md mt-0.5 text-label-md"
             >
-              Products
+              Orders
             </span>
             <span
               class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
@@ -2327,44 +2558,42 @@ exports[`accounts and team > team (admin) 1`] = `
           </div>
           <a
             class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
-            href="/adminDivya/lookbook"
+            href="/adminDivya/products"
           >
             <span
               aria-hidden="true"
               class="material-symbols-outlined text-[23px]"
             >
-              auto_awesome
+              styler
             </span>
             <span
               class="font-label-md mt-0.5 text-label-md"
             >
-              Lookbook
+              Products
             </span>
             <span
               class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
             />
           </a>
-          <a
-            class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
-            href="/"
-            rel="noreferrer"
-            target="_blank"
+          <button
+            class="active:scale-95 flex flex-col font-semibold group items-center justify-center min-w-[56px] p-1 text-primary transition-all"
+            type="button"
           >
             <span
               aria-hidden="true"
-              class="material-symbols-outlined text-[23px]"
+              class="icon-fill material-symbols-outlined text-[23px]"
             >
-              storefront
+              more_horiz
             </span>
             <span
               class="font-label-md mt-0.5 text-label-md"
             >
-              View Site
+              More
             </span>
             <span
-              class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
+              class="bg-primary-container h-1.5 mt-0.5 rounded-full w-1.5"
             />
-          </a>
+          </button>
         </nav>
       </div>
     </div>
@@ -2488,22 +2717,71 @@ exports[`admin > dashboard 1`] = `
               </a>
               <a
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/adminDivya/orders"
+              >
+                Orders
+              </a>
+              <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
                 href="/adminDivya/products"
               >
                 Products
               </a>
               <a
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
-                href="/adminDivya/lookbook"
+                href="/adminDivya/customers"
               >
-                Lookbook
+                Customers
               </a>
-              <a
-                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
-                href="/adminDivya/team"
+              <details
+                class="group relative"
               >
-                Team
-              </a>
+                <summary
+                  class="border-b-2 border-transparent cursor-pointer flex font-label-lg gap-0.5 hover:text-primary items-center list-none py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                >
+                  More 
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-[18px]"
+                  >
+                    expand_more
+                  </span>
+                </summary>
+                <div
+                  class="absolute bg-surface border border-outline-variant/40 mt-2 py-1 right-0 rounded-xl shadow-luxury w-48 z-50"
+                >
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/lookbook"
+                  >
+                    Lookbook
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/coupons"
+                  >
+                    Coupons
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/shop"
+                  >
+                    Shop rules
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/team"
+                  >
+                    Team
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/activity"
+                  >
+                    Activity
+                  </a>
+                </div>
+              </details>
               <a
                 aria-label="View Site"
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
@@ -2616,6 +2894,165 @@ exports[`admin > dashboard 1`] = `
               </span>
             </div>
           </div>
+          <section
+            class="space-y-3"
+          >
+            <div
+              class="flex items-center justify-between"
+            >
+              <h2
+                class="font-headline-sm text-headline-sm text-primary"
+              >
+                Sales
+              </h2>
+              <div
+                class="flex gap-1.5"
+              >
+                <button
+                  class="active:scale-95 bg-surface-container-low border border-outline-variant/30 font-label-md hover:bg-surface-container px-3 py-1.5 rounded-full shrink-0 text-label-md text-on-surface-variant transition-colors"
+                  type="button"
+                >
+                  Today
+                </button>
+                <button
+                  class="active:scale-95 bg-primary-container border border-primary-container font-label-md px-3 py-1.5 rounded-full shrink-0 text-label-md text-white transition-colors"
+                  type="button"
+                >
+                  7 days
+                </button>
+                <button
+                  class="active:scale-95 bg-surface-container-low border border-outline-variant/30 font-label-md hover:bg-surface-container px-3 py-1.5 rounded-full shrink-0 text-label-md text-on-surface-variant transition-colors"
+                  type="button"
+                >
+                  30 days
+                </button>
+              </div>
+            </div>
+            <div
+              class="gap-3 grid grid-cols-2 md:grid-cols-4"
+            >
+              <div
+                class="admin-card"
+              >
+                <p
+                  class="field-label"
+                >
+                  Revenue
+                </p>
+                <p
+                  class="font-headline-sm text-[22px] text-primary"
+                >
+                  ₹0
+                </p>
+              </div>
+              <div
+                class="admin-card"
+              >
+                <p
+                  class="field-label"
+                >
+                  Orders
+                </p>
+                <p
+                  class="font-headline-sm text-[22px] text-primary"
+                >
+                  0
+                </p>
+              </div>
+              <div
+                class="admin-card"
+              >
+                <p
+                  class="field-label"
+                >
+                  Average order
+                </p>
+                <p
+                  class="font-headline-sm text-[22px] text-primary"
+                >
+                  ₹0
+                </p>
+              </div>
+              <div
+                class="admin-card"
+              >
+                <p
+                  class="field-label"
+                >
+                  COD / online
+                </p>
+                <p
+                  class="font-headline-sm text-[22px] text-primary"
+                >
+                  0 / 0
+                </p>
+              </div>
+            </div>
+            <div
+              class="gap-3 grid grid-cols-2 md:grid-cols-4"
+            >
+              <a
+                class="admin-card hover:border-outline-variant"
+                href="/adminDivya/orders?tab=new"
+              >
+                <p
+                  class="field-label"
+                >
+                  To pack
+                </p>
+                <p
+                  class="font-headline-sm text-[22px] text-primary"
+                >
+                  0
+                </p>
+              </a>
+              <a
+                class="admin-card hover:border-outline-variant"
+                href="/adminDivya/orders?tab=packed"
+              >
+                <p
+                  class="field-label"
+                >
+                  To ship
+                </p>
+                <p
+                  class="font-headline-sm text-[22px] text-primary"
+                >
+                  0
+                </p>
+              </a>
+              <a
+                class="admin-card hover:border-outline-variant"
+                href="/adminDivya/orders?tab=shipped"
+              >
+                <p
+                  class="field-label"
+                >
+                  In transit
+                </p>
+                <p
+                  class="font-headline-sm text-[22px] text-primary"
+                >
+                  0
+                </p>
+              </a>
+              <a
+                class="admin-card hover:border-outline-variant"
+                href="/adminDivya/orders?tab=returns"
+              >
+                <p
+                  class="field-label"
+                >
+                  Open returns
+                </p>
+                <p
+                  class="font-headline-sm text-[22px] text-primary"
+                >
+                  0
+                </p>
+              </a>
+            </div>
+          </section>
           <section>
             <div
               class="flex items-center justify-between mb-2.5 px-0.5"
@@ -3016,18 +3453,18 @@ exports[`admin > dashboard 1`] = `
           </a>
           <a
             class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
-            href="/adminDivya/products"
+            href="/adminDivya/orders"
           >
             <span
               aria-hidden="true"
               class="material-symbols-outlined text-[23px]"
             >
-              styler
+              receipt_long
             </span>
             <span
               class="font-label-md mt-0.5 text-label-md"
             >
-              Products
+              Orders
             </span>
             <span
               class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
@@ -3051,44 +3488,42 @@ exports[`admin > dashboard 1`] = `
           </div>
           <a
             class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
-            href="/adminDivya/lookbook"
+            href="/adminDivya/products"
           >
             <span
               aria-hidden="true"
               class="material-symbols-outlined text-[23px]"
             >
-              auto_awesome
+              styler
             </span>
             <span
               class="font-label-md mt-0.5 text-label-md"
             >
-              Lookbook
+              Products
             </span>
             <span
               class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
             />
           </a>
-          <a
+          <button
             class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
-            href="/"
-            rel="noreferrer"
-            target="_blank"
+            type="button"
           >
             <span
               aria-hidden="true"
               class="material-symbols-outlined text-[23px]"
             >
-              storefront
+              more_horiz
             </span>
             <span
               class="font-label-md mt-0.5 text-label-md"
             >
-              View Site
+              More
             </span>
             <span
               class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
             />
-          </a>
+          </button>
         </nav>
       </div>
     </div>
@@ -3151,23 +3586,72 @@ exports[`admin > lookbook 1`] = `
               </a>
               <a
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/adminDivya/orders"
+              >
+                Orders
+              </a>
+              <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
                 href="/adminDivya/products"
               >
                 Products
               </a>
               <a
-                aria-current="page"
-                class="border-b-2 border-secondary font-label-lg py-1 text-label-lg text-primary tracking-wider transition-colors uppercase"
-                href="/adminDivya/lookbook"
-              >
-                Lookbook
-              </a>
-              <a
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
-                href="/adminDivya/team"
+                href="/adminDivya/customers"
               >
-                Team
+                Customers
               </a>
+              <details
+                class="group relative"
+              >
+                <summary
+                  class="border-b-2 border-transparent cursor-pointer flex font-label-lg gap-0.5 hover:text-primary items-center list-none py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                >
+                  More 
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-[18px]"
+                  >
+                    expand_more
+                  </span>
+                </summary>
+                <div
+                  class="absolute bg-surface border border-outline-variant/40 mt-2 py-1 right-0 rounded-xl shadow-luxury w-48 z-50"
+                >
+                  <a
+                    aria-current="page"
+                    class="active block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/lookbook"
+                  >
+                    Lookbook
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/coupons"
+                  >
+                    Coupons
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/shop"
+                  >
+                    Shop rules
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/team"
+                  >
+                    Team
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/activity"
+                  >
+                    Activity
+                  </a>
+                </div>
+              </details>
               <a
                 aria-label="View Site"
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
@@ -3977,18 +4461,18 @@ exports[`admin > lookbook 1`] = `
           </a>
           <a
             class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
-            href="/adminDivya/products"
+            href="/adminDivya/orders"
           >
             <span
               aria-hidden="true"
               class="material-symbols-outlined text-[23px]"
             >
-              styler
+              receipt_long
             </span>
             <span
               class="font-label-md mt-0.5 text-label-md"
             >
-              Products
+              Orders
             </span>
             <span
               class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
@@ -4011,46 +4495,43 @@ exports[`admin > lookbook 1`] = `
             </button>
           </div>
           <a
-            aria-current="page"
-            class="active:scale-95 flex flex-col font-semibold group items-center justify-center min-w-[56px] p-1 text-primary transition-all"
-            href="/adminDivya/lookbook"
-          >
-            <span
-              aria-hidden="true"
-              class="icon-fill material-symbols-outlined text-[23px]"
-            >
-              auto_awesome
-            </span>
-            <span
-              class="font-label-md mt-0.5 text-label-md"
-            >
-              Lookbook
-            </span>
-            <span
-              class="bg-primary-container h-1.5 mt-0.5 rounded-full w-1.5"
-            />
-          </a>
-          <a
             class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
-            href="/"
-            rel="noreferrer"
-            target="_blank"
+            href="/adminDivya/products"
           >
             <span
               aria-hidden="true"
               class="material-symbols-outlined text-[23px]"
             >
-              storefront
+              styler
             </span>
             <span
               class="font-label-md mt-0.5 text-label-md"
             >
-              View Site
+              Products
             </span>
             <span
               class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
             />
           </a>
+          <button
+            class="active:scale-95 flex flex-col font-semibold group items-center justify-center min-w-[56px] p-1 text-primary transition-all"
+            type="button"
+          >
+            <span
+              aria-hidden="true"
+              class="icon-fill material-symbols-outlined text-[23px]"
+            >
+              more_horiz
+            </span>
+            <span
+              class="font-label-md mt-0.5 text-label-md"
+            >
+              More
+            </span>
+            <span
+              class="bg-primary-container h-1.5 mt-0.5 rounded-full w-1.5"
+            />
+          </button>
         </nav>
       </div>
     </div>
@@ -6630,11 +7111,11 @@ exports[`admin > product form: edit a draft (not in the public list) 1`] = `
             >
               Delete Draft Linen Top?
             </h2>
-            <p
+            <div
               class="font-body-sm mt-1 text-body-sm text-on-surface-variant"
             >
               This removes it from the catalogue and deletes its uploaded photos. This cannot be undone.
-            </p>
+            </div>
             <div
               class="gap-2.5 grid grid-cols-2 mt-5"
             >
@@ -8443,6 +8924,12 @@ exports[`admin > products 1`] = `
                 Dashboard
               </a>
               <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/adminDivya/orders"
+              >
+                Orders
+              </a>
+              <a
                 aria-current="page"
                 class="border-b-2 border-secondary font-label-lg py-1 text-label-lg text-primary tracking-wider transition-colors uppercase"
                 href="/adminDivya/products"
@@ -8451,16 +8938,59 @@ exports[`admin > products 1`] = `
               </a>
               <a
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
-                href="/adminDivya/lookbook"
+                href="/adminDivya/customers"
               >
-                Lookbook
+                Customers
               </a>
-              <a
-                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
-                href="/adminDivya/team"
+              <details
+                class="group relative"
               >
-                Team
-              </a>
+                <summary
+                  class="border-b-2 border-transparent cursor-pointer flex font-label-lg gap-0.5 hover:text-primary items-center list-none py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                >
+                  More 
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-[18px]"
+                  >
+                    expand_more
+                  </span>
+                </summary>
+                <div
+                  class="absolute bg-surface border border-outline-variant/40 mt-2 py-1 right-0 rounded-xl shadow-luxury w-48 z-50"
+                >
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/lookbook"
+                  >
+                    Lookbook
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/coupons"
+                  >
+                    Coupons
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/shop"
+                  >
+                    Shop rules
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/team"
+                  >
+                    Team
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/activity"
+                  >
+                    Activity
+                  </a>
+                </div>
+              </details>
               <a
                 aria-label="View Site"
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
@@ -9156,23 +9686,22 @@ exports[`admin > products 1`] = `
             />
           </a>
           <a
-            aria-current="page"
-            class="active:scale-95 flex flex-col font-semibold group items-center justify-center min-w-[56px] p-1 text-primary transition-all"
-            href="/adminDivya/products"
+            class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
+            href="/adminDivya/orders"
           >
             <span
               aria-hidden="true"
-              class="icon-fill material-symbols-outlined text-[23px]"
+              class="material-symbols-outlined text-[23px]"
             >
-              styler
+              receipt_long
             </span>
             <span
               class="font-label-md mt-0.5 text-label-md"
             >
-              Products
+              Orders
             </span>
             <span
-              class="bg-primary-container h-1.5 mt-0.5 rounded-full w-1.5"
+              class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
             />
           </a>
           <div
@@ -9192,45 +9721,44 @@ exports[`admin > products 1`] = `
             </button>
           </div>
           <a
+            aria-current="page"
+            class="active:scale-95 flex flex-col font-semibold group items-center justify-center min-w-[56px] p-1 text-primary transition-all"
+            href="/adminDivya/products"
+          >
+            <span
+              aria-hidden="true"
+              class="icon-fill material-symbols-outlined text-[23px]"
+            >
+              styler
+            </span>
+            <span
+              class="font-label-md mt-0.5 text-label-md"
+            >
+              Products
+            </span>
+            <span
+              class="bg-primary-container h-1.5 mt-0.5 rounded-full w-1.5"
+            />
+          </a>
+          <button
             class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
-            href="/adminDivya/lookbook"
+            type="button"
           >
             <span
               aria-hidden="true"
               class="material-symbols-outlined text-[23px]"
             >
-              auto_awesome
+              more_horiz
             </span>
             <span
               class="font-label-md mt-0.5 text-label-md"
             >
-              Lookbook
+              More
             </span>
             <span
               class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
             />
-          </a>
-          <a
-            class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
-            href="/"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <span
-              aria-hidden="true"
-              class="material-symbols-outlined text-[23px]"
-            >
-              storefront
-            </span>
-            <span
-              class="font-label-md mt-0.5 text-label-md"
-            >
-              View Site
-            </span>
-            <span
-              class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
-            />
-          </a>
+          </button>
         </nav>
       </div>
     </div>
@@ -9294,6 +9822,12 @@ exports[`admin > products: delete confirm 1`] = `
                 Dashboard
               </a>
               <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/adminDivya/orders"
+              >
+                Orders
+              </a>
+              <a
                 aria-current="page"
                 class="border-b-2 border-secondary font-label-lg py-1 text-label-lg text-primary tracking-wider transition-colors uppercase"
                 href="/adminDivya/products"
@@ -9302,16 +9836,59 @@ exports[`admin > products: delete confirm 1`] = `
               </a>
               <a
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
-                href="/adminDivya/lookbook"
+                href="/adminDivya/customers"
               >
-                Lookbook
+                Customers
               </a>
-              <a
-                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
-                href="/adminDivya/team"
+              <details
+                class="group relative"
               >
-                Team
-              </a>
+                <summary
+                  class="border-b-2 border-transparent cursor-pointer flex font-label-lg gap-0.5 hover:text-primary items-center list-none py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                >
+                  More 
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-[18px]"
+                  >
+                    expand_more
+                  </span>
+                </summary>
+                <div
+                  class="absolute bg-surface border border-outline-variant/40 mt-2 py-1 right-0 rounded-xl shadow-luxury w-48 z-50"
+                >
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/lookbook"
+                  >
+                    Lookbook
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/coupons"
+                  >
+                    Coupons
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/shop"
+                  >
+                    Shop rules
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/team"
+                  >
+                    Team
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/activity"
+                  >
+                    Activity
+                  </a>
+                </div>
+              </details>
               <a
                 aria-label="View Site"
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
@@ -10007,23 +10584,22 @@ exports[`admin > products: delete confirm 1`] = `
             />
           </a>
           <a
-            aria-current="page"
-            class="active:scale-95 flex flex-col font-semibold group items-center justify-center min-w-[56px] p-1 text-primary transition-all"
-            href="/adminDivya/products"
+            class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
+            href="/adminDivya/orders"
           >
             <span
               aria-hidden="true"
-              class="icon-fill material-symbols-outlined text-[23px]"
+              class="material-symbols-outlined text-[23px]"
             >
-              styler
+              receipt_long
             </span>
             <span
               class="font-label-md mt-0.5 text-label-md"
             >
-              Products
+              Orders
             </span>
             <span
-              class="bg-primary-container h-1.5 mt-0.5 rounded-full w-1.5"
+              class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
             />
           </a>
           <div
@@ -10043,45 +10619,44 @@ exports[`admin > products: delete confirm 1`] = `
             </button>
           </div>
           <a
+            aria-current="page"
+            class="active:scale-95 flex flex-col font-semibold group items-center justify-center min-w-[56px] p-1 text-primary transition-all"
+            href="/adminDivya/products"
+          >
+            <span
+              aria-hidden="true"
+              class="icon-fill material-symbols-outlined text-[23px]"
+            >
+              styler
+            </span>
+            <span
+              class="font-label-md mt-0.5 text-label-md"
+            >
+              Products
+            </span>
+            <span
+              class="bg-primary-container h-1.5 mt-0.5 rounded-full w-1.5"
+            />
+          </a>
+          <button
             class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
-            href="/adminDivya/lookbook"
+            type="button"
           >
             <span
               aria-hidden="true"
               class="material-symbols-outlined text-[23px]"
             >
-              auto_awesome
+              more_horiz
             </span>
             <span
               class="font-label-md mt-0.5 text-label-md"
             >
-              Lookbook
+              More
             </span>
             <span
               class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
             />
-          </a>
-          <a
-            class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
-            href="/"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <span
-              aria-hidden="true"
-              class="material-symbols-outlined text-[23px]"
-            >
-              storefront
-            </span>
-            <span
-              class="font-label-md mt-0.5 text-label-md"
-            >
-              View Site
-            </span>
-            <span
-              class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
-            />
-          </a>
+          </button>
         </nav>
         <div
           aria-label="Are you sure you want to delete?"
@@ -10104,11 +10679,11 @@ exports[`admin > products: delete confirm 1`] = `
             >
               Are you sure you want to delete?
             </h2>
-            <p
+            <div
               class="font-body-sm mt-1 text-body-sm text-on-surface-variant"
             >
               Noor Kurta Set will be deleted everywhere and removed from the public catalogue.
-            </p>
+            </div>
             <div
               class="gap-2.5 grid grid-cols-2 mt-5"
             >
@@ -10189,6 +10764,12 @@ exports[`admin > products: quick stock sheet 1`] = `
                 Dashboard
               </a>
               <a
+                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                href="/adminDivya/orders"
+              >
+                Orders
+              </a>
+              <a
                 aria-current="page"
                 class="border-b-2 border-secondary font-label-lg py-1 text-label-lg text-primary tracking-wider transition-colors uppercase"
                 href="/adminDivya/products"
@@ -10197,16 +10778,59 @@ exports[`admin > products: quick stock sheet 1`] = `
               </a>
               <a
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
-                href="/adminDivya/lookbook"
+                href="/adminDivya/customers"
               >
-                Lookbook
+                Customers
               </a>
-              <a
-                class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
-                href="/adminDivya/team"
+              <details
+                class="group relative"
               >
-                Team
-              </a>
+                <summary
+                  class="border-b-2 border-transparent cursor-pointer flex font-label-lg gap-0.5 hover:text-primary items-center list-none py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
+                >
+                  More 
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-[18px]"
+                  >
+                    expand_more
+                  </span>
+                </summary>
+                <div
+                  class="absolute bg-surface border border-outline-variant/40 mt-2 py-1 right-0 rounded-xl shadow-luxury w-48 z-50"
+                >
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/lookbook"
+                  >
+                    Lookbook
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/coupons"
+                  >
+                    Coupons
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/shop"
+                  >
+                    Shop rules
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/team"
+                  >
+                    Team
+                  </a>
+                  <a
+                    class="block font-body-sm hover:bg-surface-container-low hover:text-primary px-4 py-2 text-[14px] text-on-surface"
+                    href="/adminDivya/activity"
+                  >
+                    Activity
+                  </a>
+                </div>
+              </details>
               <a
                 aria-label="View Site"
                 class="border-b-2 border-transparent font-label-lg hover:text-primary py-1 text-label-lg text-on-surface-variant tracking-wider transition-colors uppercase"
@@ -10902,23 +11526,22 @@ exports[`admin > products: quick stock sheet 1`] = `
             />
           </a>
           <a
-            aria-current="page"
-            class="active:scale-95 flex flex-col font-semibold group items-center justify-center min-w-[56px] p-1 text-primary transition-all"
-            href="/adminDivya/products"
+            class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
+            href="/adminDivya/orders"
           >
             <span
               aria-hidden="true"
-              class="icon-fill material-symbols-outlined text-[23px]"
+              class="material-symbols-outlined text-[23px]"
             >
-              styler
+              receipt_long
             </span>
             <span
               class="font-label-md mt-0.5 text-label-md"
             >
-              Products
+              Orders
             </span>
             <span
-              class="bg-primary-container h-1.5 mt-0.5 rounded-full w-1.5"
+              class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
             />
           </a>
           <div
@@ -10938,45 +11561,44 @@ exports[`admin > products: quick stock sheet 1`] = `
             </button>
           </div>
           <a
+            aria-current="page"
+            class="active:scale-95 flex flex-col font-semibold group items-center justify-center min-w-[56px] p-1 text-primary transition-all"
+            href="/adminDivya/products"
+          >
+            <span
+              aria-hidden="true"
+              class="icon-fill material-symbols-outlined text-[23px]"
+            >
+              styler
+            </span>
+            <span
+              class="font-label-md mt-0.5 text-label-md"
+            >
+              Products
+            </span>
+            <span
+              class="bg-primary-container h-1.5 mt-0.5 rounded-full w-1.5"
+            />
+          </a>
+          <button
             class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
-            href="/adminDivya/lookbook"
+            type="button"
           >
             <span
               aria-hidden="true"
               class="material-symbols-outlined text-[23px]"
             >
-              auto_awesome
+              more_horiz
             </span>
             <span
               class="font-label-md mt-0.5 text-label-md"
             >
-              Lookbook
+              More
             </span>
             <span
               class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
             />
-          </a>
-          <a
-            class="active:scale-95 flex flex-col group hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-all"
-            href="/"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <span
-              aria-hidden="true"
-              class="material-symbols-outlined text-[23px]"
-            >
-              storefront
-            </span>
-            <span
-              class="font-label-md mt-0.5 text-label-md"
-            >
-              View Site
-            </span>
-            <span
-              class="bg-transparent h-1.5 mt-0.5 rounded-full w-1.5"
-            />
-          </a>
+          </button>
         </nav>
         <div
           aria-label="Quick stock update"
@@ -11346,6 +11968,11 @@ exports[`public site > /saved for a guest with nothing saved 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -11418,6 +12045,18 @@ exports[`public site > /saved for a guest with nothing saved 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -11528,10 +12167,14 @@ exports[`public site > /saved for a guest with nothing saved 1`] = `
               href="/"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                auto_awesome
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  auto_awesome
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -11544,10 +12187,14 @@ exports[`public site > /saved for a guest with nothing saved 1`] = `
               href="/collection"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                menu_book
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  menu_book
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -11557,13 +12204,37 @@ exports[`public site > /saved for a guest with nothing saved 1`] = `
             </a>
             <a
               class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/bag"
+            >
+              <span
+                class="relative"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
+                </span>
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Bag
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
               href="/account"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                person
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -11593,6 +12264,11 @@ exports[`public site > collection 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -11666,6 +12342,18 @@ exports[`public site > collection 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -12405,10 +13093,14 @@ exports[`public site > collection 1`] = `
               href="/"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                auto_awesome
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  auto_awesome
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -12422,10 +13114,14 @@ exports[`public site > collection 1`] = `
               href="/collection"
             >
               <span
-                aria-hidden="true"
-                class="icon-fill material-symbols-outlined text-2xl"
+                class="relative"
               >
-                menu_book
+                <span
+                  aria-hidden="true"
+                  class="icon-fill material-symbols-outlined text-2xl"
+                >
+                  menu_book
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -12435,13 +13131,37 @@ exports[`public site > collection 1`] = `
             </a>
             <a
               class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/bag"
+            >
+              <span
+                class="relative"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
+                </span>
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Bag
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
               href="/account"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                person
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -12477,6 +13197,11 @@ exports[`public site > collection: category + in stock + sort 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -12550,6 +13275,18 @@ exports[`public site > collection: category + in stock + sort 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -13189,10 +13926,14 @@ exports[`public site > collection: category + in stock + sort 1`] = `
               href="/"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                auto_awesome
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  auto_awesome
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -13206,10 +13947,14 @@ exports[`public site > collection: category + in stock + sort 1`] = `
               href="/collection"
             >
               <span
-                aria-hidden="true"
-                class="icon-fill material-symbols-outlined text-2xl"
+                class="relative"
               >
-                menu_book
+                <span
+                  aria-hidden="true"
+                  class="icon-fill material-symbols-outlined text-2xl"
+                >
+                  menu_book
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -13219,13 +13964,37 @@ exports[`public site > collection: category + in stock + sort 1`] = `
             </a>
             <a
               class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/bag"
+            >
+              <span
+                class="relative"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
+                </span>
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Bag
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
               href="/account"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                person
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -13261,6 +14030,11 @@ exports[`public site > collection: empty 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -13334,6 +14108,18 @@ exports[`public site > collection: empty 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -13861,10 +14647,14 @@ exports[`public site > collection: empty 1`] = `
               href="/"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                auto_awesome
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  auto_awesome
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -13878,10 +14668,14 @@ exports[`public site > collection: empty 1`] = `
               href="/collection"
             >
               <span
-                aria-hidden="true"
-                class="icon-fill material-symbols-outlined text-2xl"
+                class="relative"
               >
-                menu_book
+                <span
+                  aria-hidden="true"
+                  class="icon-fill material-symbols-outlined text-2xl"
+                >
+                  menu_book
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -13891,13 +14685,37 @@ exports[`public site > collection: empty 1`] = `
             </a>
             <a
               class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/bag"
+            >
+              <span
+                class="relative"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
+                </span>
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Bag
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
               href="/account"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                person
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -13933,6 +14751,11 @@ exports[`public site > home 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -14006,6 +14829,18 @@ exports[`public site > home 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -14832,6 +15667,41 @@ exports[`public site > home 1`] = `
                 >
                   Private Catalogue Presentation • Inquire with our stylists for bespoke consultations.
                 </p>
+                <nav
+                  aria-label="Policies"
+                  class="flex flex-wrap gap-x-3 gap-y-1 justify-center mt-2"
+                >
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/shipping"
+                  >
+                    Shipping policy
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/returns"
+                  >
+                    Returns & refunds
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/terms"
+                  >
+                    Terms of use
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/privacy"
+                  >
+                    Privacy policy
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/contact"
+                  >
+                    Contact us
+                  </a>
+                </nav>
                 <span
                   class="font-label-md mt-1 text-[10px] text-outline"
                 >
@@ -14851,10 +15721,14 @@ exports[`public site > home 1`] = `
               href="/"
             >
               <span
-                aria-hidden="true"
-                class="icon-fill material-symbols-outlined text-2xl"
+                class="relative"
               >
-                auto_awesome
+                <span
+                  aria-hidden="true"
+                  class="icon-fill material-symbols-outlined text-2xl"
+                >
+                  auto_awesome
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -14867,10 +15741,14 @@ exports[`public site > home 1`] = `
               href="/collection"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                menu_book
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  menu_book
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -14880,13 +15758,37 @@ exports[`public site > home 1`] = `
             </a>
             <a
               class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/bag"
+            >
+              <span
+                class="relative"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
+                </span>
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Bag
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
               href="/account"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                person
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -14918,6 +15820,11 @@ exports[`public site > home: drawer open 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -14991,6 +15898,18 @@ exports[`public site > home: drawer open 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -16073,6 +16992,41 @@ exports[`public site > home: drawer open 1`] = `
                 >
                   Private Catalogue Presentation • Inquire with our stylists for bespoke consultations.
                 </p>
+                <nav
+                  aria-label="Policies"
+                  class="flex flex-wrap gap-x-3 gap-y-1 justify-center mt-2"
+                >
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/shipping"
+                  >
+                    Shipping policy
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/returns"
+                  >
+                    Returns & refunds
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/terms"
+                  >
+                    Terms of use
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/privacy"
+                  >
+                    Privacy policy
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/contact"
+                  >
+                    Contact us
+                  </a>
+                </nav>
                 <span
                   class="font-label-md mt-1 text-[10px] text-outline"
                 >
@@ -16092,10 +17046,14 @@ exports[`public site > home: drawer open 1`] = `
               href="/"
             >
               <span
-                aria-hidden="true"
-                class="icon-fill material-symbols-outlined text-2xl"
+                class="relative"
               >
-                auto_awesome
+                <span
+                  aria-hidden="true"
+                  class="icon-fill material-symbols-outlined text-2xl"
+                >
+                  auto_awesome
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -16108,10 +17066,14 @@ exports[`public site > home: drawer open 1`] = `
               href="/collection"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                menu_book
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  menu_book
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -16121,13 +17083,37 @@ exports[`public site > home: drawer open 1`] = `
             </a>
             <a
               class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/bag"
+            >
+              <span
+                class="relative"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
+                </span>
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Bag
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
               href="/account"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                person
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -16157,6 +17143,11 @@ exports[`public site > home: load error 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -16230,6 +17221,18 @@ exports[`public site > home: load error 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -17006,6 +18009,41 @@ exports[`public site > home: load error 1`] = `
                 >
                   Private Catalogue Presentation • Inquire with our stylists for bespoke consultations.
                 </p>
+                <nav
+                  aria-label="Policies"
+                  class="flex flex-wrap gap-x-3 gap-y-1 justify-center mt-2"
+                >
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/shipping"
+                  >
+                    Shipping policy
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/returns"
+                  >
+                    Returns & refunds
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/terms"
+                  >
+                    Terms of use
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/privacy"
+                  >
+                    Privacy policy
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/contact"
+                  >
+                    Contact us
+                  </a>
+                </nav>
                 <span
                   class="font-label-md mt-1 text-[10px] text-outline"
                 >
@@ -17025,10 +18063,14 @@ exports[`public site > home: load error 1`] = `
               href="/"
             >
               <span
-                aria-hidden="true"
-                class="icon-fill material-symbols-outlined text-2xl"
+                class="relative"
               >
-                auto_awesome
+                <span
+                  aria-hidden="true"
+                  class="icon-fill material-symbols-outlined text-2xl"
+                >
+                  auto_awesome
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -17041,10 +18083,14 @@ exports[`public site > home: load error 1`] = `
               href="/collection"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                menu_book
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  menu_book
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -17054,13 +18100,37 @@ exports[`public site > home: load error 1`] = `
             </a>
             <a
               class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/bag"
+            >
+              <span
+                class="relative"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
+                </span>
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Bag
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
               href="/account"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                person
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -17090,6 +18160,11 @@ exports[`public site > home: loading 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -17163,6 +18238,18 @@ exports[`public site > home: loading 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -17810,6 +18897,41 @@ exports[`public site > home: loading 1`] = `
                 >
                   Private Catalogue Presentation • Inquire with our stylists for bespoke consultations.
                 </p>
+                <nav
+                  aria-label="Policies"
+                  class="flex flex-wrap gap-x-3 gap-y-1 justify-center mt-2"
+                >
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/shipping"
+                  >
+                    Shipping policy
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/returns"
+                  >
+                    Returns & refunds
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/terms"
+                  >
+                    Terms of use
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/privacy"
+                  >
+                    Privacy policy
+                  </a>
+                  <a
+                    class="font-label-md hover:text-primary text-label-md text-secondary"
+                    href="/policies/contact"
+                  >
+                    Contact us
+                  </a>
+                </nav>
                 <span
                   class="font-label-md mt-1 text-[10px] text-outline"
                 >
@@ -17829,10 +18951,14 @@ exports[`public site > home: loading 1`] = `
               href="/"
             >
               <span
-                aria-hidden="true"
-                class="icon-fill material-symbols-outlined text-2xl"
+                class="relative"
               >
-                auto_awesome
+                <span
+                  aria-hidden="true"
+                  class="icon-fill material-symbols-outlined text-2xl"
+                >
+                  auto_awesome
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -17845,10 +18971,14 @@ exports[`public site > home: loading 1`] = `
               href="/collection"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                menu_book
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  menu_book
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -17858,13 +18988,37 @@ exports[`public site > home: loading 1`] = `
             </a>
             <a
               class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
+              href="/bag"
+            >
+              <span
+                class="relative"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
+                </span>
+              </span>
+              <span
+                class="font-label-md mt-0.5 text-label-md"
+              >
+                Bag
+              </span>
+            </a>
+            <a
+              class="active:scale-95 duration-200 flex flex-col hover:text-primary items-center justify-center min-w-[56px] p-1 text-on-surface-variant transition-colors"
               href="/account"
             >
               <span
-                aria-hidden="true"
-                class="material-symbols-outlined text-2xl"
+                class="relative"
               >
-                person
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  person
+                </span>
               </span>
               <span
                 class="font-label-md mt-0.5 text-label-md"
@@ -17932,6 +19086,11 @@ exports[`public site > product: draft is not found for customers 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -18007,6 +19166,18 @@ exports[`public site > product: draft is not found for customers 1`] = `
                 </span>
               </a>
               <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
+                </span>
+              </a>
+              <a
                 aria-label="Log in or sign up"
                 class="flex h-9 hover:bg-surface-container items-center justify-center rounded-full text-primary transition-colors w-9"
                 href="/login"
@@ -18067,6 +19238,11 @@ exports[`public site > product: free size saree 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -18139,6 +19315,18 @@ exports[`public site > product: free size saree 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -18333,30 +19521,56 @@ exports[`public site > product: free size saree 1`] = `
                 </div>
               </section>
               <section
-                class="bg-surface-container-lowest/60 border-b border-outline-variant/20 md:bg-transparent md:px-0 px-margin-mobile py-3.5 space-y-3"
-              />
+                class="bg-surface-container-lowest/60 border-b border-outline-variant/20 md:bg-transparent md:px-0 px-margin-mobile py-3.5 scroll-mt-24 space-y-3"
+                id="size-section"
+              >
+                <div
+                  class="space-y-2"
+                >
+                  <span
+                    class="font-label-md font-semibold text-[12px] text-on-surface"
+                  >
+                    Check delivery
+                  </span>
+                  <form
+                    class="flex gap-2"
+                  >
+                    <input
+                      aria-label="PIN code"
+                      autocomplete="postal-code"
+                      class="field"
+                      inputmode="numeric"
+                      placeholder="Enter PIN code"
+                      value=""
+                    />
+                    <button
+                      class="active:scale-95 border border-[#C59B6A] font-label-lg px-4 py-3 rounded-xl shrink-0 text-label-lg text-on-surface transition-all"
+                      disabled=""
+                      type="submit"
+                    >
+                      Check
+                    </button>
+                  </form>
+                </div>
+              </section>
               <section
                 class="border-b border-outline-variant/20 divide-outline-variant/20 divide-y"
               />
               <div
                 class="gap-2.5 hidden items-center md:flex pt-6"
               >
-                <a
-                  class="active:scale-95 bg-[#1b4332] flex flex-1 font-semibold gap-2 hover:bg-[#143225] items-center justify-center px-4 py-3.5 rounded-xl shadow-md text-[15px] text-white tracking-wide transition-all"
-                  href="https://wa.me/919154246254?text=Hello%20Swechha%20Collections%20Atelier%2C%20I%20am%20enquiring%20about%20the%20Gulmohar%20Silk%20Saree%20(SKU%3A%20SC-2025-084)%20priced%20at%20%E2%82%B914%2C500.%20Please%20share%20availability%20and%20private%20draper%20consultation%20options.%20http%3A%2F%2Flocalhost%3A3000%2Fproduct%2Fgulmohar-silk-saree"
-                  rel="noreferrer"
-                  target="_blank"
+                <button
+                  class="active:scale-95 border border-[#C59B6A] flex-1 font-semibold font-title-md py-3.5 rounded-xl text-on-surface text-title-md transition-all"
+                  type="button"
                 >
-                  <span
-                    aria-hidden="true"
-                    class="material-symbols-outlined text-xl"
-                  >
-                    chat
-                  </span>
-                  <span>
-                    Enquire on WhatsApp
-                  </span>
-                </a>
+                  Add to bag
+                </button>
+                <button
+                  class="active:scale-95 bg-primary-container disabled:opacity-60 flex-1 font-semibold font-title-md hover:bg-[#541423] py-3.5 rounded-xl shadow-luxury text-surface-container-lowest text-title-md transition-all"
+                  type="button"
+                >
+                  Buy now
+                </button>
                 <button
                   aria-label="Save Gulmohar Silk Saree"
                   aria-pressed="false"
@@ -18384,13 +19598,22 @@ exports[`public site > product: free size saree 1`] = `
                 </button>
               </div>
               <div
-                class="hidden items-center justify-center md:flex pt-2"
+                class="hidden items-center justify-center md:flex pt-3"
               >
-                <span
-                  class="text-[11px] text-on-surface-variant"
+                <a
+                  class="flex gap-1 hover:text-primary items-center text-[12px] text-secondary"
+                  href="https://wa.me/919154246254?text=Hello%20Swechha%20Collections%20Atelier%2C%20I%20am%20enquiring%20about%20the%20Gulmohar%20Silk%20Saree%20(SKU%3A%20SC-2025-084)%20priced%20at%20%E2%82%B914%2C500.%20Please%20share%20availability%20and%20private%20draper%20consultation%20options.%20http%3A%2F%2Flocalhost%3A3000%2Fproduct%2Fgulmohar-silk-saree"
+                  rel="noreferrer"
+                  target="_blank"
                 >
-                  Enquire on whatsapp for more details
-                </span>
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-[16px]"
+                  >
+                    chat
+                  </span>
+                   Questions? Ask our stylist on WhatsApp
+                </a>
               </div>
             </div>
           </div>
@@ -18484,10 +19707,11 @@ exports[`public site > product: free size saree 1`] = `
             class="backdrop-blur-md bg-surface/95 border-outline-variant/30 border-t bottom-0 fixed left-0 max-w-[480px] md:hidden mx-auto pb-[max(0.625rem,env(safe-area-inset-bottom))] px-margin-mobile py-2.5 right-0 shadow-[0_-6px_20px_rgba(78,5,26,0.08)] w-full z-50"
           >
             <div
-              class="flex flex-col gap-1.5"
+              class="flex gap-2 items-center"
             >
               <a
-                class="active:scale-95 bg-[#1b4332] flex font-semibold gap-2 hover:bg-[#143225] items-center justify-center px-4 py-3 rounded-xl shadow-md text-[14px] text-white tracking-wide transition-all w-full"
+                aria-label="Ask on WhatsApp"
+                class="active:scale-95 bg-[#1b4332] flex h-12 items-center justify-center rounded-xl shrink-0 text-white w-12"
                 href="https://wa.me/919154246254?text=Hello%20Swechha%20Collections%20Atelier%2C%20I%20am%20enquiring%20about%20the%20Gulmohar%20Silk%20Saree%20(SKU%3A%20SC-2025-084)%20priced%20at%20%E2%82%B914%2C500.%20Please%20share%20availability%20and%20private%20draper%20consultation%20options.%20http%3A%2F%2Flocalhost%3A3000%2Fproduct%2Fgulmohar-silk-saree"
                 rel="noreferrer"
                 target="_blank"
@@ -18498,10 +19722,19 @@ exports[`public site > product: free size saree 1`] = `
                 >
                   chat
                 </span>
-                <span>
-                  Enquire on WhatsApp
-                </span>
               </a>
+              <button
+                class="active:scale-95 border border-[#C59B6A] flex-1 font-semibold font-title-md py-3 rounded-xl text-[15px] text-on-surface transition-all"
+                type="button"
+              >
+                Add to bag
+              </button>
+              <button
+                class="active:scale-95 bg-primary-container disabled:opacity-60 flex-1 font-semibold font-title-md hover:bg-[#541423] py-3 rounded-xl shadow-luxury text-[15px] text-surface-container-lowest transition-all"
+                type="button"
+              >
+                Buy now
+              </button>
             </div>
           </div>
         </div>
@@ -18525,6 +19758,11 @@ exports[`public site > product: out of stock 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -18597,6 +19835,18 @@ exports[`public site > product: out of stock 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -18803,7 +20053,8 @@ exports[`public site > product: out of stock 1`] = `
                 </div>
               </section>
               <section
-                class="bg-surface-container-lowest/60 border-b border-outline-variant/20 md:bg-transparent md:px-0 px-margin-mobile py-3.5 space-y-3"
+                class="bg-surface-container-lowest/60 border-b border-outline-variant/20 md:bg-transparent md:px-0 px-margin-mobile py-3.5 scroll-mt-24 space-y-3"
+                id="size-section"
               >
                 <div
                   class="space-y-2"
@@ -18892,7 +20143,7 @@ exports[`public site > product: out of stock 1`] = `
                     chat
                   </span>
                   <span>
-                    Enquire on WhatsApp
+                    Sold out — ask when it's back
                   </span>
                 </a>
                 <button
@@ -18920,15 +20171,6 @@ exports[`public site > product: out of stock 1`] = `
                     share
                   </span>
                 </button>
-              </div>
-              <div
-                class="hidden items-center justify-center md:flex pt-2"
-              >
-                <span
-                  class="text-[11px] text-on-surface-variant"
-                >
-                  Enquire on whatsapp for more details
-                </span>
               </div>
             </div>
           </div>
@@ -19021,26 +20263,22 @@ exports[`public site > product: out of stock 1`] = `
           <div
             class="backdrop-blur-md bg-surface/95 border-outline-variant/30 border-t bottom-0 fixed left-0 max-w-[480px] md:hidden mx-auto pb-[max(0.625rem,env(safe-area-inset-bottom))] px-margin-mobile py-2.5 right-0 shadow-[0_-6px_20px_rgba(78,5,26,0.08)] w-full z-50"
           >
-            <div
-              class="flex flex-col gap-1.5"
+            <a
+              class="active:scale-95 bg-[#1b4332] flex font-semibold gap-2 hover:bg-[#143225] items-center justify-center px-4 py-3 rounded-xl shadow-md text-[14px] text-white tracking-wide transition-all w-full"
+              href="https://wa.me/919154246254?text=Hello%20Swechha%20Collections%20Atelier%2C%20I%20am%20enquiring%20about%20the%20Chandrika%20Velvet%20Lehenga%20(SKU%3A%20SC-2025-052)%20priced%20at%20%E2%82%B938%2C000.%20It%20shows%20out%20of%20stock%20%E2%80%94%20please%20let%20me%20know%20when%20it%20is%20back.%20http%3A%2F%2Flocalhost%3A3000%2Fproduct%2Fchandrika-velvet-lehenga"
+              rel="noreferrer"
+              target="_blank"
             >
-              <a
-                class="active:scale-95 bg-[#1b4332] flex font-semibold gap-2 hover:bg-[#143225] items-center justify-center px-4 py-3 rounded-xl shadow-md text-[14px] text-white tracking-wide transition-all w-full"
-                href="https://wa.me/919154246254?text=Hello%20Swechha%20Collections%20Atelier%2C%20I%20am%20enquiring%20about%20the%20Chandrika%20Velvet%20Lehenga%20(SKU%3A%20SC-2025-052)%20priced%20at%20%E2%82%B938%2C000.%20It%20shows%20out%20of%20stock%20%E2%80%94%20please%20let%20me%20know%20when%20it%20is%20back.%20http%3A%2F%2Flocalhost%3A3000%2Fproduct%2Fchandrika-velvet-lehenga"
-                rel="noreferrer"
-                target="_blank"
+              <span
+                aria-hidden="true"
+                class="material-symbols-outlined text-xl"
               >
-                <span
-                  aria-hidden="true"
-                  class="material-symbols-outlined text-xl"
-                >
-                  chat
-                </span>
-                <span>
-                  Enquire on WhatsApp
-                </span>
-              </a>
-            </div>
+                chat
+              </span>
+              <span>
+                Sold out — ask when it's back
+              </span>
+            </a>
           </div>
         </div>
       </div>
@@ -19063,6 +20301,11 @@ exports[`public site > product: sized, with size picked 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -19135,6 +20378,18 @@ exports[`public site > product: sized, with size picked 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -19474,7 +20729,8 @@ exports[`public site > product: sized, with size picked 1`] = `
                 </div>
               </section>
               <section
-                class="bg-surface-container-lowest/60 border-b border-outline-variant/20 md:bg-transparent md:px-0 px-margin-mobile py-3.5 space-y-3"
+                class="bg-surface-container-lowest/60 border-b border-outline-variant/20 md:bg-transparent md:px-0 px-margin-mobile py-3.5 scroll-mt-24 space-y-3"
+                id="size-section"
               >
                 <div
                   class="space-y-2"
@@ -19591,6 +20847,34 @@ exports[`public site > product: sized, with size picked 1`] = `
                     </span>
                   </p>
                 </div>
+                <div
+                  class="space-y-2"
+                >
+                  <span
+                    class="font-label-md font-semibold text-[12px] text-on-surface"
+                  >
+                    Check delivery
+                  </span>
+                  <form
+                    class="flex gap-2"
+                  >
+                    <input
+                      aria-label="PIN code"
+                      autocomplete="postal-code"
+                      class="field"
+                      inputmode="numeric"
+                      placeholder="Enter PIN code"
+                      value=""
+                    />
+                    <button
+                      class="active:scale-95 border border-[#C59B6A] font-label-lg px-4 py-3 rounded-xl shrink-0 text-label-lg text-on-surface transition-all"
+                      disabled=""
+                      type="submit"
+                    >
+                      Check
+                    </button>
+                  </form>
+                </div>
               </section>
               <section
                 class="border-b border-outline-variant/20 divide-outline-variant/20 divide-y"
@@ -19662,22 +20946,18 @@ exports[`public site > product: sized, with size picked 1`] = `
               <div
                 class="gap-2.5 hidden items-center md:flex pt-6"
               >
-                <a
-                  class="active:scale-95 bg-[#1b4332] flex flex-1 font-semibold gap-2 hover:bg-[#143225] items-center justify-center px-4 py-3.5 rounded-xl shadow-md text-[15px] text-white tracking-wide transition-all"
-                  href="https://wa.me/919154246254?text=Hello%20Swechha%20Collections%20Atelier%2C%20I%20am%20enquiring%20about%20the%20Noor%20Kurta%20Set%20(SKU%3A%20SC-2025-019)%20priced%20at%20%E2%82%B912%2C800.%20Size%3A%20S.%20Colour%3A%20Pistachio%20Mint.%20Please%20share%20availability%20and%20private%20draper%20consultation%20options.%20http%3A%2F%2Flocalhost%3A3000%2Fproduct%2Fnoor-kurta-set"
-                  rel="noreferrer"
-                  target="_blank"
+                <button
+                  class="active:scale-95 border border-[#C59B6A] flex-1 font-semibold font-title-md py-3.5 rounded-xl text-on-surface text-title-md transition-all"
+                  type="button"
                 >
-                  <span
-                    aria-hidden="true"
-                    class="material-symbols-outlined text-xl"
-                  >
-                    chat
-                  </span>
-                  <span>
-                    Enquire on WhatsApp
-                  </span>
-                </a>
+                  Add to bag
+                </button>
+                <button
+                  class="active:scale-95 bg-primary-container disabled:opacity-60 flex-1 font-semibold font-title-md hover:bg-[#541423] py-3.5 rounded-xl shadow-luxury text-surface-container-lowest text-title-md transition-all"
+                  type="button"
+                >
+                  Buy now
+                </button>
                 <button
                   aria-label="Save Noor Kurta Set"
                   aria-pressed="false"
@@ -19705,13 +20985,22 @@ exports[`public site > product: sized, with size picked 1`] = `
                 </button>
               </div>
               <div
-                class="hidden items-center justify-center md:flex pt-2"
+                class="hidden items-center justify-center md:flex pt-3"
               >
-                <span
-                  class="text-[11px] text-on-surface-variant"
+                <a
+                  class="flex gap-1 hover:text-primary items-center text-[12px] text-secondary"
+                  href="https://wa.me/919154246254?text=Hello%20Swechha%20Collections%20Atelier%2C%20I%20am%20enquiring%20about%20the%20Noor%20Kurta%20Set%20(SKU%3A%20SC-2025-019)%20priced%20at%20%E2%82%B912%2C800.%20Size%3A%20S.%20Colour%3A%20Pistachio%20Mint.%20Please%20share%20availability%20and%20private%20draper%20consultation%20options.%20http%3A%2F%2Flocalhost%3A3000%2Fproduct%2Fnoor-kurta-set"
+                  rel="noreferrer"
+                  target="_blank"
                 >
-                  Enquire on whatsapp for more details
-                </span>
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-[16px]"
+                  >
+                    chat
+                  </span>
+                   Questions? Ask our stylist on WhatsApp
+                </a>
               </div>
             </div>
           </div>
@@ -19805,10 +21094,11 @@ exports[`public site > product: sized, with size picked 1`] = `
             class="backdrop-blur-md bg-surface/95 border-outline-variant/30 border-t bottom-0 fixed left-0 max-w-[480px] md:hidden mx-auto pb-[max(0.625rem,env(safe-area-inset-bottom))] px-margin-mobile py-2.5 right-0 shadow-[0_-6px_20px_rgba(78,5,26,0.08)] w-full z-50"
           >
             <div
-              class="flex flex-col gap-1.5"
+              class="flex gap-2 items-center"
             >
               <a
-                class="active:scale-95 bg-[#1b4332] flex font-semibold gap-2 hover:bg-[#143225] items-center justify-center px-4 py-3 rounded-xl shadow-md text-[14px] text-white tracking-wide transition-all w-full"
+                aria-label="Ask on WhatsApp"
+                class="active:scale-95 bg-[#1b4332] flex h-12 items-center justify-center rounded-xl shrink-0 text-white w-12"
                 href="https://wa.me/919154246254?text=Hello%20Swechha%20Collections%20Atelier%2C%20I%20am%20enquiring%20about%20the%20Noor%20Kurta%20Set%20(SKU%3A%20SC-2025-019)%20priced%20at%20%E2%82%B912%2C800.%20Size%3A%20S.%20Colour%3A%20Pistachio%20Mint.%20Please%20share%20availability%20and%20private%20draper%20consultation%20options.%20http%3A%2F%2Flocalhost%3A3000%2Fproduct%2Fnoor-kurta-set"
                 rel="noreferrer"
                 target="_blank"
@@ -19819,10 +21109,19 @@ exports[`public site > product: sized, with size picked 1`] = `
                 >
                   chat
                 </span>
-                <span>
-                  Enquire on WhatsApp
-                </span>
               </a>
+              <button
+                class="active:scale-95 border border-[#C59B6A] flex-1 font-semibold font-title-md py-3 rounded-xl text-[15px] text-on-surface transition-all"
+                type="button"
+              >
+                Add to bag
+              </button>
+              <button
+                class="active:scale-95 bg-primary-container disabled:opacity-60 flex-1 font-semibold font-title-md hover:bg-[#541423] py-3 rounded-xl shadow-luxury text-[15px] text-surface-container-lowest transition-all"
+                type="button"
+              >
+                Buy now
+              </button>
             </div>
           </div>
         </div>
@@ -19848,6 +21147,11 @@ exports[`public site > product: zoom viewer 1`] = `
       <div
         class="bg-surface border-outline-variant/20 border-x flex flex-col max-w-[480px] md:border-x-0 md:max-w-none md:shadow-none min-h-screen overflow-x-clip relative shadow-2xl w-full"
       >
+        <p
+          class="bg-secondary-fixed/70 font-label-md px-3 py-1 text-[11px] text-center text-on-secondary-container"
+        >
+          Test shop — orders, payments and deliveries are not real.
+        </p>
         <header
           class="backdrop-blur-md bg-surface/90 border-b border-outline-variant/20 hidden md:block sticky top-0 z-40"
         >
@@ -19920,6 +21224,18 @@ exports[`public site > product: zoom viewer 1`] = `
                   class="material-symbols-outlined text-2xl"
                 >
                   favorite
+                </span>
+              </a>
+              <a
+                aria-label="Bag"
+                class="flex h-9 hover:bg-surface-container items-center justify-center relative rounded-full text-primary transition-colors w-9"
+                href="/bag"
+              >
+                <span
+                  aria-hidden="true"
+                  class="material-symbols-outlined text-2xl"
+                >
+                  shopping_bag
                 </span>
               </a>
               <a
@@ -20259,7 +21575,8 @@ exports[`public site > product: zoom viewer 1`] = `
                 </div>
               </section>
               <section
-                class="bg-surface-container-lowest/60 border-b border-outline-variant/20 md:bg-transparent md:px-0 px-margin-mobile py-3.5 space-y-3"
+                class="bg-surface-container-lowest/60 border-b border-outline-variant/20 md:bg-transparent md:px-0 px-margin-mobile py-3.5 scroll-mt-24 space-y-3"
+                id="size-section"
               >
                 <div
                   class="space-y-2"
@@ -20376,6 +21693,34 @@ exports[`public site > product: zoom viewer 1`] = `
                     </span>
                   </p>
                 </div>
+                <div
+                  class="space-y-2"
+                >
+                  <span
+                    class="font-label-md font-semibold text-[12px] text-on-surface"
+                  >
+                    Check delivery
+                  </span>
+                  <form
+                    class="flex gap-2"
+                  >
+                    <input
+                      aria-label="PIN code"
+                      autocomplete="postal-code"
+                      class="field"
+                      inputmode="numeric"
+                      placeholder="Enter PIN code"
+                      value=""
+                    />
+                    <button
+                      class="active:scale-95 border border-[#C59B6A] font-label-lg px-4 py-3 rounded-xl shrink-0 text-label-lg text-on-surface transition-all"
+                      disabled=""
+                      type="submit"
+                    >
+                      Check
+                    </button>
+                  </form>
+                </div>
               </section>
               <section
                 class="border-b border-outline-variant/20 divide-outline-variant/20 divide-y"
@@ -20447,22 +21792,18 @@ exports[`public site > product: zoom viewer 1`] = `
               <div
                 class="gap-2.5 hidden items-center md:flex pt-6"
               >
-                <a
-                  class="active:scale-95 bg-[#1b4332] flex flex-1 font-semibold gap-2 hover:bg-[#143225] items-center justify-center px-4 py-3.5 rounded-xl shadow-md text-[15px] text-white tracking-wide transition-all"
-                  href="https://wa.me/919154246254?text=Hello%20Swechha%20Collections%20Atelier%2C%20I%20am%20enquiring%20about%20the%20Noor%20Kurta%20Set%20(SKU%3A%20SC-2025-019)%20priced%20at%20%E2%82%B912%2C800.%20Colour%3A%20Pistachio%20Mint.%20Please%20share%20availability%20and%20private%20draper%20consultation%20options.%20http%3A%2F%2Flocalhost%3A3000%2Fproduct%2Fnoor-kurta-set"
-                  rel="noreferrer"
-                  target="_blank"
+                <button
+                  class="active:scale-95 border border-[#C59B6A] flex-1 font-semibold font-title-md py-3.5 rounded-xl text-on-surface text-title-md transition-all"
+                  type="button"
                 >
-                  <span
-                    aria-hidden="true"
-                    class="material-symbols-outlined text-xl"
-                  >
-                    chat
-                  </span>
-                  <span>
-                    Enquire on WhatsApp
-                  </span>
-                </a>
+                  Add to bag
+                </button>
+                <button
+                  class="active:scale-95 bg-primary-container disabled:opacity-60 flex-1 font-semibold font-title-md hover:bg-[#541423] py-3.5 rounded-xl shadow-luxury text-surface-container-lowest text-title-md transition-all"
+                  type="button"
+                >
+                  Buy now
+                </button>
                 <button
                   aria-label="Save Noor Kurta Set"
                   aria-pressed="false"
@@ -20490,13 +21831,22 @@ exports[`public site > product: zoom viewer 1`] = `
                 </button>
               </div>
               <div
-                class="hidden items-center justify-center md:flex pt-2"
+                class="hidden items-center justify-center md:flex pt-3"
               >
-                <span
-                  class="text-[11px] text-on-surface-variant"
+                <a
+                  class="flex gap-1 hover:text-primary items-center text-[12px] text-secondary"
+                  href="https://wa.me/919154246254?text=Hello%20Swechha%20Collections%20Atelier%2C%20I%20am%20enquiring%20about%20the%20Noor%20Kurta%20Set%20(SKU%3A%20SC-2025-019)%20priced%20at%20%E2%82%B912%2C800.%20Colour%3A%20Pistachio%20Mint.%20Please%20share%20availability%20and%20private%20draper%20consultation%20options.%20http%3A%2F%2Flocalhost%3A3000%2Fproduct%2Fnoor-kurta-set"
+                  rel="noreferrer"
+                  target="_blank"
                 >
-                  Enquire on whatsapp for more details
-                </span>
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-[16px]"
+                  >
+                    chat
+                  </span>
+                   Questions? Ask our stylist on WhatsApp
+                </a>
               </div>
             </div>
           </div>
@@ -20590,10 +21940,11 @@ exports[`public site > product: zoom viewer 1`] = `
             class="backdrop-blur-md bg-surface/95 border-outline-variant/30 border-t bottom-0 fixed left-0 max-w-[480px] md:hidden mx-auto pb-[max(0.625rem,env(safe-area-inset-bottom))] px-margin-mobile py-2.5 right-0 shadow-[0_-6px_20px_rgba(78,5,26,0.08)] w-full z-50"
           >
             <div
-              class="flex flex-col gap-1.5"
+              class="flex gap-2 items-center"
             >
               <a
-                class="active:scale-95 bg-[#1b4332] flex font-semibold gap-2 hover:bg-[#143225] items-center justify-center px-4 py-3 rounded-xl shadow-md text-[14px] text-white tracking-wide transition-all w-full"
+                aria-label="Ask on WhatsApp"
+                class="active:scale-95 bg-[#1b4332] flex h-12 items-center justify-center rounded-xl shrink-0 text-white w-12"
                 href="https://wa.me/919154246254?text=Hello%20Swechha%20Collections%20Atelier%2C%20I%20am%20enquiring%20about%20the%20Noor%20Kurta%20Set%20(SKU%3A%20SC-2025-019)%20priced%20at%20%E2%82%B912%2C800.%20Colour%3A%20Pistachio%20Mint.%20Please%20share%20availability%20and%20private%20draper%20consultation%20options.%20http%3A%2F%2Flocalhost%3A3000%2Fproduct%2Fnoor-kurta-set"
                 rel="noreferrer"
                 target="_blank"
@@ -20604,10 +21955,19 @@ exports[`public site > product: zoom viewer 1`] = `
                 >
                   chat
                 </span>
-                <span>
-                  Enquire on WhatsApp
-                </span>
               </a>
+              <button
+                class="active:scale-95 border border-[#C59B6A] flex-1 font-semibold font-title-md py-3 rounded-xl text-[15px] text-on-surface transition-all"
+                type="button"
+              >
+                Add to bag
+              </button>
+              <button
+                class="active:scale-95 bg-primary-container disabled:opacity-60 flex-1 font-semibold font-title-md hover:bg-[#541423] py-3 rounded-xl shadow-luxury text-[15px] text-surface-container-lowest transition-all"
+                type="button"
+              >
+                Buy now
+              </button>
             </div>
           </div>
           <div

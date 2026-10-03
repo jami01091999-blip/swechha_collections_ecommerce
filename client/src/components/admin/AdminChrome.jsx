@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Icon from '../shared/Icon';
-import { Avatar, IconButton, initials } from '../ui';
+import { Avatar, IconButton, Sheet, initials } from '../ui';
 import { isAdmin, useAuth } from '../../lib/auth';
 import { logout, useAdminStats } from '../../lib/api';
 import { ADMIN_BASE } from '../../lib/constants';
@@ -140,30 +140,76 @@ function Tab({ to, icon, label, end }) {
   );
 }
 
+/** Everything that doesn't fit in the phone tab bar ("More"). Admin-only pages are hidden from staff. */
+const MORE_LINKS = [
+  ['lookbook', 'Lookbook', 'auto_awesome', false],
+  ['customers', 'Customers', 'group', true],
+  ['coupons', 'Coupons', 'sell', true],
+  ['shop', 'Shop rules', 'tune', false],
+  ['team', 'Team', 'badge', true],
+  ['activity', 'Activity', 'history', true],
+];
+
+function MoreSheet({ onClose }) {
+  const { user } = useAuth();
+  return (
+    <Sheet onClose={onClose} label="More">
+      <nav className="grid grid-cols-3 gap-2 pb-2">
+        {MORE_LINKS.filter(([, , , adminOnly]) => !adminOnly || isAdmin(user)).map(([to, label, icon]) => (
+          <NavLink
+            key={to}
+            to={`${ADMIN_BASE}/${to}`}
+            onClick={onClose}
+            className="flex flex-col items-center gap-1 rounded-xl border border-outline-variant/40 py-3 text-on-surface hover:text-primary"
+          >
+            <Icon name={icon} className="text-[24px]" />
+            <span className="font-label-md text-label-md">{label}</span>
+          </NavLink>
+        ))}
+        <a
+          href="/"
+          target="_blank"
+          rel="noreferrer"
+          className="flex flex-col items-center gap-1 rounded-xl border border-outline-variant/40 py-3 text-on-surface hover:text-primary"
+        >
+          <Icon name="storefront" className="text-[24px]" />
+          <span className="font-label-md text-label-md">View site</span>
+        </a>
+      </nav>
+    </Sheet>
+  );
+}
+
 /** Bottom navigation — Stitch admin nav with the floating + button. */
 export function AdminNav() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [more, setMore] = useState(false);
+  const moreActive = MORE_LINKS.some(([to]) => pathname.startsWith(`${ADMIN_BASE}/${to}`));
   return (
-    <nav className="md:hidden fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] z-50 bg-surface/95 backdrop-blur-md px-gutter-mobile py-space-xs pb-[max(0.25rem,env(safe-area-inset-bottom))] flex justify-around items-center border-t border-outline-variant/30 shadow-luxury">
-      <Tab to={ADMIN_BASE} end icon="dashboard" label="Dashboard" />
-      <Tab to={`${ADMIN_BASE}/products`} icon="styler" label="Products" />
-      <div className="-mt-5">
-        <button
-          aria-label="Add new product"
-          onClick={() => navigate(`${ADMIN_BASE}/products/new`)}
-          className="w-12 h-12 rounded-full bg-primary-container text-surface-container-lowest flex items-center justify-center shadow-luxury hover:bg-[#541423] active:scale-95 transition-all duration-150 border-2 border-background"
-          type="button"
-        >
-          <Icon name="add" className="text-[26px]" />
+    <>
+      <nav className="md:hidden fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] z-50 bg-surface/95 backdrop-blur-md px-gutter-mobile py-space-xs pb-[max(0.25rem,env(safe-area-inset-bottom))] flex justify-around items-center border-t border-outline-variant/30 shadow-luxury">
+        <Tab to={ADMIN_BASE} end icon="dashboard" label="Dashboard" />
+        <Tab to={`${ADMIN_BASE}/orders`} icon="receipt_long" label="Orders" />
+        <div className="-mt-5">
+          <button
+            aria-label="Add new product"
+            onClick={() => navigate(`${ADMIN_BASE}/products/new`)}
+            className="w-12 h-12 rounded-full bg-primary-container text-surface-container-lowest flex items-center justify-center shadow-luxury hover:bg-[#541423] active:scale-95 transition-all duration-150 border-2 border-background"
+            type="button"
+          >
+            <Icon name="add" className="text-[26px]" />
+          </button>
+        </div>
+        <Tab to={`${ADMIN_BASE}/products`} icon="styler" label="Products" />
+        <button type="button" onClick={() => setMore(true)} className={tab({ isActive: moreActive })}>
+          <Icon name="more_horiz" fill={moreActive} className="text-[23px]" />
+          <span className="font-label-md text-label-md mt-0.5">More</span>
+          <span className={`w-1.5 h-1.5 rounded-full mt-0.5 ${moreActive ? 'bg-primary-container' : 'bg-transparent'}`} />
         </button>
-      </div>
-      <Tab to={`${ADMIN_BASE}/lookbook`} icon="auto_awesome" label="Lookbook" />
-      <a href="/" target="_blank" rel="noreferrer" className={tab({ isActive: false })}>
-        <Icon name="storefront" className="text-[23px]" />
-        <span className="font-label-md text-label-md mt-0.5">View Site</span>
-        <span className="w-1.5 h-1.5 rounded-full mt-0.5 bg-transparent" />
-      </a>
-    </nav>
+      </nav>
+      {more && <MoreSheet onClose={() => setMore(false)} />}
+    </>
   );
 }
 
@@ -180,17 +226,33 @@ function DesktopAdminNav() {
       <NavLink to={ADMIN_BASE} end className={link}>
         Dashboard
       </NavLink>
+      <NavLink to={`${ADMIN_BASE}/orders`} className={link}>
+        Orders
+      </NavLink>
       <NavLink to={`${ADMIN_BASE}/products`} className={link}>
         Products
       </NavLink>
-      <NavLink to={`${ADMIN_BASE}/lookbook`} className={link}>
-        Lookbook
-      </NavLink>
       {isAdmin(user) && (
-        <NavLink to={`${ADMIN_BASE}/team`} className={link}>
-          Team
+        <NavLink to={`${ADMIN_BASE}/customers`} className={link}>
+          Customers
         </NavLink>
       )}
+      <details className="relative group">
+        <summary className={`${link({ isActive: false })} list-none cursor-pointer flex items-center gap-0.5`}>
+          More <Icon name="expand_more" className="text-[18px]" />
+        </summary>
+        <div className="absolute right-0 mt-2 w-48 rounded-xl border border-outline-variant/40 bg-surface shadow-luxury py-1 z-50">
+          {MORE_LINKS.filter(([to, , , adminOnly]) => (!adminOnly || isAdmin(user)) && to !== 'customers').map(([to, label]) => (
+            <NavLink
+              key={to}
+              to={`${ADMIN_BASE}/${to}`}
+              className="block px-4 py-2 font-body-sm text-[14px] text-on-surface hover:bg-surface-container-low hover:text-primary"
+            >
+              {label}
+            </NavLink>
+          ))}
+        </div>
+      </details>
       <a href="/" target="_blank" rel="noreferrer" aria-label="View Site" className={link({ isActive: false })}>
         <Icon name="storefront" className="text-[20px] lg:hidden" />
         <span className="hidden lg:inline">View Site</span>
