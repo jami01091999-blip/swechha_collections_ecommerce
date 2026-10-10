@@ -34,7 +34,7 @@ Everything below is configuration; no code changes are needed to go from test mo
 
 ## Database
 
-- [ ] `npm run db:indexes -w server` against Atlas (creates every index, including unique emails/orders and auto-expiry)
+- [ ] `npm run db:indexes` in `server/` against Atlas (creates every index, including unique emails/orders and auto-expiry)
 - [ ] Atlas backups on (paid tiers) or a scheduled export
 
 ## Shop rules (Admin → More → Shop rules)

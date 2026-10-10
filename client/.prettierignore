@@ -5,4 +5,4 @@ package-lock.json
 **/__snapshots__/**
 *.jpg
 # Copied from the Stitch export; kept verbatim
-client/src/index.css
+src/index.css

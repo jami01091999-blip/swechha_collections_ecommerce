@@ -1,7 +1,7 @@
 # Swechha Collections — guide for Claude sessions
 
 Women's-wear brand site: a catalogue (turning into a full shop, see `docs/PLAN.md`) plus an admin at `/adminDivya`.
-MERN monorepo with npm workspaces: React client on Vercel, Express API on Render, MongoDB Atlas, Cloudinary for photos.
+MERN app in one repo with two standalone packages (`client/`, `server/`): React client on Vercel, Express API on Render, MongoDB Atlas, Cloudinary for photos.
 
 ## Stack
 
@@ -12,7 +12,7 @@ MERN monorepo with npm workspaces: React client on Vercel, Express API on Render
 | Data               | MongoDB Atlas, database `swechha`: products, settings, users, sessions, otp codes, wishlists, carts, orders, coupons, counters, webhook events, audit logs |
 | Images             | Cloudinary: signed direct upload from the browser                                                                                                          |
 | Tests              | vitest everywhere; supertest + mongodb-memory-server (server); Testing Library + jsdom DOM snapshots (client)                                              |
-| Quality            | ESLint flat config (`eslint.config.js`) and Prettier (`.prettierrc.json`, width 140) at the root                                                           |
+| Quality            | ESLint flat config (`eslint.config.js`) and Prettier (`.prettierrc.json`, width 140) in each package                                                         |
 
 ## Folder map
 
@@ -54,20 +54,21 @@ render.yaml                Render blueprint for the API
 .github/workflows/keepalive.yml   pings /api/health every 10 min
 ```
 
-## Commands (run at the repo root)
+## Commands (run inside `client/` or `server/`; there is no root package)
 
 ```bash
-npm install            # installs both workspaces
-npm run dev            # API on :4000 + client on :5173 (Vite proxies /api → :4000)
-npm test               # server tests, then client tests
-npm run lint           # ESLint for both workspaces
+npm install            # each folder has its own package.json and package-lock.json
+npm run dev            # server: API on :4000 · client: Vite on :5173 (proxies /api → :4000)
+npm test               # vitest for that folder
+npm run lint           # ESLint (each folder has its own eslint.config.js)
 npm run format         # Prettier write (format:check to verify)
-npm run build          # production build of the client (client/dist)
-npm run seed           # add the 8 sample products + default settings (seed:reset wipes products first)
-npm run db:indexes     # create Mongoose indexes (needed once in production, where autoIndex is off)
+npm run build          # client only: production build (client/dist)
+npm run seed           # server only: add the 8 sample products + default settings (seed:reset wipes products first)
+npm run db:indexes     # server only: create Mongoose indexes (needed once in production, where autoIndex is off)
 ```
 
-Single workspace: `npm run <script> -w client` or `-w server`. The first server test run downloads a MongoDB binary (~600 MB, cached).
+Client tests import a few server source files (`../../server/src/...`), so install both folders before running them.
+The first server test run downloads a MongoDB binary (~600 MB, cached).
 
 ## Environment variables
 
@@ -161,6 +162,6 @@ Never print secret values, never commit `.env` files, never log request bodies o
 
 - `client/test/routes.test.jsx` snapshots the DOM of every route and key state against a mocked API (class lists sorted).
   If a change is meant to be invisible, snapshots must not change. If the UI change is intentional, run
-  `npm run test -w client -- -u`, then review the `.snap` diff before committing.
+  `npm test -- -u` in `client/`, then review the `.snap` diff before committing.
 - Server tests cover every endpoint's status codes, messages and headers; add tests with every endpoint change.
-- Before committing: `npm run lint && npm test && npm run build`.
+- Before committing, in both `server/` and `client/`: `npm run lint && npm test` (plus `npm run build` in `client/`).
