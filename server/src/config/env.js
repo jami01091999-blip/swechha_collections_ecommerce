@@ -20,7 +20,7 @@ const schema = z.object({
   PORT: z.coerce.number().int().positive().default(4000),
   APP_MODE: z.enum(['test', 'live']).default('test'),
   MONGO_URI: optional,
-  MONGO_DB: z.string().min(1).default('swechha'),
+  MONGO_DB: z.string().min(1).default('swechha_collections'),
   CLIENT_ORIGIN: z.string().default('http://localhost:5173'),
   // Auth
   JWT_ACCESS_SECRET: secret,

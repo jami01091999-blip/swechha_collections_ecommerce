@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import request from 'supertest';
 import { XRW, startTestApp } from './helpers.js';
 import { addAddress, key, place, sizedProduct, stockOf } from './commerceHelpers.js';
@@ -252,6 +252,47 @@ describe('Razorpay webhook and checkout signature', () => {
     expect((await send(await sign(body))).body).toMatchObject({ ok: true, handled: 'payment.captured' });
     expect((await send(await sign(body))).body).toMatchObject({ ok: true, duplicate: true });
     expect((await Order.findOne({ orderNumber: n }).lean()).payment).toMatchObject({ status: 'paid', paymentId: 'pay_1' });
+  });
+
+  it('processes a retried event when the first delivery failed part-way', async () => {
+    await addToBag(ana, ids.kurti, 'S', 1);
+    const n = (await place(ana, { addressId: addr, paymentMethod: 'online' })).body.order.orderNumber;
+    await Order.updateOne({ orderNumber: n }, { $set: { 'payment.providerOrderId': 'order_RETRY', 'payment.provider': 'razorpay' } });
+    const body = JSON.stringify({
+      event: 'payment.captured',
+      payload: { payment: { entity: { id: 'pay_r', order_id: 'order_RETRY', amount: 109900 } } },
+    });
+    const send = async () =>
+      request(ctx.app)
+        .post('/api/webhooks/razorpay')
+        .set('Content-Type', 'application/json')
+        .set('X-Razorpay-Signature', await sign(body))
+        .set('X-Razorpay-Event-Id', 'evt_retry')
+        .send(body);
+    const spy = vi.spyOn(Order, 'findOne').mockRejectedValueOnce(new Error('db blip'));
+    expect((await send()).status).toBe(500);
+    spy.mockRestore();
+    expect((await send()).body).toMatchObject({ ok: true, handled: 'payment.captured' });
+    expect((await Order.findOne({ orderNumber: n }).lean()).payment).toMatchObject({ status: 'paid', paymentId: 'pay_r' });
+  });
+
+  it('answers 200 (no endless retries) when the paid amount does not match', async () => {
+    await addToBag(ana, ids.kurti, 'S', 1);
+    const n = (await place(ana, { addressId: addr, paymentMethod: 'online' })).body.order.orderNumber;
+    await Order.updateOne({ orderNumber: n }, { $set: { 'payment.providerOrderId': 'order_MISMATCH', 'payment.provider': 'razorpay' } });
+    const body = JSON.stringify({
+      event: 'payment.captured',
+      payload: { payment: { entity: { id: 'pay_m', order_id: 'order_MISMATCH', amount: 100 } } },
+    });
+    const res = await request(ctx.app)
+      .post('/api/webhooks/razorpay')
+      .set('Content-Type', 'application/json')
+      .set('X-Razorpay-Signature', await sign(body))
+      .set('X-Razorpay-Event-Id', 'evt_mismatch')
+      .send(body);
+    expect(res.status).toBe(200);
+    expect(res.body.refused).toMatch(/does not match/);
+    expect((await Order.findOne({ orderNumber: n }).lean()).status).toBe('pending_payment');
   });
 
   it('rejects a checkout callback with a bad signature', async () => {

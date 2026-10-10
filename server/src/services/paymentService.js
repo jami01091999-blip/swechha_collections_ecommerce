@@ -163,6 +163,22 @@ export async function handleRazorpayWebhook(rawBody, signature, eventIdHeader) {
     throw e;
   }
   if (!first.upsertedCount) return { duplicate: true };
+  try {
+    await applyRazorpayEvent(event);
+  } catch (e) {
+    // A business refusal (e.g. amount mismatch, already logged on the order) won't change on retry: keep it handled.
+    if (e instanceof HttpError && e.status < 500) {
+      logger.error({ eventId, type: event.event, reason: e.message }, 'Razorpay webhook event refused');
+      return { handled: event.event, refused: e.message };
+    }
+    // Temporary failure: forget the event so Razorpay's retry is processed instead of skipped as a duplicate.
+    await WebhookEvent.deleteOne({ provider: 'razorpay', eventId }).catch(() => {});
+    throw e;
+  }
+  return { handled: event.event };
+}
+
+async function applyRazorpayEvent(event) {
   const payment = event.payload?.payment?.entity;
   const refundEntity = event.payload?.refund?.entity;
   if ((event.event === 'payment.captured' || event.event === 'order.paid') && payment?.order_id) {
@@ -180,7 +196,6 @@ export async function handleRazorpayWebhook(rawBody, signature, eventIdHeader) {
     );
     if (order) await syncRefundStatus(order._id);
   }
-  return { handled: event.event };
 }
 
 async function syncRefundStatus(orderId) {

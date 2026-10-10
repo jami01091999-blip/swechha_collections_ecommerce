@@ -48,19 +48,12 @@ describe('product page buying', () => {
     expect(calls('/api/cart/preview', 'POST')).toHaveLength(0);
   });
 
-  it('guest: adds to the device bag, shows the count, and the bag prices it live', async () => {
+  it('guest: Add to bag asks them to sign in and returns to the product afterwards', async () => {
     await open('/product/gulmohar-silk-saree');
     await click(screen.getAllByRole('button', { name: 'Add to bag' })[0]);
-    expect(JSON.parse(localStorage.getItem('swechha_bag'))).toEqual([
-      { productId: '64b000000000000000000002', slug: 'gulmohar-silk-saree', size: 'FREE', qty: 1 },
-    ]);
-    expect(screen.getAllByRole('link', { name: 'Bag (1)' }).length).toBeGreaterThan(0);
-    await act(() => router.navigate('/bag'));
-    await settle();
-    expect(screen.getAllByText('Gulmohar Silk Saree').length).toBeGreaterThan(0);
-    await click(screen.getAllByRole('button', { name: 'Checkout' })[0]);
+    expect(localStorage.getItem('swechha_bag')).toBeNull();
     expect(router.state.location.pathname).toBe('/login');
-    expect(router.state.location.search).toBe('?next=%2Fcheckout');
+    expect(router.state.location.search).toBe('?next=%2Fproduct%2Fgulmohar-silk-saree');
   });
 
   it('Buy now sends signed-in customers straight to checkout for that one item', async () => {

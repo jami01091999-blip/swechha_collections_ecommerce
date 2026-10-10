@@ -35,20 +35,15 @@ async function renderAt(path, { user = null, wrapFetch, wishlist } = {}) {
 }
 
 const heart = () => screen.getAllByRole('button', { name: /Save Noor Kurta Set|Remove Noor Kurta Set from saved designs/ })[0];
-const savedLink = () => screen.getAllByRole('link', { name: /^Saved designs/ })[0];
 
 describe('saved designs', () => {
-  it('guests save on this device; the header count and /saved follow', async () => {
+  it('guests are sent to sign in when they tap the heart', async () => {
     const router = await renderAt('/product/noor-kurta-set');
     fireEvent.click(heart());
     await settle();
-    expect(JSON.parse(localStorage.getItem('swechha_saved'))).toEqual(['noor-kurta-set']);
-    expect(heart().getAttribute('aria-pressed')).toBe('true');
-    await act(() => router.navigate('/saved'));
-    await settle();
-    expect(screen.getByText('Log in to keep your saved designs on every device.')).toBeTruthy();
-    expect(screen.getAllByText('Noor Kurta Set').length).toBeGreaterThan(0);
-    expect(savedLink().getAttribute('aria-label')).toBe('Saved designs (1)');
+    expect(localStorage.getItem('swechha_saved')).toBeNull();
+    expect(router.state.location.pathname).toBe('/login');
+    expect(router.state.location.search).toBe('?next=%2Fproduct%2Fnoor-kurta-set');
   });
 
   it('signing in merges the device list once, then clears it', async () => {

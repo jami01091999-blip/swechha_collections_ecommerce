@@ -1,4 +1,6 @@
+import { useLocation, useNavigate } from 'react-router-dom';
 import Icon from './Icon';
+import { useToast } from '../../context/Toast';
 import { IconButton } from '../ui';
 import { useSaved } from '../../lib/wishlist';
 
@@ -7,13 +9,21 @@ import { useSaved } from '../../lib/wishlist';
  * `boxed`: a plain button styled entirely by `className` (e.g. next to the laptop WhatsApp button).
  */
 export default function SaveButton({ product, className, iconClassName = 'text-xl', size = 'md', boxed = false }) {
-  const { isSaved, toggle } = useSaved();
+  const { isSaved, toggle, signedIn } = useSaved();
+  const navigate = useNavigate();
+  const loc = useLocation();
+  const toast = useToast();
   const saved = isSaved(product);
+  const onClick = () => {
+    if (signedIn) return toggle(product);
+    toast('Please sign in to save designs');
+    navigate(`/login?next=${encodeURIComponent(loc.pathname + loc.search)}`);
+  };
   const label = saved ? `Remove ${product.name} from saved designs` : `Save ${product.name}`;
   const iconClass = saved ? `${iconClassName} text-primary` : iconClassName;
   if (boxed) {
     return (
-      <button type="button" aria-label={label} aria-pressed={saved} onClick={() => toggle(product)} className={className}>
+      <button type="button" aria-label={label} aria-pressed={saved} onClick={onClick} className={className}>
         <Icon name="favorite" fill={saved} className={iconClass} />
       </button>
     );
@@ -25,7 +35,7 @@ export default function SaveButton({ product, className, iconClassName = 'text-x
       size={size}
       label={label}
       aria-pressed={saved}
-      onClick={() => toggle(product)}
+      onClick={onClick}
       className={className}
       iconClassName={iconClass}
     />

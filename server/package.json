@@ -17,6 +17,7 @@
     "db:indexes": "node src/scripts/syncIndexes.js",
     "lint": "eslint .",
     "migrate:002": "node src/scripts/migrations/002-sizes-sku.js",
+    "migrate:003": "node src/scripts/migrations/003-copy-from-swechha.js",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

@@ -109,7 +109,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     process.exit(1);
   }
   try {
-    await mongoose.connect(process.env.MONGO_URI, { dbName: process.env.MONGO_DB || 'swechha', serverSelectionTimeoutMS: 15000 });
+    await mongoose.connect(process.env.MONGO_URI, { dbName: process.env.MONGO_DB || 'swechha_collections', serverSelectionTimeoutMS: 15000 });
     console.log(`Database: ${mongoose.connection.db.databaseName}`);
     await migrate002({ db: mongoose.connection.db, apply });
     await mongoose.disconnect();

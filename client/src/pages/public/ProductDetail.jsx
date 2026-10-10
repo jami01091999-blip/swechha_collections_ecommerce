@@ -121,6 +121,10 @@ function ProductView({ p }) {
   const addToBag = async () => {
     if (added) return navigate('/bag');
     if (!requireSize()) return;
+    if (!user) {
+      toast('Please sign in to add to your bag');
+      return navigate(`/login?next=${encodeURIComponent(`/product/${p.slug}`)}`);
+    }
     setAdding(true);
     try {
       await bag.add(p, chosenSize, 1);
