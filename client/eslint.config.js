@@ -1,4 +1,4 @@
-// Shared ESLint (flat config) for both workspaces. Formatting is left to Prettier.
+// ESLint (flat config) for the client. Formatting is left to Prettier.
 import js from '@eslint/js';
 import globals from 'globals';
 import react from 'eslint-plugin-react';
@@ -6,7 +6,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import prettier from 'eslint-config-prettier';
 
 export default [
-  { ignores: ['**/dist/**', '**/node_modules/**', '**/coverage/**'] },
+  { ignores: ['dist/**', 'node_modules/**', 'coverage/**'] },
   js.configs.recommended,
   {
     rules: {
@@ -14,7 +14,7 @@ export default [
     },
   },
   {
-    files: ['client/**/*.{js,jsx}'],
+    files: ['**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -32,17 +32,8 @@ export default [
     },
   },
   {
-    files: ['client/*.config.js', 'client/test/**'],
+    files: ['*.config.js', 'test/**'],
     languageOptions: { globals: { ...globals.node } },
-  },
-  {
-    files: ['server/**/*.js', 'eslint.config.js'],
-    languageOptions: { ecmaVersion: 'latest', sourceType: 'module', globals: { ...globals.node } },
-  },
-  {
-    // k6 load scripts run in k6, not Node.
-    files: ['server/scripts/load/**/*.js'],
-    languageOptions: { globals: { __VU: 'readonly', __ITER: 'readonly', __ENV: 'readonly' } },
   },
   prettier,
 ];

@@ -23,9 +23,9 @@ k6 is a separate tool, not an npm dependency. Install it once: `winget install k
 1. Start the API with production settings on your machine against a **copy** of the data (or the seed data):
    ```bash
    # in server/.env use a test database, e.g. MONGO_DB=swechha_load, then:
-   npm run seed -w server
-   npm run migrate:002 -w server -- --apply
-   NODE_ENV=production CLIENT_ORIGIN=http://localhost:5173 npm start -w server
+   cd server && npm run seed
+   npm run migrate:002 -- --apply
+   NODE_ENV=production CLIENT_ORIGIN=http://localhost:5173 npm start
    ```
 2. In another terminal:
    ```bash

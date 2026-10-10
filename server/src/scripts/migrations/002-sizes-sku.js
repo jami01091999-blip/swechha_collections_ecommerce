@@ -1,7 +1,7 @@
 // Migration 002 — sizes with SKUs, shipping/tax fields, denormalised stock fields.
 //
-//   npm run migrate:002 -w server               dry run: prints what would change, writes nothing
-//   npm run migrate:002 -w server -- --apply    backs up every product to server/backups/, then applies
+//   npm run migrate:002                         dry run: prints what would change, writes nothing
+//   npm run migrate:002 -- --apply             backs up every product to server/backups/, then applies
 //
 // Safe to run again: a second --apply reports "0 to change".
 // Only needs MONGO_URI (and optionally MONGO_DB) from server/.env.
@@ -95,7 +95,7 @@ export async function migrate002({ db, apply = false, backupDir = DEFAULT_BACKUP
     }));
     const res = await col.bulkWrite(ops, { ordered: true });
     log(`Updated: ${res.modifiedCount}`);
-    log('Next: npm run db:indexes -w server   (builds the new catalogue and SKU indexes)');
+    log('Next: npm run db:indexes   (builds the new catalogue and SKU indexes)');
   }
   return { total: products.length, toChange: changes.length, changes, collisions, backupFile, applied: apply };
 }

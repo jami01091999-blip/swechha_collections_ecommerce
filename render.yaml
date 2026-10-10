@@ -8,8 +8,7 @@ services:
     plan: free
     region: singapore
     rootDir: server
-    # npm finds the workspace root and installs only the server's production dependencies
-    # from the root package-lock.json.
+    # Installs from server/package-lock.json (server/ is a standalone package).
     buildCommand: npm ci
     startCommand: node src/server.js
     healthCheckPath: /api/health

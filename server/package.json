@@ -16,7 +16,9 @@
     "seed:reset": "node src/scripts/seed.js --reset",
     "db:indexes": "node src/scripts/syncIndexes.js",
     "lint": "eslint .",
-    "migrate:002": "node src/scripts/migrations/002-sizes-sku.js"
+    "migrate:002": "node src/scripts/migrations/002-sizes-sku.js",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "compression": "^1.8.2",
@@ -34,7 +36,12 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^9.1.2",
+    "globals": "^15.15.0",
     "mongodb-memory-server": "^10.4.3",
+    "prettier": "^3.9.9",
     "supertest": "^7.3.0",
     "vitest": "^2.1.9"
   }

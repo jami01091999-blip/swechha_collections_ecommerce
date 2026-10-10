@@ -38,17 +38,24 @@ Browser → Vercel (client/, React)  ──/api/* rewrite──▶  Render (serv
 
 ## Run locally
 
-Needs Node 20 or newer.
+Needs Node 20 or newer. `client/` and `server/` are separate packages: install and run each in its own terminal.
 
 ```bash
+# Terminal 1: API
+cd server
 npm install
-cp server/.env.example server/.env   # then fill in MONGO_URI, JWT_ACCESS_SECRET, OTP_SECRET, ADMIN_EMAILS, SMTP_*, Cloudinary
-npm run seed                         # optional: 8 sample products + default settings
-npm run dev                          # site: http://localhost:5173   admin: /adminDivya   API: http://localhost:4000/api/health
+cp .env.example .env   # then fill in MONGO_URI, JWT_ACCESS_SECRET, OTP_SECRET, ADMIN_EMAILS, SMTP_*, Cloudinary
+npm run seed           # optional: 8 sample products + default settings
+npm run dev            # API: http://localhost:4000/api/health
+
+# Terminal 2: site
+cd client
+npm install
+npm run dev            # site: http://localhost:5173   admin: /adminDivya
 ```
 
-Other commands: `npm test`, `npm run lint`, `npm run build`, `npm run format`. The dev server also serves a UI kit
-gallery at `http://localhost:5173/__ui`. See [`CLAUDE.md`](CLAUDE.md) for the folder map and design rules.
+Other commands (in either folder): `npm test`, `npm run lint`, `npm run format`; `npm run build` in `client/`. The
+dev server also serves a UI kit gallery at `http://localhost:5173/__ui`. See [`CLAUDE.md`](CLAUDE.md) for the folder map and design rules.
 
 ## Deploy
 

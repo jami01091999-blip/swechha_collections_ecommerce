@@ -1,7 +1,7 @@
 # Swechha Collections — plan to a full e-commerce site
 
 Each phase ships on its own, keeps the Stitch design (see design rules in `CLAUDE.md`), and ends with passing
-`npm run lint && npm test && npm run build`. Payments and couriers stay in test mode until Phase 8.
+`npm run lint && npm test` in `server/` and `client/`, plus `npm run build` in `client/`. Payments and couriers stay in test mode until Phase 8.
 
 | #   | Phase                   | Goal                                                                                               |
 | --- | ----------------------- | -------------------------------------------------------------------------------------------------- |
@@ -17,7 +17,7 @@ Each phase ships on its own, keeps the Stitch design (see design rules in `CLAUD
 
 ## 0 — Foundation (done)
 
-- npm workspaces: `client/` (Vite React on Vercel) and `server/` (Express + Mongoose on Render).
+- Two standalone npm packages: `client/` (Vite React on Vercel) and `server/` (Express + Mongoose on Render).
 - Every old serverless endpoint ported with identical paths, status codes, JSON and messages; `/api/health`.
 - helmet, compression, CORS allowlist, rate limits, request ids, pino logs, zod-validated env, graceful shutdown.
 - TanStack Query in the client with the same hooks; admin routes lazy-loaded.
